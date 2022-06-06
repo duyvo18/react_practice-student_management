@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { signup } from "../../services/authService";
 import { addNewStudent } from "../../services/firestoreService";
 
 const SignUpContainer = () => {
+
+    const navigate = useNavigate();
 
     const [inputs, setInputs] = useState({
         "firstname": '',
@@ -21,6 +24,21 @@ const SignUpContainer = () => {
             ...prev,
             [name]: value
         }));
+    }
+
+    const signUp = async () => {
+        if (await signup(inputs.email, inputs.password) != null) {
+            // FIXME: ?
+            // await addNewStudent(
+            //     inputs.email,
+            //     inputs.sid,
+            //     inputs.firstname,
+            //     inputs.lastname,
+            //     inputs.startingYear
+            // );
+
+            navigate("\listing");
+        }
     }
 
     return (
@@ -79,27 +97,19 @@ const SignUpContainer = () => {
 
                         <button
                             className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none my-1"
-                            onClick={async () => {
-                                await signup(inputs.email, inputs.password);
-
-                                // FIXME: ?
-                                await addNewStudent(
-                                    inputs.email,
-                                    inputs.sid,
-                                    inputs.firstname,
-                                    inputs.lastname,
-                                    inputs.startingYear
-                                );
-                            }}
+                            onClick={signUp}
                         >Create Account</button>
                     </form>
                 </div>
 
                 <div className="text-grey-dark mt-6">
                     Already have an account?{' '}
-                    <a className="no-underline border-b border-blue text-blue" href="/">
+                    <a
+                        className="no-underline border-b border-blue text-blue"
+                        href="/login">
                         Log in
-                    </a>.
+                    </a>
+                    .
                 </div>
             </div>
         </div>

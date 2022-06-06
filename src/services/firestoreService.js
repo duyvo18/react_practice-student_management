@@ -1,29 +1,31 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where, orderBy, getDocsFromServer } from "firebase/firestore";
 import { firestore } from "../config/firebase.config";
 
 export const addNewStudent = async (email, id, firstname, lastname, startingYear) => {
-    const studentRef = collection(firestore, "/students");
-    await addDoc(studentRef, {
+    const studentRef = collection(firestore, "students");
+    const data = {
         "email": email,
         "id": id,
         "firstname": firstname,
         "lastname": lastname,
         "starting-year": startingYear,
-    }).catch((error) => {
-        console.log(error.message)
-    });
+    };
+    await addDoc(studentRef, data)
+        .then((docRef) => console.log(docRef.id))
+        .catch((error) => console.log(error));
 }
 
 export const getAllStudents = async () => {
-    const studentRef = collection(firestore, "/students");
-    const studentQuery = query(studentRef);
+    const students = await getDocsFromServer(
+        query(collection(firestore, "students"), orderBy("id"))
+    ).catch(error => console.log(error));
+    console.log(students);
 
-    const querySnapshot = await getDocs(studentQuery);
-    return querySnapshot.docs.map((doc) => doc.data(), []);
+    return students.docs.map((doc) => doc.data());
 };
 
 export const queryStudentById = async (id) => {
-    const studentRef = collection(firestore, "/students");
+    const studentRef = collection(firestore, "students");
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("id", "==", id));
@@ -31,7 +33,7 @@ export const queryStudentById = async (id) => {
 }
 
 export const queryStudentByLastname = async (lastname) => {
-    const studentRef = collection(firestore, "/students");
+    const studentRef = collection(firestore, "students");
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("lastname", "==", lastname));
@@ -39,7 +41,7 @@ export const queryStudentByLastname = async (lastname) => {
 };
 
 export const queryStudentByFirstname = async (firstname) => {
-    const studentRef = collection(firestore, "/students");
+    const studentRef = collection(firestore, "students");
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("firstname", "==", firstname));
@@ -47,7 +49,7 @@ export const queryStudentByFirstname = async (firstname) => {
 };
 
 export const queryStudentByStartingYear = async (year) => {
-    const studentRef = collection(firestore, "/students");
+    const studentRef = collection(firestore, "students");
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("starting-year", "==", year));

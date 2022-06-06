@@ -1,22 +1,15 @@
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "../config/firebase.config";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase.config";
 
 export const login = async (email, password) => {
-    await signInWithEmailAndPassword(getAuth(app), email, password)
-        .then((userCresential) => {
-            // TODO: resolve
-        })
-        .catch((error) => {
-            // TODO: resolve
-        });
+    return await signInWithEmailAndPassword(auth, email, password)
+        .catch(e => console.log(e));
 }
 
 export const signup = async (email, password) => {
-    await createUserWithEmailAndPassword(getAuth(app), email, password)
-        .then((userCresential) => {
-            console.log(userCresential.user.email)
-        })
-        .catch((error) => {
-            // TODO: resolve
-        });
+    try {
+        return await createUserWithEmailAndPassword(auth, email, password)
+    } catch (e) {
+        console.log(e)
+    }
 }
