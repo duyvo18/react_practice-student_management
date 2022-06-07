@@ -8,7 +8,7 @@ export const addNewStudent = async (email, id, firstname, lastname, startingYear
         "id": id,
         "firstname": firstname,
         "lastname": lastname,
-        "starting-year": startingYear,
+        "startingYear": startingYear,
     };
     await addDoc(studentRef, data)
         .then((docRef) => console.log(docRef.id))
@@ -21,7 +21,7 @@ export const getAllStudents = async () => {
     ).catch(error => console.log(error));
     console.log(students);
 
-    return students.docs.map((doc) => doc.data());
+    return students.docs.map(doc => doc.data());
 };
 
 export const queryStudentById = async (id) => {
@@ -29,7 +29,7 @@ export const queryStudentById = async (id) => {
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("id", "==", id));
-    return querySnapshot.docs.map((doc) => doc.data(), []);
+    return querySnapshot.docs.map(doc => doc.data());
 }
 
 export const queryStudentByLastname = async (lastname) => {
@@ -37,7 +37,7 @@ export const queryStudentByLastname = async (lastname) => {
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("lastname", "==", lastname));
-    return querySnapshot.docs.map((doc) => doc.data(), []);
+    return querySnapshot.docs.map(doc => doc.data());
 };
 
 export const queryStudentByFirstname = async (firstname) => {
@@ -45,7 +45,7 @@ export const queryStudentByFirstname = async (firstname) => {
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("firstname", "==", firstname));
-    return querySnapshot.docs.map((doc) => doc.data(), []);
+    return querySnapshot.docs.map(doc => doc.data());
 };
 
 export const queryStudentByStartingYear = async (year) => {
@@ -53,5 +53,5 @@ export const queryStudentByStartingYear = async (year) => {
     const studentQuery = query(studentRef);
 
     const querySnapshot = await getDocs(studentQuery, where("starting-year", "==", year));
-    return querySnapshot.docs.map((doc) => doc.data(), []);
+    return querySnapshot.docs.map(doc => doc.data());
 };

@@ -21,12 +21,12 @@ const LogInContainer = () => {
 
     const logIn = async () => {
         if (await login(inputs.email, inputs.password)) {
-            navigate("\listing")
+            navigate("/listing")
         }
     }
 
     return (
-        <div className="bg-grey-lighter min-h-screen flex flex-col">
+        <div className="bg-grey-lighter min-h-full min-w-full flex flex-col">
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                     <form>
@@ -48,7 +48,8 @@ const LogInContainer = () => {
                             onChange={onInput} />
 
                         <button
-                            className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none my-1"
+                            className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 my-1"
+                            type="reset"
                             onClick={logIn}
                         >Log In</button>
                     </form>
