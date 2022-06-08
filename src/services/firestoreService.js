@@ -36,6 +36,15 @@ export const getAllStudents = async () => {
     return students.docs.map(doc => doc.data());
 };
 
+export const queryStudentByEmail = async (email) => {
+    const studentRef = collection(firestore, "students");
+    const studentQuery = query(studentRef);
+
+    const querySnapshot = await getDocs(studentQuery, where("email", "==", email))
+        .catch(error => console.log(error));
+    return querySnapshot.docs.map(doc => doc.data());
+}
+
 export const queryStudentById = async (id) => {
     const studentRef = collection(firestore, "students");
     const studentQuery = query(studentRef);

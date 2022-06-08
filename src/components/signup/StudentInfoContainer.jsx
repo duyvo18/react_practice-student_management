@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setStudent } from "../../services/firestoreService";
 
-const StudentInfoContainer = () => {
+const StudentInfoContainer = (props) => {
 
     const navigate = useNavigate();
-    // TODO: if docRef null
-    const docPath = localStorage.getItem("docPath");
+    const docPath = props.docPath
 
     const [inputs, setInputs] = useState({
         "firstname": '',
@@ -27,8 +26,8 @@ const StudentInfoContainer = () => {
     const signUp = async () => {
         await setStudent(docPath, inputs);
         localStorage.setItem("auth", "1")
-        
-        navigate("/listing");
+
+        navigate("/listing", { state: { "auth": "1" } });
     }
 
     return (

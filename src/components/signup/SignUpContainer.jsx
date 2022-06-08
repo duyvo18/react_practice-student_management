@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../services/authService";
 import { addNewStudent } from "../../services/firestoreService";
+import FormValidationError from "../common/FormValidationError"
 
 const SignUpContainer = () => {
 
@@ -13,6 +14,11 @@ const SignUpContainer = () => {
         "confirmPassword": '',
     })
 
+    const [validationErrors, setValidationErrors] = useState({
+        email: "",
+        confirmPassword: ""
+    })
+
     const onInput = (event) => {
         const { name, value } = event.target;
 
@@ -20,20 +26,50 @@ const SignUpContainer = () => {
             ...prev,
             [name]: value
         }));
+
+        inputValidation();
+    }
+
+    const inputValidation = () => {
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+        if (!emailRegex.test(inputs.email)) {
+            setValidationErrors({
+                ...validationErrors,
+                email: 'The input does not look like an email.'
+            })
+        } else {
+            setValidationErrors({
+                ...validationErrors,
+                email: ''
+            })
+        }
+
+        if (inputs.password !== inputs.confirmPassword) {
+            setValidationErrors({
+                ...validationErrors,
+                confirmPassword: 'Password does not match.'
+            })
+        } else {
+            setValidationErrors({
+                ...validationErrors,
+                confirmPassword: ''
+            })
+        }
     }
 
     const signUp = async () => {
         if (await signup(inputs.email, inputs.password)) {
             const docPath = await addNewStudent(inputs);
 
-            localStorage.setItem("docPath", docPath)
-
-            navigate("/info");
+            navigate("/info", { state: { "docPath": docPath } });
+        } else {
+            
         }
     }
 
     return (
-        <div className="bg-grey-lighter min-h-full min-w-full flex flex-col">
+        <div className="bg-gray-100 min-h-screen min-w-screen flex flex-col">
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                     <form>
@@ -42,25 +78,36 @@ const SignUpContainer = () => {
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             type="text"
                             name="email"
-                            value={inputs.email}
                             placeholder="Email"
-                            onChange={onInput} />
+                            onChange={onInput}
+                            onBlur={inputValidation} />
+                        {
+                            validationErrors.email && (
+                                <FormValidationError message={validationErrors.email} />
+                            )
+                        }
 
                         <input
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             type="password"
                             name="password"
-                            value={inputs.password}
                             placeholder="Password"
-                            onChange={onInput} />
+                            onChange={onInput}
+                            onBlur={inputValidation} />
+
 
                         <input
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             type="password"
                             name="confirmPassword"
-                            value={inputs.confirmPassword}
                             placeholder="Confirm Password"
-                            onChange={onInput} />
+                            onChange={onInput}
+                            onBlur={inputValidation} />
+                        {
+                            validationErrors.email && (
+                                <FormValidationError message={validationErrors.confirmPassword} />
+                            )
+                        }
 
                         <button
                             className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 my-1"
@@ -73,7 +120,7 @@ const SignUpContainer = () => {
                 <div className="text-grey-dark mt-6">
                     Already have an account?{' '}
                     <a
-                        className="no-underline border-b border-blue text-blue"
+                        className="no-underline border-b border-blue"
                         href="/login">
                         Log in
                     </a>
