@@ -135,19 +135,23 @@ const ListingContainer = (props) => {
                             <th className="py-2">Starting Year</th>
                         </tr>
                         {
-                            students.map((student, idx) => (
+                            (students.length && students.map((student, idx) => (
                                 <tr className="border-b" key={idx + 1}>
-                                    <td className="py-1">{student.lastname}</td>
-                                    <td className="py-1">{student.firstname}</td>
-                                    <td className="py-1">{student.id}</td>
-                                    <td className="py-1">{student.email}</td>
-                                    <td className="py-1">{student.startingYear}</td>
+                                    <td className="py-1 text-left px-5">{student.lastname}</td>
+                                    <td className="py-1 text-left px-5">{student.firstname}</td>
+                                    <td className="py-1 text-left px-5">{student.id}</td>
+                                    <td className="py-1 text-left px-5">{student.email}</td>
+                                    <td className="py-1 text-right px-5">{student.startingYear}</td>
                                 </tr>
-                            )) || (
-                                !students &&
-                                <tr className="border-b" key={1}>
-                                    <td className="py-1">Not found</td>
-                                </tr>
+                            ))) ||
+                            (
+                                !students.length && (
+                                    <tr className="border-b" key={1}>
+                                        <td className="py-1 text-center"
+                                            colSpan={5}
+                                        >No entry</td>
+                                    </tr>
+                                )
                             )
                         }
                     </tbody>
