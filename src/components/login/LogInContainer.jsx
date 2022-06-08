@@ -20,7 +20,8 @@ const LogInContainer = () => {
     }
 
     const logIn = async () => {
-        if (await login(inputs.email, inputs.password)) {
+        if (await login(inputs.email, inputs.password)) {            
+            localStorage.setItem("auth", "1")
             navigate("/listing")
         }
     }

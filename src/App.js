@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { SignUpContainer, LogInContainer, ListingContainer} from "./components";
+import { SignUpContainer, LogInContainer, ListingContainer, StudentInfoContainer} from "./components";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
           {
             <Routes>
               <Route path="/" element={<SignUpContainer />} />
+              <Route path="/info" element={<StudentInfoContainer />} />
               <Route path="/login" element={<LogInContainer />} />
               <Route path="/listing" element={<ListingContainer />} />
               <Route

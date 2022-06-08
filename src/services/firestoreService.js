@@ -1,17 +1,31 @@
-import { addDoc, collection, getDocs, query, where, orderBy, getDocsFromServer } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, where, orderBy, getDocsFromServer, setDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase.config";
 
-export const addNewStudent = async (email, id, firstname, lastname, startingYear) => {
+export const addNewStudent = async (data) => {
     const studentRef = collection(firestore, "students");
-    const data = {
-        "email": email,
-        "id": id,
-        "firstname": firstname,
-        "lastname": lastname,
-        "startingYear": startingYear,
+    const serverData = {
+        "email": data.email,
+        "id": data.id || "",
+        "firstname": data.firstname || "",
+        "lastname": data.lastname || "",
+        "startingYear": data.startingYear || "",
     };
-    await addDoc(studentRef, data)
-        .catch((error) => console.log(error));
+    return (await addDoc(studentRef, serverData)
+        .catch((error) => console.log(error))).path;
+}
+
+export const setStudent = async (docPath, data) => {
+    const docRef = doc(firestore, docPath);
+    
+    const serverData = {
+        "email": data.email,
+        "id": data.id || "",
+        "firstname": data.firstname || "",
+        "lastname": data.lastname || "",
+        "startingYear": data.startingYear || "",
+    };
+    
+    await setDoc(docRef, serverData)
 }
 
 export const getAllStudents = async () => {

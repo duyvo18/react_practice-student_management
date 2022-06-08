@@ -8,10 +8,6 @@ const SignUpContainer = () => {
     const navigate = useNavigate();
 
     const [inputs, setInputs] = useState({
-        "firstname": '',
-        "lastname": '',
-        "sid": '',
-        "startingYear": '',
         "email": '',
         "password": '',
         "confirmPassword": '',
@@ -28,16 +24,11 @@ const SignUpContainer = () => {
 
     const signUp = async () => {
         if (await signup(inputs.email, inputs.password)) {
+            const docPath = await addNewStudent(inputs);
 
-            await addNewStudent(
-                inputs.email,
-                inputs.sid,
-                inputs.firstname,
-                inputs.lastname,
-                inputs.startingYear
-            );
+            localStorage.setItem("docPath", docPath)
 
-            navigate("/listing");
+            navigate("/info");
         }
     }
 
@@ -50,41 +41,9 @@ const SignUpContainer = () => {
                         <input
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             type="text"
-                            name="firstname"
-                            value={inputs.firstname}
-                            placeholder="First Name"
-                            onChange={onInput} />
-
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mb-4"
-                            type="text"
-                            name="lastname"
-                            value={inputs.lastname}
-                            placeholder="Last Name"
-                            onChange={onInput} />
-
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mb-4"
-                            type="text"
                             name="email"
                             value={inputs.email}
                             placeholder="Email"
-                            onChange={onInput} />
-
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mb-4"
-                            type="text"
-                            name="sid"
-                            value={inputs.sid}
-                            placeholder="Student ID"
-                            onChange={onInput} />
-
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mb-4"
-                            type="text"
-                            name="startingYear"
-                            value={inputs.startingYear}
-                            placeholder="Starting Year"
                             onChange={onInput} />
 
                         <input
@@ -107,7 +66,7 @@ const SignUpContainer = () => {
                             className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 my-1"
                             type="reset"
                             onClick={signUp}
-                        >Create Account</button>
+                        >Continue</button>
                     </form>
                 </div>
 
