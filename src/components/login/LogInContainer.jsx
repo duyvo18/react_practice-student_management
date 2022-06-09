@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom"
 import { login } from "../../services/authService";
 import { queryStudentByEmail } from "../../services/firestoreService";
 import FormValidationError from "../common/FormValidationError"
+import Loading from "../common/Loading"
 
 const LogInContainer = () => {
+
     const navigate = useNavigate();
 
     const [inputs, setInputs] = useState({
@@ -14,7 +16,10 @@ const LogInContainer = () => {
 
     const [validationErrors, setValidationErrors] = useState({
         email: '',
+        password: ''
     })
+
+    const [loading, setLoading] = useState(false)
 
     const onInput = (e) => {
         const { name, value } = e.target;
@@ -24,74 +29,113 @@ const LogInContainer = () => {
             [name]: value
         }));
 
-        inputValidation();
+        validateInput(e);
     }
 
-    const inputValidation = () => {
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    const validateInput = (e) => {
+        const { name, value } = e.target;
 
-        if (!emailRegex.test(inputs.email)) {
-            setValidationErrors({
-                ...validationErrors,
-                email: 'The input does not looks like an email.'
-            })
-        } else {
-            setValidationErrors({
-                ...validationErrors,
-                email: ''
-            })
+        switch (name) {
+            case 'email':
+                if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)) {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        email: 'The input does not look like an email.'
+                    }));
+                } else {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        email: ''
+                    }));
+                };
+                break;
+            case 'password':
+                if (value.length < 6) {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        password: 'Password must be longer than 6 character.'
+                    }));
+                } else {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        password: ''
+                    }));
+                };
+                break;
+            default:
+                break;
         }
     }
 
     const logIn = async () => {
+        setLoading(true);
+
         if (await login(inputs.email, inputs.password)) {
-            const user = await queryStudentByEmail(inputs.email)
-            
-            navigate("/listing", { state: { "auth": "1" } })
+            const docPath = await queryStudentByEmail(inputs.email)
+
+            document.cookie = `auth=1; max-age=${3 * 60 * 60}; samesite=strict`;
+            document.cookie = `userDocPath=${docPath}; max-age=${3 * 60 * 60}; samesite=strict`;
+
+            navigate("/listing")
+        } else {
+            // TODO: Popup error
+            setLoading(false)
         }
     }
 
     return (
-        <div className="bg-gray-100 min-h-screen min-w-screen flex flex-col">
-            <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-                <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                    <form>
-                        <h1 className="text-3xl text-center">Log In</h1>
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mt-8"
-                            type="text"
-                            name="email"
-                            placeholder="Email"
-                            onChange={onInput}
-                            onBlur={inputValidation} />
-                        {
-                            validationErrors.email && (
-                                <FormValidationError message={validationErrors.email} />
-                            )
-                        }
+        (!loading && (
+            <div className="bg-gray-100 min-h-screen min-w-screen flex flex-col">
+                <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                    <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+                        <form>
+                            <h1 className="text-3xl text-center">Log In</h1>
+                            <input
+                                className="block border border-grey-light w-full p-3 rounded mt-8"
+                                type="text"
+                                name="email"
+                                placeholder="Email"
+                                onChange={onInput}
+                                onBlur={validateInput} />
+                            {
+                                validationErrors.email && (
+                                    <FormValidationError message={validationErrors.email} />
+                                )
+                            }
 
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mt-4"
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={onInput} />
+                            <input
+                                className="block border border-grey-light w-full p-3 rounded mt-4"
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                onChange={onInput}
+                                onBlur={validateInput} />
+                            {
+                                validationErrors.password && (
+                                    <FormValidationError message={validationErrors.password} />
+                                )
+                            }
 
-                        <button
-                            className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 my-1 mt-4"
-                            type="reset"
-                            onClick={logIn}
-                        >Log In</button>
-                    </form>
-                </div>
+                            <button
+                                className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 my-1 mt-4"
+                                type="reset"
+                                onClick={logIn}
+                            >Log In</button>
+                        </form>
+                    </div>
 
-                <div className="text-grey-dark mt-6">
-                    <a className="no-underline border-b border-blue" href="/">
-                        Create a new account
-                    </a>.
+                    <div className="text-grey-dark mt-6">
+                        <a className="no-underline border-b border-blue" href="/">
+                            Create a new account
+                        </a>.
+                    </div>
                 </div>
             </div>
-        </div>
+        )) || (
+            loading && (
+                <Loading />
+            )
+        )
     )
 }
 

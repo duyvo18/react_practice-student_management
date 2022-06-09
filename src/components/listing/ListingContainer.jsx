@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllStudents } from "../../services/firestoreService";
+import AuthWarning from "../common/AuthWarning";
 
 const ListingContainer = (props) => {
-
     const navigate = useNavigate();
-    const auth = props.auth
+
+    const auth = document.cookie
+        .split(';')
+        .find(row => row.trim().startsWith('auth='))
+        ?.split('=')[1] === '1';
 
     const [students, setStudents] = useState([]);
     const [query, setQuery] = useState({
-        "id": "",
-        "firstname": "",
-        "lastname": "",
-        "startingYear": ""
+        id: '',
+        firstname: '',
+        lastname: '',
+        startingYear: ''
     });
+
+    (async () => {
+       setStudents(await getAllStudents()) 
+    }
+    )()
 
     const getStudentList = async () => {
         // let filteredStudents = await getAllStudents()
@@ -49,6 +58,13 @@ const ListingContainer = (props) => {
         }
 
         return filteredStudents;
+    }
+
+    const logOut = () => {
+        document.cookie = 'auth=; max-age=0'
+        document.cookie = 'userDocPath=; max-age=0'
+
+        navigate("/login")
     }
 
     const onInput = async (e) => {
@@ -151,12 +167,10 @@ const ListingContainer = (props) => {
                             </table>
                         </div>
 
-
-
                         <button
                             className="fixed bottom-0 right-0 text-center text-sm px-2 py-2 rounded bg-blue-300 text-white hover:bg-blue-500 focus:bg-blue-500 my-1 mx-1"
                             type="button"
-                            onClick={() => navigate("/login")}
+                            onClick={logOut}
                         >
                             Log Out
                         </button>
@@ -164,18 +178,7 @@ const ListingContainer = (props) => {
                 )
             ) || (
                 !auth && (
-                    <div className="text-center text-4xl font-bold">
-                        Please{' '}
-                        <a
-                            className="no-underline border-b border-blue"
-                            href="/login"
-                        >login</a>
-                        {' '}or{' '}
-                        <a
-                            className="no-underline border-b border-blue"
-                            href="/"
-                        >signup</a>{' '}to continue.
-                    </div>
+                    <AuthWarning />
                 )
             )
         )
