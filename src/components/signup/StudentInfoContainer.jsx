@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setStudentInfo } from "../../services/firestoreService";
+import { updateStudentInfo } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import FormValidationError from "../common/FormValidationError";
 import Loading from "../common/Loading"
@@ -104,7 +104,7 @@ const StudentInfoContainer = () => {
     const signUp = async () => {
         setLoading(true)
 
-        await setStudentInfo(userDocPath, { ...inputs, _new: "0" });
+        await updateStudentInfo(userDocPath, { ...inputs, _new: "0" });
 
         document.cookie = `auth=1; max-age=${3 * 60 * 60}, samesite=strict`;
 
@@ -117,7 +117,7 @@ const StudentInfoContainer = () => {
                 !loading && (
                     (
                         userDocPath && (
-                            <div className="bg-grey-lighter min-h-full min-w-full flex flex-col">
+                            <div className="bg-gray-100 min-h-screen min-w-screen flex flex-col">
                                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                                     <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                                         <form>
