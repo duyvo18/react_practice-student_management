@@ -3,89 +3,84 @@ import { useNavigate } from "react-router-dom";
 import { getAllStudents } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 
-const ListingContainer = (props) => {
-    const navigate = useNavigate();
+class ListingContainer extends React.Component {
+    constructor(props) {
+        super(props);
 
-    const auth = document.cookie
-        .split(';')
-        .find(row => row.trim().startsWith('auth='))
-        ?.split('=')[1] === '1';
+        this.state = {
+            students: [],
+            query: {
+                id: '',
+                firstname: '',
+                lastname: '',
+                startingYear: ''
+            }
+        };
 
-    const [students, setStudents] = useState([]);
-    const [query, setQuery] = useState({
-        id: '',
-        firstname: '',
-        lastname: '',
-        startingYear: ''
-    });
-
-    (async () => {
-       setStudents(await getAllStudents()) 
+        this.navigate = useNavigate();
+        this.auth = document.cookie
+            .split(';')
+            .find(row => row.trim().startsWith('auth='))
+            ?.split('=')[1] === '1';
     }
-    )()
 
-    const getStudentList = async () => {
-        // let filteredStudents = await getAllStudents()
-        let filteredStudents = students
+    async filterStudentList() {
+        let filteredStudents = this.state.students
 
-        if (query.id) {
-            filteredStudents = students.filter(
+        if (this.state.query.id) {
+            filteredStudents = filteredStudents.filter(
                 student => student.id.toLowerCase().includes(
-                    query.id.toLowerCase()
+                    this.state.query.id.toLowerCase()
                 )
             )
         }
-        if (query.firstname) {
-            filteredStudents = students.filter(
+        if (this.state.query.firstname) {
+            filteredStudents = filteredStudents.filter(
                 student => student.firstname.toLowerCase().includes(
-                    query.firstname.toLowerCase()
+                    this.state.query.firstname.toLowerCase()
                 )
             )
         }
-        if (query.lastname) {
-            filteredStudents = students.filter(
+        if (this.state.query.lastname) {
+            filteredStudents = filteredStudents.filter(
                 student => student.lastname.toLowerCase().includes(
-                    query.lastname.toLowerCase()
+                    this.state.query.lastname.toLowerCase()
                 )
             )
         }
-        if (query.startingYear) {
-            filteredStudents = students.filter(
+        if (this.state.query.startingYear) {
+            filteredStudents = filteredStudents.filter(
                 student => student.startingYear.toLowerCase().includes(
-                    query.startingYear.toLowerCase()
+                    this.state.query.startingYear.toLowerCase()
                 )
             )
         }
 
-        return filteredStudents;
+        this.setStudents(filteredStudents);
     }
 
-    const logOut = () => {
+    logOut() {
         document.cookie = 'auth=; max-age=0'
         document.cookie = 'userDocPath=; max-age=0'
 
-        navigate("/login")
+        this.navigate("/login")
     }
 
-    const onInput = async (e) => {
+    async onInput(e) {
         const { name, value } = e.target;
 
-        setQuery(prev => ({
-            ...prev,
+        this.state.query = ({
+            ...this.state.query,
             [name]: value
-        }));
+        });
+
+        await this.filterStudentList();
     }
 
-    useEffect(
-        () => {
-            (async () => setStudents(await getStudentList()))();
-        }
-    )
-
-    return (
-        (
+    render() {
+        return (
             (
-                auth && (
+                this.state.auth && (
                     <div className="min-h-full min-w-full">
                         <div className="min-w-full max-h-sm">
                             <form className="grid grid-cols-4 mx-16 font-12">
@@ -95,9 +90,9 @@ const ListingContainer = (props) => {
                                         className="flex-2/3"
                                         type="text"
                                         name="id"
-                                        value={query.id}
+                                        value={this.state.query.id}
                                         placeholder="all"
-                                        onInput={onInput}
+                                        onInput={this.onInput}
                                     />
                                 </div>
                                 <div className="grid grid-cols-2">
@@ -105,9 +100,9 @@ const ListingContainer = (props) => {
                                     <input
                                         type="text"
                                         name="firstname"
-                                        value={query.firstname}
+                                        value={this.state.query.firstname}
                                         placeholder="all"
-                                        onInput={onInput}
+                                        onInput={this.onInput}
                                     />
                                 </div>
                                 <div className="grid grid-cols-2">
@@ -115,9 +110,9 @@ const ListingContainer = (props) => {
                                     <input
                                         type="text"
                                         name="lastname"
-                                        value={query.lastname}
+                                        value={this.state.query.lastname}
                                         placeholder="all"
-                                        onInput={onInput}
+                                        onInput={this.onInput}
                                     />
                                 </div>
                                 <div className="grid grid-cols-2">
@@ -125,9 +120,9 @@ const ListingContainer = (props) => {
                                     <input
                                         type="text"
                                         name="startingYear"
-                                        value={query.startingYear}
+                                        value={this.state.query.startingYear}
                                         placeholder="startingYear"
-                                        onInput={onInput}
+                                        onInput={this.onInput}
                                     />
                                 </div>
                             </form>
@@ -144,7 +139,7 @@ const ListingContainer = (props) => {
                                         <th className="py-2">Starting Year</th>
                                     </tr>
                                     {
-                                        (students.length && students.map((student, idx) => (
+                                        (this.state.students.length && this.state.students.map((student, idx) => (
                                             <tr className="border-b" key={idx + 1}>
                                                 <td className="py-1 text-left px-5">{student.lastname}</td>
                                                 <td className="py-1 text-left px-5">{student.firstname}</td>
@@ -154,7 +149,7 @@ const ListingContainer = (props) => {
                                             </tr>
                                         ))) ||
                                         (
-                                            !students.length && (
+                                            !this.state.students.length && (
                                                 <tr className="border-b" key={1}>
                                                     <td className="py-1 text-center"
                                                         colSpan={5}
@@ -170,19 +165,36 @@ const ListingContainer = (props) => {
                         <button
                             className="fixed bottom-0 right-0 text-center text-sm px-2 py-2 rounded bg-blue-300 text-white hover:bg-blue-500 focus:bg-blue-500 my-1 mx-1"
                             type="button"
-                            onClick={logOut}
+                            onClick={this.logOut}
                         >
                             Log Out
                         </button>
                     </div>
                 )
             ) || (
-                !auth && (
+                !this.state.auth && (
                     <AuthWarning />
                 )
             )
         )
-    )
+    }
 }
+
+
+// const ListingContainer = (props) => {
+
+//     // TODO: test + add refresh button
+//     (async () => {
+//         setStudents(await getAllStudents())
+//     }
+//     )()
+
+//     useEffect(
+//         () => {
+//             (async () => await filterStudentList())();
+//         }
+//     )
+
+// }
 
 export default ListingContainer
