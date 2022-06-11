@@ -33,10 +33,10 @@ export const updateStudentInfo = async (docPath, data) => {
 
 export const getAllStudents = async () => {
     const students = await getDocsFromServer(
-        query(collection(firestore, 'students'), orderBy('_new', 'id'), where('_new', '!=', '1'))
+        query(collection(firestore, 'students'), where('_new', '==', '0'), orderBy('id'))
     ).catch(error => console.log(error));
 
-    return students.docs.map(doc => doc.data());
+    return students?.docs.map(doc => doc.data());
 };
 
 export const queryStudentByEmail = async (email) => {
@@ -58,7 +58,8 @@ export const queryStudentById = async (id) => {
 
     const querySnapshot = await getDocs(studentQuery, where('id', '==', id))
         .catch(error => console.log(error));
-    return querySnapshot.docs.map(doc => doc.data());
+
+    return querySnapshot?.docs.map(doc => doc.data());
 }
 
 export const queryStudentByLastname = async (lastname) => {
@@ -67,7 +68,8 @@ export const queryStudentByLastname = async (lastname) => {
 
     const querySnapshot = await getDocs(studentQuery, where('lastname', '==', lastname))
         .catch(error => console.log(error));
-    return querySnapshot.docs.map(doc => doc.data());
+
+    return querySnapshot?.docs.map(doc => doc.data());
 };
 
 export const queryStudentByFirstname = async (firstname) => {
@@ -76,7 +78,8 @@ export const queryStudentByFirstname = async (firstname) => {
 
     const querySnapshot = await getDocs(studentQuery, where('firstname', '==', firstname))
         .catch(error => console.log(error));
-    return querySnapshot.docs.map(doc => doc.data());
+
+    return querySnapshot?.docs.map(doc => doc.data());
 };
 
 export const queryStudentByStartingYear = async (year) => {
@@ -85,5 +88,6 @@ export const queryStudentByStartingYear = async (year) => {
 
     const querySnapshot = await getDocs(studentQuery, where('startingYear', '==', year))
         .catch(error => console.log(error));
-    return querySnapshot.docs.map(doc => doc.data());
+
+    return querySnapshot?.docs.map(doc => doc.data());
 };
