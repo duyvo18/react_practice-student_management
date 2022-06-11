@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllStudents } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
+import StudentCard from "./StudentCard";
 
 const ListingContainer = () => {
 
@@ -136,8 +137,24 @@ const ListingContainer = () => {
                         </form>
                     </div>
 
-                    <div className="max-w-3xl mx-auto mt-12">
-                        <table className="table-auto min-w-full mx-auto text-center border">
+                    <div className="max-w-3xl mx-auto mt-12 grid grid-cols-2 gap-2 grid-flow-row justify-center justify-items-center">
+                        {
+                            (
+                                filteredStudentList().length && filteredStudentList().map(student => (
+                                    <StudentCard
+                                        avatar={student.avatar}
+                                        firstname={student.firstname}
+                                        lastname={student.lastname}
+                                        id={student.id}
+                                        profile={student.profile} />
+                                ))
+                            ) || (
+                                !filteredStudentList().length && (
+                                    <div>No Entry</div>
+                                )
+                            )
+                        }
+                        {/* <table className="table-auto min-w-full mx-auto text-center border">
                             <tbody>
                                 <tr className="border-b" key={0}>
                                     <th className="py-2">Lastname</th>
@@ -167,7 +184,7 @@ const ListingContainer = () => {
                                     )
                                 }
                             </tbody>
-                        </table>
+                        </table> */}
                     </div>
 
                     <button
