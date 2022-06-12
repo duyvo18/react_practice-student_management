@@ -108,7 +108,7 @@ const StudentInfoContainer = () => {
 
         document.cookie = `auth=1; max-age=${3 * 60 * 60}, samesite=strict`;
 
-        navigate("/listing");
+        navigate("/profile");
     }
 
     return (
