@@ -87,7 +87,7 @@ const ListingContainer = () => {
                 <div className="min-h-screen min-w-screen">
                     <Header from="listing" />
 
-                    <div className="min-w-full min-h-full bg-secondary">
+                    <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
                         <div className="flex flex-row flex-nowrap text-sm xl:text-base font-semibold py-4 px-6 border-b-2">
                             <div className="flex-auto flex flex-row flex-nowrap mx-4">
                                 <p className="mr-2">SID:</p>

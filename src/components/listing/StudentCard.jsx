@@ -6,7 +6,7 @@ const StudentCard = (props) => {
     const firstname = props.data.firstname;
     const lastname = props.data.lastname;
     const id = props.data.id;
-    const email = props.data.email;
+    const startingYear = props.data.startingYear;
     const details = props.data.details;
     const onClick = props.onClick;
 
@@ -17,7 +17,7 @@ const StudentCard = (props) => {
             onClick={onClick}
         >
             <div className="col-span-1 row-span-2">
-                <img src={avatar} alt="avatar" className="max-h-full max-w-full m-auto" />
+                <img src={avatar} alt="avatar" className="rounded-lg max-h-full max-w-full m-auto" />
             </div>
             <div className="col-span-2 row-span-1 my-auto text-lg">
                 {firstname} <strong>{lastname}</strong>
@@ -28,8 +28,8 @@ const StudentCard = (props) => {
             <div className="col-span-3 row-span-1 truncate">
                 {details}
             </div>
-            <div className="col-span-3 row-span-1 truncate text-right font-semibold italic">
-                {email}
+            <div className="col-span-3 row-span-1 truncate text-right font-semibold">
+                {startingYear}
             </div>
         </div>
     )
