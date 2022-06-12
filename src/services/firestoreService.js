@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, query, where, orderBy, getDocsFromServer, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, query, where, orderBy, getDocsFromServer, updateDoc, getDoc } from 'firebase/firestore';
 import { firestore } from '../config/firebase.config';
 import { getImageFromSource, getDefaultAvatar } from './storageService'
 
@@ -53,16 +53,30 @@ export const getAllStudents = async () => {
     }
 };
 
-export const queryStudentByEmail = async (email) => {
+export const getStudentByEmail = async (email) => {
     const studentRef = collection(firestore, 'students');
-    const studentQuery = query(studentRef);
+    const studentQuery = query(studentRef, where('email', '==', email));
 
     try {
-        const querySnapshot = await getDocsFromServer(studentQuery, where('email', '==', email));
+        const querySnapshot = await getDocsFromServer(studentQuery);
         return studentRef.path + '/' + querySnapshot.docs[0].id;
     } catch (e) {
         // TODO: resolve
         console.log(e)
+    }
+}
+
+export const getStudentDataFromPath = async (docPath) => {
+    try {
+        const docRef = doc(firestore, docPath);
+        
+        let data = (await getDoc(docRef))?.data();
+        data.avatar = await getAvatar(data);
+
+        return data;
+    } catch (e) {
+        // TODO: resolve
+        console.log(e);
     }
 }
 
