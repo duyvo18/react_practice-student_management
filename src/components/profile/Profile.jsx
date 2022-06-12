@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getStudentDataFromPath } from "../../services/firestoreService";
+import { deleteStudentAccount, getStudentDataFromPath } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
 import Loading from "../common/Loading";
@@ -28,6 +28,11 @@ const Profile = () => {
             })();
         }, []
     )
+
+    const deleteAccount = () => {
+        // TODO: Pop up confirm
+        deleteStudentAccount(data.email);
+    }
 
     return (
         (
@@ -70,7 +75,10 @@ const Profile = () => {
                                                 </div>
 
                                                 <div className="text-center mt-16">
-                                                    <button className="text-white rounded-lg p-4 bg-red-400">
+                                                    <button
+                                                        className="text-white rounded-lg p-4 bg-red-400"
+                                                        onClick={deleteAccount}
+                                                    >
                                                         Delete Account
                                                     </button>
                                                 </div>
