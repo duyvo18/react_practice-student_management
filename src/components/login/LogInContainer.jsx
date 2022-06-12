@@ -95,6 +95,7 @@ const LogInContainer = () => {
                                 type="text"
                                 name="email"
                                 placeholder="Email"
+                                autoComplete="username"
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
@@ -108,6 +109,7 @@ const LogInContainer = () => {
                                 type="password"
                                 name="password"
                                 placeholder="Password"
+                                autoComplete="current-password"
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {

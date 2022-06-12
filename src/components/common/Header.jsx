@@ -15,7 +15,7 @@ const Header = (props) => {
     }
 
     return (
-        <nav className="flex items-center justify-between flex-wrap h-16 px-4 border-b-4 border-double border-black">
+        <nav className="flex items-center justify-between h-16 bg-primary border-b-4 border-double border-black px-4">
             <div className="w-full flex items-center">
                 <div className="text-base text-active font-bold flex-grow">
                     {
