@@ -2,8 +2,11 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 import { auth } from "../config/firebase.config";
 
 export const login = async (email, password) => {
-    return await signInWithEmailAndPassword(auth, email, password)
-        .catch(e => console.log(e));
+    try {
+        return await signInWithEmailAndPassword(auth, email, password);
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 export const signup = async (email, password) => {

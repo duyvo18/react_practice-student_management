@@ -1,6 +1,8 @@
 import { addDoc, collection, doc, query, where, orderBy, getDocsFromServer, updateDoc, getDoc } from 'firebase/firestore';
 import { firestore } from '../config/firebase.config';
-import { getImageFromSource, getDefaultAvatar } from './storageService'
+import { getImageFromSource, getDefaultAvatar } from './storageService';
+import { deleteUser } from 'firebase/auth';
+import { login } from './authService';
 
 export const addNewStudent = async (email) => {
     const serverData = {
@@ -82,13 +84,18 @@ export const getStudentDataFromPath = async (docPath) => {
     }
 }
 
-export const deleteStudentAccount = async (studentEmail) => {
-    const docPath = getStudentPathByEmail(studentEmail);
-    const docRef = doc(firestore, docPath);
+export const deleteStudentAccount = async (email, password) => {
+    const user = await login(email, password);
 
-    updateDoc(docRef, { _delete: '1' });
+    if (user) {
+        const docPath = getStudentPathByEmail(email);
+        const docRef = doc(firestore, docPath);
 
-    // TODO: Disable Auth
+        updateDoc(docRef, { _delete: '1' });
+        deleteUser(user);
+
+        return true;
+    }
 }
 
 const getAvatar = async (data) => {
