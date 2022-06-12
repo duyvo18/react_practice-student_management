@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { deleteStudentAccount, getStudentDataFromPath } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
@@ -16,13 +17,15 @@ const Profile = () => {
         .find(row => row.trim().startsWith('userDocPath='))
         ?.split('=')[1];
 
+    const navigate = useNavigate();
+
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(
         () => {
             (async () => {
-                const dataFromServer = await getStudentDataFromPath(userDocPath)
+                const dataFromServer = userDocPath ? await getStudentDataFromPath(userDocPath) : {};
                 setData(dataFromServer);
                 setLoading(false);
             })();
@@ -42,8 +45,8 @@ const Profile = () => {
                     {
                         (
                             !loading && (
-                                <div className="min-w-screen min-h-screen bg-secondary flex flex-col">
-                                    <div className="container max-w-2xl mx-auto flex flex-1 flex-col items-center justify-center">
+                                <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
+                                    <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto ">
                                         <div className="bg-primary px-6 py-12 rounded shadow-md text-black w-full my-12">
                                             <form>
                                                 <img
@@ -64,7 +67,7 @@ const Profile = () => {
                                                         {data.details}
                                                     </div>
 
-                                                    <div className="mt-6 pl-6">
+                                                    <div className="pl-6 mt-12">
                                                         <div>
                                                             Starting Year: <strong>{data.startingYear}</strong>
                                                         </div>
@@ -74,7 +77,13 @@ const Profile = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="text-center mt-16">
+                                                <div className="grid grid-cols-2 gap-12 mt-24 mx-24">
+                                                    <button
+                                                        className="text-black rounded-lg border-black border-2 p-4"
+                                                        onClick={() => navigate("/profile/edit")}
+                                                    >
+                                                        Edit Info
+                                                    </button>
                                                     <button
                                                         className="text-white rounded-lg p-4 bg-red-400"
                                                         onClick={deleteAccount}
