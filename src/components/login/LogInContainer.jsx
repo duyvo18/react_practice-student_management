@@ -71,7 +71,7 @@ const LogInContainer = () => {
         setLoading(true);
 
         if (await login(inputs.email, inputs.password)) {
-            const docPath = await getStudentPathByEmail(inputs.email)
+            const docPath = await getStudentPathByEmail(inputs.email);
 
             document.cookie = `auth=1; max-age=${3 * 60 * 60}; samesite=strict`;
             document.cookie = `userDocPath=${docPath}; max-age=${3 * 60 * 60}; samesite=strict`;

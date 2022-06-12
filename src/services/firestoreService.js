@@ -5,8 +5,9 @@ import { getImageFromSource, getDefaultAvatar } from './storageService'
 export const addNewStudent = async (email) => {
     const serverData = {
         email: email,
+        avatar: '',
         _new: '1',
-        avatar: ''
+        _delete: '0',
     };
 
     const studentRef = collection(firestore, 'students');
@@ -29,7 +30,7 @@ export const updateStudentInfo = async (docPath, data) => {
         startingYear: data.startingYear ?? '',
         avatar: data.imageSrc ?? '',
         details: data.details ?? '',
-        _new: data._new ?? '1',
+        _new: '0',
     };
 
     await updateDoc(docRef, serverData);
@@ -70,7 +71,7 @@ export const getStudentPathByEmail = async (email) => {
 export const getStudentDataFromPath = async (docPath) => {
     try {
         const docRef = doc(firestore, docPath);
-        
+
         let data = (await getDoc(docRef))?.data();
         data.avatar = await getAvatar(data);
 
@@ -85,8 +86,8 @@ export const deleteStudentAccount = async (studentEmail) => {
     const docPath = getStudentPathByEmail(studentEmail);
     const docRef = doc(firestore, docPath);
 
-    updateDoc(docRef, {_delete: '1'});
-    
+    updateDoc(docRef, { _delete: '1' });
+
     // TODO: Disable Auth
 }
 
