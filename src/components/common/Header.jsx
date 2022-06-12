@@ -15,33 +15,53 @@ const Header = (props) => {
     }
 
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-gray-100 h-16 px-4">
+        <nav className="flex items-center justify-between flex-wrap h-16 px-4 border-b-4 border-double border-black">
             <div className="w-full flex items-center">
-                <div className="text-base text-black font-bold flex-grow">
+                <div className="text-base text-active font-bold flex-grow">
                     {
-                        from !== "profile" && (
-                            <Link
-                                className="inline-block border-black border-0 hover:border-b-2 focus:border-b-2 focus:outline-0 mr-5"
-                                to={'/profile'}
-                            >
-                                My Profile
-                            </Link>
+                        (
+                            from !== "profile" && (
+                                <Link
+                                    className="inline-block text-inactive hover:text-active focus:text-active mr-5"
+                                    to={'/profile'}
+                                >
+                                    My Profile
+                                </Link>
+                            )
+                        ) || (
+                            from === "profile" && (
+                                <div
+                                    className="inline-block border-active border-b-2 outline-0 mr-5"
+                                >
+                                    My Profile
+                                </div>
+                            )
                         )
                     }
                     {
-                        from !== "listing" && (
-                            <Link
-                                className="inline-block border-black border-0 hover:border-b-2 focus:border-b-2 focus:outline-0 mr-5"
-                                to={'/listing'}
-                            >
-                                Listing
-                            </Link>
+                        (
+                            from !== "listing" && (
+                                <Link
+                                    className="inline-block text-inactive hover:text-active focus:text-active mr-5"
+                                    to={'/listing'}
+                                >
+                                    Listing
+                                </Link>
+                            )
+                        ) || (
+                            from === "listing" && (
+                                <div
+                                    className="inline-block border-active border-b-2 outline-0 mr-5"
+                                >
+                                    Listing
+                                </div>
+                            )
                         )
                     }
                 </div>
                 <div className="text-base text-black">
                     <button
-                        className="inline-block border-black border-0 hover:border-b-2 focus:border-b-2 focus:outline-0 mr-4"
+                        className="inline-block text-gray-400 hover:text-black hover:font-semibold focus:text-black hover:font-semibold mr-4"
                         onClick={logOut}
                     >
                         Log Out

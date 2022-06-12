@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { login } from "../../services/authService";
-import { queryStudentByEmail } from "../../services/firestoreService";
+import { getStudentByEmail } from "../../services/firestoreService";
 import FormValidationError from "../common/FormValidationError"
 import Loading from "../common/Loading"
 
@@ -71,7 +71,7 @@ const LogInContainer = () => {
         setLoading(true);
 
         if (await login(inputs.email, inputs.password)) {
-            const docPath = await queryStudentByEmail(inputs.email)
+            const docPath = await getStudentByEmail(inputs.email)
 
             document.cookie = `auth=1; max-age=${3 * 60 * 60}; samesite=strict`;
             document.cookie = `userDocPath=${docPath}; max-age=${3 * 60 * 60}; samesite=strict`;

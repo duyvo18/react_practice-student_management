@@ -1,12 +1,12 @@
 import React from "react";
 
-const AuthWarning = () => {
+const Loading = () => {
 
     return (
-        <div className="min-h-screen min-w-screen bg-gray-100 py-20 text-center text-xl sm:text-3xl font-bold">
-            Loading in progress, please wait...
+        <div className="min-h-full min-w-full bg-secondary p-20 text-center text-xl sm:text-3xl font-bold">
+            Loading, please wait...
         </div>
     )
 }
 
-export default AuthWarning;
+export default Loading;

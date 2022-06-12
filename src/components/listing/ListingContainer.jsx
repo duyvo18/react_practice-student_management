@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllStudents } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
+import Loading from "../common/Loading";
 import StudentCard from "./StudentCard";
 
 const ListingContainer = () => {
@@ -83,15 +84,15 @@ const ListingContainer = () => {
     return (
         (
             auth && (
-                <div className="h-full w-full">
+                <div className="min-h-screen min-w-screen">
                     <Header from="listing" />
 
-                    <div className="min-w-full max-h-sm">
-                        <form className="grid grid-cols-4 mx-16 font-12">
-                            <div className="flex flex-row">
-                                <p className="flex-1/3 text-left">SID</p>
+                    <div className="min-w-full min-h-full bg-secondary">
+                        <div className="flex flex-row flex-nowrap text-sm xl:text-base font-semibold py-4 px-6 border-b-2">
+                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
+                                <p className="mr-2">SID:</p>
                                 <input
-                                    className="flex-2/3"
+                                    className="flex-auto bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="id"
                                     value={query.id}
@@ -99,9 +100,10 @@ const ListingContainer = () => {
                                     onInput={onInput}
                                 />
                             </div>
-                            <div className="grid grid-cols-2">
-                                <p>Firstname</p>
+                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
+                                <p className="mr-2">Firstname:</p>
                                 <input
+                                    className="flex-auto bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="firstname"
                                     value={query.firstname}
@@ -109,9 +111,10 @@ const ListingContainer = () => {
                                     onInput={onInput}
                                 />
                             </div>
-                            <div className="grid grid-cols-2">
-                                <p>Lastname</p>
+                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
+                                <p className="mr-2">Lastname:</p>
                                 <input
+                                    className="flex-auto bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="lastname"
                                     value={query.lastname}
@@ -119,39 +122,38 @@ const ListingContainer = () => {
                                     onInput={onInput}
                                 />
                             </div>
-                            <div className="grid grid-cols-2">
-                                <p>Starting Year</p>
+                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
+                                <p className="mr-2">Starting Year:</p>
                                 <input
+                                    className="flex-auto bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="startingYear"
                                     value={query.startingYear}
-                                    placeholder="startingYear"
+                                    placeholder="all"
                                     onInput={onInput}
                                 />
                             </div>
-                        </form>
-                    </div>
+                        </div>
 
-                    <div className="max-w-3xl mx-auto mt-12 grid grid-cols-2 gap-2 grid-flow-row justify-center justify-items-center">
-                        {
-                            (
-                                filteredStudentList().length && filteredStudentList().map((student, idx) => (
-                                    <StudentCard
-                                        key={idx}
-                                        avatar={student.avatar}
-                                        firstname={student.firstname}
-                                        lastname={student.lastname}
-                                        id={student.id}
-                                        profile={student.profile} />
-                                ))
-                            ) || (
-                                !filteredStudentList().length && !loading && (
-                                    <div className="col-span-2 text-lg font-semibold italic">No Entry</div>
+                        <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 justify-center justify-items-center max-w-4xl xl:max-w-6xl bg-primary rounded-xl shadow-md px-6 py-12 mx-auto my-12">
+                            {
+                                (
+                                    filteredStudentList().length && filteredStudentList().map((student, idx) => (
+                                        <StudentCard
+                                            key={idx}
+                                            data={student} />
+                                    ))
+                                ) || (
+                                    !filteredStudentList().length && !loading && (
+                                        <div className="col-span-2 text-lg font-semibold italic">No Entry</div>
+                                    )
+                                ) || (
+                                    <div className="col-span-2 xl:col-span-3">
+                                        <Loading />
+                                    </div>
                                 )
-                            ) || (
-                                <div className="col-span-2 text-lg font-semibold italic">Loading Entries...</div>
-                            )
-                        }
+                            }
+                        </div>
                     </div>
                 </div>
             )
