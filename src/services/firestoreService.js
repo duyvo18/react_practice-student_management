@@ -28,6 +28,7 @@ export const updateStudentInfo = async (docPath, data) => {
         lastname: data.lastname ?? '',
         startingYear: data.startingYear ?? '',
         avatar: data.imageSrc ?? '',
+        details: data.details ?? '',
         _new: data._new ?? '1'
     };
 
