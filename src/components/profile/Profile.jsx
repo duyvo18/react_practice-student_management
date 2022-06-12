@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteStudentAccount, getStudentDataFromPath } from "../../services/firestoreService";
+import { getStudentDataFromPath } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
 import Loading from "../common/Loading";
+import DeleteConfirmPopup from "./DeleteConfirmPopup";
 
 const Profile = () => {
 
@@ -31,11 +32,6 @@ const Profile = () => {
             })();
         }, []
     )
-
-    const deleteAccount = () => {
-        // TODO: Pop up confirm
-        deleteStudentAccount(data.email);
-    }
 
     return (
         (
@@ -84,9 +80,11 @@ const Profile = () => {
                                                     >
                                                         Edit Info
                                                     </button>
+                                                    {/* FIXME: onclick popup */}
                                                     <button
                                                         className="text-white rounded-lg p-4 bg-red-400"
-                                                        onClick={deleteAccount}
+                                                        onClick={() => <DeleteConfirmPopup email={data.email} />
+                                                        }
                                                     >
                                                         Delete Account
                                                     </button>
