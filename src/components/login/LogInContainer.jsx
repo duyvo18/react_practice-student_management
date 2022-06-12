@@ -76,7 +76,7 @@ const LogInContainer = () => {
             document.cookie = `auth=1; max-age=${3 * 60 * 60}; samesite=strict`;
             document.cookie = `userDocPath=${docPath}; max-age=${3 * 60 * 60}; samesite=strict`;
 
-            navigate("/listing")
+            navigate("/profile")
         } else {
             // TODO: Popup error
             setLoading(false)

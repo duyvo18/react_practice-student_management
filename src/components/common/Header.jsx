@@ -5,7 +5,7 @@ const Header = (props) => {
 
     const navigate = useNavigate();
 
-    const curr = props.curr;
+    const from = props.from;
 
     const logOut = () => {
         document.cookie = 'auth=; max-age=0'
@@ -19,17 +19,17 @@ const Header = (props) => {
             <div className="w-full flex items-center">
                 <div className="text-base text-black font-bold flex-grow">
                     {
-                        curr !== "profile" && (
+                        from !== "profile" && (
                             <Link
                                 className="inline-block border-black border-0 hover:border-b-2 focus:border-b-2 focus:outline-0 mr-5"
                                 to={'/profile'}
                             >
-                                Profile
+                                My Profile
                             </Link>
                         )
                     }
                     {
-                        curr !== "listing" && (
+                        from !== "listing" && (
                             <Link
                                 className="inline-block border-black border-0 hover:border-b-2 focus:border-b-2 focus:outline-0 mr-5"
                                 to={'/listing'}

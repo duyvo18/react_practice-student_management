@@ -7,11 +7,16 @@ const StudentCard = (props) => {
     const lastname = props.lastname
     const id = props.id
     const profile = props.profile
+    const onClick = props.onClick
 
     return (
-        <div className="grid grid-cols-3 grid-rows-4 grid-flow-row-dense gap-2 w-72 h-40 p-3 border-2 rounded-xl">
+        <div
+            className="grid grid-cols-3 grid-rows-4 grid-flow-row-dense gap-2 w-72 h-40 p-3 border-2 rounded-xl transition duration-300 ease-in-out hover:scale-105 focus:scale-105"
+            tabIndex={0}
+            onClick={onClick}
+        >
             <div className="col-span-1 row-span-2">
-                <img src={avatar} alt="avatar" className="max-h-full max-w-full m-auto"/>
+                <img src={avatar} alt="avatar" className="max-h-full max-w-full m-auto" />
             </div>
             <div className="col-span-2 row-span-1 my-auto text-lg">
                 <span><strong>{lastname}</strong></span> {firstname}

@@ -1,18 +1,20 @@
-import { addDoc, collection, doc, getDocs, query, where, orderBy, getDocsFromServer, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, query, where, orderBy, getDocsFromServer, updateDoc } from 'firebase/firestore';
 import { firestore } from '../config/firebase.config';
+import { getImageFromSource, getDefaultAvatar } from './storageService'
 
 export const addNewStudent = async (email) => {
-    const studentRef = collection(firestore, 'students');
     const serverData = {
         email: email,
         _new: '1',
         avatar: ''
     };
+
+    const studentRef = collection(firestore, 'students');
     try {
         const docRef = await addDoc(studentRef, serverData)
         return docRef.path;
     } catch (e) {
-        // TODO: Popup error
+        // TODO: resolve
         console.log(e)
     }
 }
@@ -21,22 +23,34 @@ export const updateStudentInfo = async (docPath, data) => {
     const docRef = doc(firestore, docPath);
 
     const serverData = {
-        id: data.id || '',
-        firstname: data.firstname || '',
-        lastname: data.lastname || '',
-        startingYear: data.startingYear || '',
-        _new: data._new || '1'
+        id: data.id ?? '',
+        firstname: data.firstname ?? '',
+        lastname: data.lastname ?? '',
+        startingYear: data.startingYear ?? '',
+        avatar: data.imageSrc ?? '',
+        _new: data._new ?? '1'
     };
 
     await updateDoc(docRef, serverData);
 }
 
 export const getAllStudents = async () => {
-    const students = await getDocsFromServer(
-        query(collection(firestore, 'students'), where('_new', '==', '0'), orderBy('id'))
-    ).catch(error => console.log(error));
+    try {
+        const students = await getDocsFromServer(
+            query(collection(firestore, 'students'), where('_new', '==', '0'), orderBy('id'))
+        );
 
-    return students?.docs.map(doc => doc.data());
+        let data = students?.docs.map(doc => doc.data());
+
+        await Promise.all(data.map(async (student) => {
+            student.avatar = await getAvatar(student);
+        }, []))
+
+        return data;
+    } catch (e) {
+        // TODO: resolve
+        console.log(e);
+    }
 };
 
 export const queryStudentByEmail = async (email) => {
@@ -44,50 +58,14 @@ export const queryStudentByEmail = async (email) => {
     const studentQuery = query(studentRef);
 
     try {
-        const querySnapshot = await getDocs(studentQuery, where('email', '==', email));
+        const querySnapshot = await getDocsFromServer(studentQuery, where('email', '==', email));
         return studentRef.path + '/' + querySnapshot.docs[0].id;
     } catch (e) {
-        // TODO: Popup error
+        // TODO: resolve
         console.log(e)
     }
 }
 
-export const queryStudentById = async (id) => {
-    const studentRef = collection(firestore, 'students');
-    const studentQuery = query(studentRef);
-
-    const querySnapshot = await getDocs(studentQuery, where('id', '==', id))
-        .catch(error => console.log(error));
-
-    return querySnapshot?.docs.map(doc => doc.data());
+const getAvatar = async (data) => {
+    return data.avatar ? await getImageFromSource(data.avatar) : await getDefaultAvatar();
 }
-
-export const queryStudentByLastname = async (lastname) => {
-    const studentRef = collection(firestore, 'students');
-    const studentQuery = query(studentRef);
-
-    const querySnapshot = await getDocs(studentQuery, where('lastname', '==', lastname))
-        .catch(error => console.log(error));
-
-    return querySnapshot?.docs.map(doc => doc.data());
-};
-
-export const queryStudentByFirstname = async (firstname) => {
-    const studentRef = collection(firestore, 'students');
-    const studentQuery = query(studentRef);
-
-    const querySnapshot = await getDocs(studentQuery, where('firstname', '==', firstname))
-        .catch(error => console.log(error));
-
-    return querySnapshot?.docs.map(doc => doc.data());
-};
-
-export const queryStudentByStartingYear = async (year) => {
-    const studentRef = collection(firestore, 'students');
-    const studentQuery = query(studentRef);
-
-    const querySnapshot = await getDocs(studentQuery, where('startingYear', '==', year))
-        .catch(error => console.log(error));
-
-    return querySnapshot?.docs.map(doc => doc.data());
-};
