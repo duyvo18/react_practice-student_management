@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getStudentDataFromPath } from "../../services/firestoreService";
-import { getDefaultAvatar } from "../../services/storageService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
 import Loading from "../common/Loading";
@@ -68,6 +67,12 @@ const Profile = () => {
                                                             Email: <strong>{data.email}</strong>
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div className="text-center mt-16">
+                                                    <button className="text-white rounded-lg p-4 bg-red-400">
+                                                        Delete Account
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
