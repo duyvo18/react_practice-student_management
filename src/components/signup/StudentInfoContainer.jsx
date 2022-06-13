@@ -71,7 +71,7 @@ const StudentInfoContainer = () => {
                 };
                 break;
             case 'id':
-                if (!(/^\d+$/).test(value) || inputs.id.length < 6 || inputs.id.length > 10) {
+                if (!(/^\d+$/).test(value) || value.length < 6 || value.length > 10) {
                     setValidationErrors(prev => ({
                         ...prev,
                         id: 'Student ID must be between 6 to 10 digits'

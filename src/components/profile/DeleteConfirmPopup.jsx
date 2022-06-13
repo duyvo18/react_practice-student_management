@@ -9,7 +9,7 @@ const DeleteConfirmPopup = (props) => {
     const navigate = useNavigate();
 
     const userEmail = props.email;
-    const onClick = props.onClick;
+    const onCancel = props.onCancel;
 
     const [inputs, setInputs] = useState({
         email: '',
@@ -168,7 +168,7 @@ const DeleteConfirmPopup = (props) => {
                                         className="button font-semibold py-1 px-3"
                                         type="button"
                                         tabIndex={100}
-                                        onClick={onClick}
+                                        onClick={onCancel}
                                     >
                                         Cancel
                                     </button>

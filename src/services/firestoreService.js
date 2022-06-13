@@ -26,12 +26,7 @@ export const updateStudentInfo = async (docPath, data) => {
     const docRef = doc(firestore, docPath);
 
     const serverData = {
-        id: data.id ?? '',
-        firstname: data.firstname ?? '',
-        lastname: data.lastname ?? '',
-        startingYear: data.startingYear ?? '',
-        avatar: data.imageSrc ?? '',
-        details: data.details ?? '',
+        ...data,
         _new: '0',
     };
 

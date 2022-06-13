@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { SignUpContainer, LogInContainer, ListingContainer, StudentInfoContainer, Profile, ProfileEdit } from "./components";
+import { SignUpContainer, LogInContainer, ListingContainer, StudentInfoContainer, Profile } from "./components";
 
 function App() {
   return (
@@ -12,7 +12,6 @@ function App() {
             <Route path="/login" element={<LogInContainer />} />
             <Route path="/listing" element={<ListingContainer />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/edit" element={<ProfileEdit />} />
             <Route
               path="*"
               element={
