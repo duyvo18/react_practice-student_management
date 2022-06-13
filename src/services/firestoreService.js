@@ -90,7 +90,7 @@ export const deleteStudentAccount = async (email, password) => {
             await updateDoc(docRef, { _delete: '1' });
 
             // FIXME: is not function error
-            await reauthenticateWithCredential(user.user, auth);
+            // await reauthenticateWithCredential(user.user, auth);
             await deleteUser(user);
 
             return true;
