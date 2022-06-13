@@ -4,8 +4,14 @@ import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
 import Loading from "../common/Loading";
 import StudentCard from "./StudentCard";
+import StudentDetails from "./StudentDetails";
 
 const ListingContainer = () => {
+
+    const auth = document.cookie
+        .split(';')
+        .find(row => row.trim().startsWith('auth='))
+        ?.split('=')[1] === '1';
 
     const [loading, setLoading] = useState(true);
     const [students, setStudents] = useState([]);
@@ -15,6 +21,7 @@ const ListingContainer = () => {
         lastname: '',
         startingYear: ''
     });
+    const [details, setDetails] = useState();
 
     useEffect(
         () => {
@@ -26,22 +33,6 @@ const ListingContainer = () => {
             )();
         }, []
     )
-
-    const auth = document.cookie
-        .split(';')
-        .find(row => row.trim().startsWith('auth='))
-        ?.split('=')[1] === '1';
-
-    const onInput = (e) => {
-        const { name, value } = e.target;
-
-        setQuery({
-            ...query,
-            [name]: value
-        });
-
-        filteredStudentList();
-    }
 
     const filteredStudentList = () => {
         let filteredStudents = students
@@ -80,6 +71,21 @@ const ListingContainer = () => {
 
         return filteredStudents;
     }
+
+    const onInput = (e) => {
+        const { name, value } = e.target;
+
+        setQuery({
+            ...query,
+            [name]: value
+        });
+
+        filteredStudentList();
+    }
+
+    const viewDetails = (studentData) => setDetails(studentData);
+
+    const closeDetails = () => setDetails(undefined);
 
     return (
         (
@@ -141,7 +147,9 @@ const ListingContainer = () => {
                                     filteredStudentList().length && filteredStudentList().map((student, idx) => (
                                         <StudentCard
                                             key={idx}
-                                            data={student} />
+                                            data={student}
+                                            onClick={() => viewDetails(student)}
+                                        />
                                     ))
                                 ) || (
                                     !filteredStudentList().length && !loading && (
@@ -155,6 +163,11 @@ const ListingContainer = () => {
                             }
                         </div>
                     </div>
+                    {
+                        details && (
+                            <StudentDetails data={details} onClose={closeDetails} />
+                        )
+                    }
                 </div>
             )
         ) || (
