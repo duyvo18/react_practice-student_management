@@ -11,12 +11,13 @@ const LogInContainer = () => {
 
     const [inputs, setInputs] = useState({
         email: '',
-        password: ''
+        password: '',
     })
 
     const [validationErrors, setValidationErrors] = useState({
         email: '',
-        password: ''
+        password: '',
+        auth: '',
     })
 
     const [loading, setLoading] = useState(false)
@@ -34,6 +35,12 @@ const LogInContainer = () => {
 
     const validateInput = (e) => {
         const { name, value } = e.target;
+
+
+        setValidationErrors(prev => ({
+            ...prev,
+            auth: ''
+        }));
 
         switch (name) {
             case 'email':
@@ -78,8 +85,12 @@ const LogInContainer = () => {
 
             navigate("/profile")
         } else {
-            // TODO: Popup error
             setLoading(false)
+
+            setValidationErrors(prev => ({
+                ...prev,
+                auth: 'Please check your credential info.'
+            }));
         }
     }
 
@@ -115,6 +126,14 @@ const LogInContainer = () => {
                             {
                                 validationErrors.password && (
                                     <FormValidationError message={validationErrors.password} />
+                                )
+                            }
+
+                            {
+                                validationErrors.auth && (
+                                    <div className="mt-4">
+                                        <FormValidationError message={validationErrors.auth} />
+                                    </div>
                                 )
                             }
 
