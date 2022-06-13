@@ -10,7 +10,7 @@ const StudentDetails = (props) => {
             <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
                 <div className="relative flex flex-col items-center justify-center max-w-3xl rounded-2xl px-6 py-12 bg-white">
                     <strong
-                        class="absolute top-[6px] right-[12px] text-xl align-center cursor-pointer alert-del"
+                        className="absolute top-[6px] right-[12px] text-xl align-center cursor-pointer alert-del"
                         onClick={onClose}
                     >
                         &times;
