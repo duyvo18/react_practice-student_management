@@ -8,6 +8,8 @@ import DeleteConfirmPopup from "./DeleteConfirmPopup";
 
 const Profile = () => {
 
+    const navigate = useNavigate();
+
     const auth = document.cookie
         .split(';')
         .find(row => row.trim().startsWith('auth='))
@@ -18,10 +20,11 @@ const Profile = () => {
         .find(row => row.trim().startsWith('userDocPath='))
         ?.split('=')[1];
 
-    const navigate = useNavigate();
-
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [deletePopup, setDeletePopup] = useState(false);
+
+    const togglePopup = () => setDeletePopup(!deletePopup);
 
     useEffect(
         () => {
@@ -75,16 +78,17 @@ const Profile = () => {
 
                                                 <div className="grid grid-cols-2 gap-12 mt-24 mx-24">
                                                     <button
-                                                        className="text-black rounded-lg border-black border-2 p-4"
+                                                        className="button"
+                                                        type="button"
                                                         onClick={() => navigate("/profile/edit")}
                                                     >
                                                         Edit Info
                                                     </button>
                                                     {/* FIXME: onclick popup */}
                                                     <button
-                                                        className="text-white rounded-lg p-4 bg-red-400"
-                                                        onClick={() => <DeleteConfirmPopup email={data.email} />
-                                                        }
+                                                        className="buttonWarning"
+                                                        type="button"
+                                                        onClick={togglePopup}
                                                     >
                                                         Delete Account
                                                     </button>
@@ -92,6 +96,14 @@ const Profile = () => {
                                             </form>
                                         </div>
                                     </div>
+                                    {
+                                        deletePopup && (
+                                            <DeleteConfirmPopup
+                                                email={data.email}
+                                                onClick={togglePopup}
+                                            />
+                                        )
+                                    }
                                 </div>
                             )
                         ) || (

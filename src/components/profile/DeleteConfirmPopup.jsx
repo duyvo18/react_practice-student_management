@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { deleteStudentAccount } from "../../services/firestoreService";
 import Loading from "../common/Loading";
 import FormValidationError from "../common/FormValidationError";
+import { useNavigate } from "react-router-dom";
 
 const DeleteConfirmPopup = (props) => {
 
     const navigate = useNavigate();
 
     const userEmail = props.email;
+    const onClick = props.onClick;
 
     const [inputs, setInputs] = useState({
         email: '',
@@ -38,7 +39,8 @@ const DeleteConfirmPopup = (props) => {
         if (!errors.auth && !errors.email && !errors.password) {
             setLoading(true);
 
-            const [email, password] = inputs;
+            const email = inputs.email;
+            const password = inputs.password;
 
             if (await deleteStudentAccount(email, password)) {
                 navigate("/login");
@@ -56,6 +58,11 @@ const DeleteConfirmPopup = (props) => {
     const validateInput = (e) => {
         const { name, value } = e.target;
 
+        setErrors(prev => ({
+            ...prev,
+            auth: ''
+        }));
+
         switch (name) {
             case "email":
                 if (!value) {
@@ -68,6 +75,11 @@ const DeleteConfirmPopup = (props) => {
                         ...prev,
                         email: 'Email does not match your account.'
                     }));
+                } else {
+                    setErrors(prev => ({
+                        ...prev,
+                        email: ''
+                    }));
                 }
                 break;
             case "password":
@@ -75,6 +87,11 @@ const DeleteConfirmPopup = (props) => {
                     setErrors(prev => ({
                         ...prev,
                         password: 'Password cannot be empty.'
+                    }));
+                } else {
+                    setErrors(prev => ({
+                        ...prev,
+                        password: ''
                     }));
                 }
                 break;
@@ -89,7 +106,7 @@ const DeleteConfirmPopup = (props) => {
                 {
                     (
                         !loading && (
-                            <div className="flex flex-col items-center justify-center max-w-3xl rounded-2xl p-6 bg-white">
+                            <form className="flex flex-col items-center justify-center max-w-3xl rounded-2xl p-6 bg-white">
                                 <div className="text-red-500 font-bold text-xl">
                                     CAUTION!
                                 </div>
@@ -106,8 +123,9 @@ const DeleteConfirmPopup = (props) => {
                                     type="email"
                                     name="email"
                                     placeholder="Email"
+                                    autoComplete="username"
                                     onChange={onInput}
-                                    tabIndex={2}
+                                    tabIndex={102}
                                 />
                                 {
                                     errors.email && (
@@ -121,7 +139,7 @@ const DeleteConfirmPopup = (props) => {
                                     name="password"
                                     placeholder="Password"
                                     onChange={onInput}
-                                    tabIndex={3}
+                                    tabIndex={103}
                                 />
                                 {
                                     errors.password && (
@@ -139,22 +157,23 @@ const DeleteConfirmPopup = (props) => {
 
                                 <div className="grid grid-cols-2 gap-24 mt-6">
                                     <button
-                                        className="rounded-lg font-semibold text-red-500 hover:text-white focus:text-white border-2 border-red-500 hover:bg-red-500 focus:bg-red-500 py-1 px-3"
-                                        tabIndex={4}
+                                        className="buttonWarning font-semibold"
+                                        type="button"
+                                        tabIndex={104}
                                         onClick={onDelete}
                                     >
                                         Delete
                                     </button>
                                     <button
-                                        className="rounded-lg font-semibold text-black hover:text-white focus:text-white border-2 border-black hover:bg-black focus:bg-black py-1 px-3"
-                                        tabIndex={1}
-                                        autoFocus
-                                        onClick={() => navigate("/profile")}
+                                        className="button font-semibold py-1 px-3"
+                                        type="button"
+                                        tabIndex={100}
+                                        onClick={onClick}
                                     >
                                         Cancel
                                     </button>
                                 </div>
-                            </div>
+                            </form>
                         )
                     ) || (
                         loading && (

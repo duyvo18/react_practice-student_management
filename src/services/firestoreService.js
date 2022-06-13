@@ -1,8 +1,8 @@
 import { addDoc, collection, doc, query, where, orderBy, getDocsFromServer, updateDoc, getDoc } from 'firebase/firestore';
-import { firestore } from '../config/firebase.config';
+import { auth, firestore } from '../config/firebase.config';
 import { getImageFromSource, getDefaultAvatar } from './storageService';
-import { deleteUser } from 'firebase/auth';
 import { login } from './authService';
+import { deleteUser, reauthenticateWithCredential } from 'firebase/auth';
 
 export const addNewStudent = async (email) => {
     const serverData = {
@@ -41,7 +41,7 @@ export const updateStudentInfo = async (docPath, data) => {
 export const getAllStudents = async () => {
     try {
         const students = await getDocsFromServer(
-            query(collection(firestore, 'students'), where('_new', '==', '0'), orderBy('id'))
+            query(collection(firestore, 'students'), where('_new', '==', '0'), where('_delete', '==', '0'), orderBy('id'))
         );
 
         let data = students?.docs.map(doc => doc.data());
@@ -88,13 +88,21 @@ export const deleteStudentAccount = async (email, password) => {
     const user = await login(email, password);
 
     if (user) {
-        const docPath = getStudentPathByEmail(email);
-        const docRef = doc(firestore, docPath);
+        try {
+            const docPath = await getStudentPathByEmail(email);
+            const docRef = doc(firestore, docPath);
 
-        updateDoc(docRef, { _delete: '1' });
-        deleteUser(user);
+            await updateDoc(docRef, { _delete: '1' });
 
-        return true;
+            // FIXME: is not function error
+            await reauthenticateWithCredential(user.user, auth);
+            await deleteUser(user);
+
+            return true;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
     }
 }
 
