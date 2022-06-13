@@ -72,7 +72,7 @@ const Profile = () => {
                                                         {data.id}
                                                     </h2>
 
-                                                    <div className="px-12 mt-6">
+                                                    <div className="w-full px-12 mt-6">
                                                         <div className="text-justify italic">
                                                             {data.details}
                                                         </div>
