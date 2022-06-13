@@ -1,8 +1,8 @@
 import { addDoc, collection, doc, query, where, orderBy, getDocsFromServer, updateDoc, getDoc } from 'firebase/firestore';
-import { auth, firestore } from '../config/firebase.config';
+import { firestore } from '../config/firebase.config';
 import { getImageFromSource, getDefaultAvatar } from './storageService';
 import { login } from './authService';
-import { deleteUser, reauthenticateWithCredential } from 'firebase/auth';
+// import { deleteUser, reauthenticateWithCredential } from 'firebase/auth';
 
 export const addNewStudent = async (email) => {
     const serverData = {
@@ -89,9 +89,9 @@ export const deleteStudentAccount = async (email, password) => {
 
             await updateDoc(docRef, { _delete: '1' });
 
-            // FIXME: is not function error
+            // FIXME: Auth function errors
             // await reauthenticateWithCredential(user.user, auth);
-            await deleteUser(user);
+            // await deleteUser(user);
 
             return true;
         } catch (e) {
