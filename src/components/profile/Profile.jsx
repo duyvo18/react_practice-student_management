@@ -57,27 +57,27 @@ const Profile = () => {
                                 (
                                     !edit && (
                                         <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
-                                            <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto ">
-                                                <form className="bg-primary px-6 py-12 rounded shadow-md text-black w-full my-12">
+                                            <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto">
+                                                <form className="bg-primary px-6 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
                                                     <img
                                                         src={data.avatar}
                                                         alt="avatar"
                                                         className="max-w-[30%] mx-auto"
                                                     />
 
-                                                    <h1 className="text-3xl text-center mt-6">
+                                                    <h1 className="text-2xl lg:text-3xl text-center mt-6">
                                                         {data.firstname} <strong>{data.lastname}</strong>
                                                     </h1>
-                                                    <h2 className="text-xl text-center italic mt-2">
+                                                    <h2 className="text-lg lg:text-xl text-center italic mt-2">
                                                         {data.id}
                                                     </h2>
 
-                                                    <div className="w-full px-12 mt-6">
+                                                    <div className="w-full px-3 lg:px-12 mt-6">
                                                         <div className="text-justify italic">
                                                             {data.details}
                                                         </div>
 
-                                                        <div className="pl-6 mt-12">
+                                                        <div className="pl-3 lg:pl-6 mt-12">
                                                             <div>
                                                                 Starting Year: <strong>{data.startingYear}</strong>
                                                             </div>
@@ -87,16 +87,16 @@ const Profile = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="grid grid-cols-2 gap-12 mt-24 mx-24">
+                                                    <div className="grid grid-cols-2 gap-6 lg:gap-12 mt-16 lg:mt-24 mx-4 lg:mx-24">
                                                         <button
-                                                            className="button"
+                                                            className="button py-1 px-2 lg:py-3"
                                                             type="button"
                                                             onClick={toggleEdit}
                                                         >
                                                             Edit Info
                                                         </button>
                                                         <button
-                                                            className="buttonWarning"
+                                                            className="buttonWarning py-1 px-2 lg:py-3"
                                                             type="button"
                                                             onClick={togglePopup}
                                                         >
