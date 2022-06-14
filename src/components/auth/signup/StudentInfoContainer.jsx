@@ -4,7 +4,7 @@ import { updateStudentInfo } from "../../../services/firestoreService";
 import AuthWarning from "../../common/AuthWarning";
 import FormValidationError from "../../common/FormValidationError";
 import Loading from "../../common/Loading"
-import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../inputValidation";
+import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../../common/inputValidation";
 
 const StudentInfoContainer = () => {
     const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { signup } from "../../../services/authService";
 import { addNewStudent } from "../../../services/firestoreService";
 import FormValidationError from "../../common/FormValidationError"
 import Loading from "../../common/Loading"
-import { confirmPasswordValidError, emailValidError, passwordValidError } from "../inputValidation";
+import { confirmPasswordValidError, emailValidError, passwordValidError } from "../../common/inputValidation";
 
 const SignUpContainer = () => {
 
@@ -91,12 +91,13 @@ const SignUpContainer = () => {
     return (
         (!loading && (
             <div className="bg-gray-100 min-h-screen min-w-screen flex flex-col">
-                <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-                    <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+                <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center">
+                    <div className="bg-white px-6 py-8 rounded-lg shadow-md text-black w-full">
                         <form>
                             <h1 className="text-3xl text-center">Sign Up</h1>
+
                             <input
-                                className="block border border-grey-light w-full p-3 rounded mt-8"
+                                className="block border border-gray-200 w-full p-3 rounded-lg mt-8"
                                 type="text"
                                 name="email"
                                 placeholder="Email"
@@ -109,7 +110,7 @@ const SignUpContainer = () => {
                             }
 
                             <input
-                                className="block border border-grey-light w-full p-3 rounded mt-4"
+                                className="block border border-grey-light w-full p-3 rounded-lg mt-4"
                                 type="password"
                                 name="password"
                                 placeholder="Password"
@@ -144,7 +145,7 @@ const SignUpContainer = () => {
                             }
 
                             <button
-                                className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 my-1 mt-4"
+                                className="buttonBlueFilled w-full py-2 mt-8"
                                 type="reset"
                                 onClick={signUp}
                             >Continue</button>

@@ -4,7 +4,7 @@ import { login } from "../../../services/authService";
 import { getStudentPathByEmail } from "../../../services/firestoreService";
 import FormValidationError from "../../common/FormValidationError"
 import Loading from "../../common/Loading"
-import { emailValidError, passwordValidError } from "../inputValidation";
+import { emailValidError, passwordValidError } from "../../common/inputValidation";
 
 const LogInContainer = () => {
 
