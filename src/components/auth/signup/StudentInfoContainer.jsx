@@ -4,6 +4,7 @@ import { updateStudentInfo } from "../../../services/firestoreService";
 import AuthWarning from "../../common/AuthWarning";
 import FormValidationError from "../../common/FormValidationError";
 import Loading from "../../common/Loading"
+import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../inputValidation";
 
 const StudentInfoContainer = () => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const StudentInfoContainer = () => {
         startingYear: '',
     })
 
-    const [validationErrors, setValidationErrors] = useState({
+    const [errors, setErrors] = useState({
         firstname: '',
         lastname: '',
         id: '',
@@ -45,56 +46,28 @@ const StudentInfoContainer = () => {
 
         switch (name) {
             case 'firstname':
-                if (!value) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        firstname: 'Firstname can not be empty'
-                    }))
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        firstname: ''
-                    }))
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    firstname: firstnameValidError(value)
+                }));
                 break;
             case 'lastname':
-                if (!inputs.lastname) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        lastname: 'Lastname can not be empty'
-                    }))
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        lastname: ''
-                    }))
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    lastname: lastnameValidError(value)
+                }));
                 break;
             case 'id':
-                if (!(/^\d+$/).test(value) || value.length < 6 || value.length > 10) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        id: 'Student ID must be between 6 to 10 digits'
-                    }))
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        id: ''
-                    }))
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    id: idValidError(value)
+                }));
                 break;
             case 'startingYear':
-                if (!(/^\d+$/).test(value) || value < 2000 || value > new Date().getFullYear()) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        startingYear: 'Starting year must be between 2000 and current year'
-                    }))
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        startingYear: ''
-                    }))
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    startingYear: startingYearValidError(value)
+                }));
                 break;
             default:
                 break;
@@ -131,8 +104,8 @@ const StudentInfoContainer = () => {
                                                 onChange={onInput}
                                                 onBlur={validateInput} />
                                             {
-                                                validationErrors.firstname && (
-                                                    <FormValidationError message={validationErrors.firstname} />
+                                                errors.firstname && (
+                                                    <FormValidationError message={errors.firstname} />
                                                 )
                                             }
 
@@ -145,8 +118,8 @@ const StudentInfoContainer = () => {
                                                 onChange={onInput}
                                                 onBlur={validateInput} />
                                             {
-                                                validationErrors.lastname && (
-                                                    <FormValidationError message={validationErrors.lastname} />
+                                                errors.lastname && (
+                                                    <FormValidationError message={errors.lastname} />
                                                 )
                                             }
 
@@ -159,8 +132,8 @@ const StudentInfoContainer = () => {
                                                 onChange={onInput}
                                                 onBlur={validateInput} />
                                             {
-                                                validationErrors.id && (
-                                                    <FormValidationError message={validationErrors.id} />
+                                                errors.id && (
+                                                    <FormValidationError message={errors.id} />
                                                 )
                                             }
 
@@ -173,8 +146,8 @@ const StudentInfoContainer = () => {
                                                 onChange={onInput}
                                                 onBlur={validateInput} />
                                             {
-                                                validationErrors.startingYear && (
-                                                    <FormValidationError message={validationErrors.startingYear} />
+                                                errors.startingYear && (
+                                                    <FormValidationError message={errors.startingYear} />
                                                 )
                                             }
 

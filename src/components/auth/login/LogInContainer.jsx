@@ -4,6 +4,7 @@ import { login } from "../../../services/authService";
 import { getStudentPathByEmail } from "../../../services/firestoreService";
 import FormValidationError from "../../common/FormValidationError"
 import Loading from "../../common/Loading"
+import { emailValidError, passwordValidError } from "../inputValidation";
 
 const LogInContainer = () => {
 
@@ -14,7 +15,7 @@ const LogInContainer = () => {
         password: '',
     })
 
-    const [validationErrors, setValidationErrors] = useState({
+    const [errors, setErrors] = useState({
         email: '',
         password: '',
         auth: '',
@@ -30,44 +31,29 @@ const LogInContainer = () => {
             [name]: value
         }));
 
+        setErrors(prev => ({
+            ...prev,
+            auth: ''
+        }));
+
         validateInput(e);
     }
 
     const validateInput = (e) => {
         const { name, value } = e.target;
 
-
-        setValidationErrors(prev => ({
-            ...prev,
-            auth: ''
-        }));
-
         switch (name) {
             case 'email':
-                if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        email: 'The input does not look like an email.'
-                    }));
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        email: ''
-                    }));
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    email: emailValidError(value)
+                }));
                 break;
             case 'password':
-                if (value.length < 6) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        password: 'Password must be longer than 6 character.'
-                    }));
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        password: ''
-                    }));
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    password: passwordValidError(value)
+                }));
                 break;
             default:
                 break;
@@ -87,7 +73,7 @@ const LogInContainer = () => {
         } else {
             setLoading(false)
 
-            setValidationErrors(prev => ({
+            setErrors(prev => ({
                 ...prev,
                 auth: 'Please check your credential info.'
             }));
@@ -110,8 +96,8 @@ const LogInContainer = () => {
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
-                                validationErrors.email && (
-                                    <FormValidationError message={validationErrors.email} />
+                                errors.email && (
+                                    <FormValidationError message={errors.email} />
                                 )
                             }
 
@@ -124,15 +110,15 @@ const LogInContainer = () => {
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
-                                validationErrors.password && (
-                                    <FormValidationError message={validationErrors.password} />
+                                errors.password && (
+                                    <FormValidationError message={errors.password} />
                                 )
                             }
 
                             {
-                                validationErrors.auth && (
+                                errors.auth && (
                                     <div className="mt-4">
-                                        <FormValidationError message={validationErrors.auth} />
+                                        <FormValidationError message={errors.auth} />
                                     </div>
                                 )
                             }

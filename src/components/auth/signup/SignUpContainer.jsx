@@ -4,6 +4,7 @@ import { signup } from "../../../services/authService";
 import { addNewStudent } from "../../../services/firestoreService";
 import FormValidationError from "../../common/FormValidationError"
 import Loading from "../../common/Loading"
+import { confirmPasswordValidError, emailValidError, passwordValidError } from "../inputValidation";
 
 const SignUpContainer = () => {
 
@@ -15,7 +16,7 @@ const SignUpContainer = () => {
         confirmPassword: '',
     })
 
-    const [validationErrors, setValidationErrors] = useState({
+    const [errors, setErrors] = useState({
         email: '',
         password: '',
         confirmPassword: ''
@@ -31,6 +32,11 @@ const SignUpContainer = () => {
             [name]: value
         }));
 
+        setErrors(prev => ({
+            ...prev,
+            auth: ''
+        }));
+
         validateInput(e);
     }
 
@@ -39,43 +45,22 @@ const SignUpContainer = () => {
 
         switch (name) {
             case 'email':
-                if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        email: 'The input does not look like an email.'
-                    }));
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        email: ''
-                    }));
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    email: emailValidError(value)
+                }));
                 break;
             case 'password':
-                if (value.length < 6) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        password: 'Password must be longer than 6 character.'
-                    }));
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        password: ''
-                    }));
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    password: passwordValidError(value)
+                }));
                 break;
             case 'confirmPassword':
-                if (value !== inputs.password) {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        confirmPassword: 'Password does not match.'
-                    }));
-                } else {
-                    setValidationErrors(prev => ({
-                        ...prev,
-                        confirmPassword: ''
-                    }));
-                };
+                setErrors(prev => ({
+                    ...prev,
+                    confirmPassword: confirmPasswordValidError(value, inputs.password)
+                }));
                 break;
             default:
                 break;
@@ -83,22 +68,23 @@ const SignUpContainer = () => {
     }
 
     const signUp = async () => {
-        if (!validationErrors.email && !validationErrors.password && !validationErrors.confirmPassword) {
+        if (!errors.email && !errors.password && !errors.confirmPassword) {
             setLoading(true)
 
-            const result = await signup(inputs.email, inputs.password)
-            if (result) {
+            if (await signup(inputs.email, inputs.password)) {
                 const userDocPath = await addNewStudent(inputs.email);
 
                 document.cookie = `userDocPath=${userDocPath}; max-age=${3 * 60 * 60}; samesite=strict`;
 
                 navigate("/info");
             } else {
-                // TODO: Popup error   
+                setErrors(prev => ({
+                    ...prev,
+                    auth: 'Authentication failed.'
+                }));
+
                 setLoading(false)
             }
-        } else {
-            // TODO: Popup error
         }
     }
 
@@ -117,8 +103,8 @@ const SignUpContainer = () => {
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
-                                validationErrors.email && (
-                                    <FormValidationError message={validationErrors.email} />
+                                errors.email && (
+                                    <FormValidationError message={errors.email} />
                                 )
                             }
 
@@ -130,8 +116,8 @@ const SignUpContainer = () => {
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
-                                validationErrors.password && (
-                                    <FormValidationError message={validationErrors.password} />
+                                errors.password && (
+                                    <FormValidationError message={errors.password} />
                                 )
                             }
 
@@ -144,8 +130,16 @@ const SignUpContainer = () => {
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
-                                validationErrors.confirmPassword && (
-                                    <FormValidationError message={validationErrors.confirmPassword} />
+                                errors.confirmPassword && (
+                                    <FormValidationError message={errors.confirmPassword} />
+                                )
+                            }
+
+                            {
+                                errors.auth && (
+                                    <div className="mt-4">
+                                        <FormValidationError message={errors.auth} />
+                                    </div>
                                 )
                             }
 
