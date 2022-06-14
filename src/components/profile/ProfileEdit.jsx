@@ -78,26 +78,26 @@ const ProfileEdit = (props) => {
 
     return (
         <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
-            <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto ">
+            <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto">
                 {
                     (
                         !loading && (
-                            <form className="bg-primary px-12 py-12 rounded shadow-md text-black w-full my-12">
+                            <form className="bg-primary px-6 lg:px-12 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
                                 <img
                                     src={localData.avatar}
                                     alt="avatar"
                                     className="max-w-[30%] mx-auto"
                                 />
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-12 px-12">
+                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-12 lg:px-12">
                                     <label
-                                        className="basis-1/4 text-lg"
-                                        for="firstname"
+                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
+                                        htmlFor="firstname"
                                     >
                                         Firstname:
                                     </label>
                                     <input
-                                        className="basis-3/4 border-b-2 border-black p-3 py-1 px-2"
+                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
                                         type="text"
                                         name="firstname"
                                         value={localData.firstname}
@@ -112,15 +112,15 @@ const ProfileEdit = (props) => {
                                     )
                                 }
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 px-12">
+                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 lg:px-12">
                                     <label
-                                        className="basis-1/4 text-lg"
-                                        for="lastname"
+                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
+                                        htmlFor="lastname"
                                     >
                                         Lastname:
                                     </label>
                                     <input
-                                        className="basis-3/4 border-b-2 border-black p-3 py-1 px-2"
+                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
                                         type="text"
                                         name="lastname"
                                         value={localData.lastname}
@@ -135,15 +135,15 @@ const ProfileEdit = (props) => {
                                     )
                                 }
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 px-12">
+                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 lg:px-12">
                                     <label
-                                        className="basis-1/4 text-lg"
-                                        for="id"
+                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
+                                        htmlFor="id"
                                     >
                                         SID:
                                     </label>
                                     <input
-                                        className="basis-3/4 border-b-2 border-black p-3 py-1 px-2"
+                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
                                         type="text"
                                         name="id"
                                         value={localData.id}
@@ -158,15 +158,15 @@ const ProfileEdit = (props) => {
                                     )
                                 }
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 px-12">
+                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 lg:px-12">
                                     <label
-                                        className="basis-1/4 text-lg"
-                                        for="startingYear"
+                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
+                                        htmlFor="startingYear"
                                     >
                                         Starting Year:
                                     </label>
                                     <input
-                                        className="basis-3/4 border-b-2 border-black p-3 py-1 px-2"
+                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
                                         type="number"
                                         name="startingYear"
                                         value={localData.startingYear}
@@ -191,7 +191,7 @@ const ProfileEdit = (props) => {
                                         onBlur={validateInput}
                                     />
 
-                                    <div className="grid grid-cols-2 gap-12 mt-12 mx-24">
+                                    <div className="grid grid-cols-2 gap-6 lg:gap-12 mt-12 lg:mx-24">
                                         <button
                                             className="button"
                                             type="button"
