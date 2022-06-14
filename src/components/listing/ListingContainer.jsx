@@ -94,11 +94,11 @@ const ListingContainer = () => {
                     <Header from="listing" />
 
                     <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
-                        <div className="flex flex-row flex-nowrap bg-primary text-sm xl:text-base font-semibold py-4 pt-8 pb-6 border-b-2">
-                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
-                                <p className="mr-2">SID:</p>
+                        <div className="flex flex-col lg:flex-row flex-nowrap bg-primary text-sm xl:text-base font-semibold px-12 sm:px-36 lg:px-6 py-4 border-b-2">
+                            <div className="flex-auto flex flex-row flex-nowrap">
+                                <p className="basis-1/3 lg:basis-2/5 mr-2">SID:</p>
                                 <input
-                                    className="flex-auto bg-inherit border-inactive border-b-2"
+                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="id"
                                     value={query.id}
@@ -106,10 +106,10 @@ const ListingContainer = () => {
                                     onInput={onInput}
                                 />
                             </div>
-                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
-                                <p className="mr-2">Firstname:</p>
+                            <div className="flex-auto flex flex-row flex-nowrap mt-2 lg:mt-0 lg:ml-2">
+                                <p className="basis-1/3 lg:basis-2/5 mr-2">Firstname:</p>
                                 <input
-                                    className="flex-auto bg-inherit border-inactive border-b-2"
+                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="firstname"
                                     value={query.firstname}
@@ -117,10 +117,10 @@ const ListingContainer = () => {
                                     onInput={onInput}
                                 />
                             </div>
-                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
-                                <p className="mr-2">Lastname:</p>
+                            <div className="flex-auto flex flex-row flex-nowrap mt-2 lg:mt-0 lg:ml-2">
+                                <p className="basis-1/3 lg:basis-2/5 mr-2">Lastname:</p>
                                 <input
-                                    className="flex-auto bg-inherit border-inactive border-b-2"
+                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="lastname"
                                     value={query.lastname}
@@ -128,10 +128,10 @@ const ListingContainer = () => {
                                     onInput={onInput}
                                 />
                             </div>
-                            <div className="flex-auto flex flex-row flex-nowrap mx-4">
-                                <p className="mr-2">Starting Year:</p>
+                            <div className="flex-auto flex flex-row flex-nowrap mt-2 lg:mt-0 lg:ml-2">
+                                <p className="basis-1/3 lg:basis-2/5 mr-2">Starting Year:</p>
                                 <input
-                                    className="flex-auto bg-inherit border-inactive border-b-2"
+                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
                                     type="text"
                                     name="startingYear"
                                     value={query.startingYear}
@@ -141,7 +141,7 @@ const ListingContainer = () => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 justify-center justify-items-center max-w-4xl xl:max-w-6xl bg-primary rounded-xl shadow-md px-6 py-12 mx-auto my-12">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center justify-items-center max-w-4xl lg:max-w-6xl bg-primary rounded-xl shadow-md px-6 py-12 mx-auto my-12">
                             {
                                 (
                                     filteredStudentList().length && filteredStudentList().map((student, idx) => (
