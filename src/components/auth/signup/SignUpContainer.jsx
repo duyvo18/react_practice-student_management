@@ -1,23 +1,24 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
-import { login } from "../../services/authService";
-import { getStudentPathByEmail } from "../../services/firestoreService";
-import FormValidationError from "../common/FormValidationError"
-import Loading from "../common/Loading"
+import { useNavigate } from "react-router-dom";
+import { signup } from "../../../services/authService";
+import { addNewStudent } from "../../../services/firestoreService";
+import FormValidationError from "../../common/FormValidationError"
+import Loading from "../../common/Loading"
 
-const LogInContainer = () => {
+const SignUpContainer = () => {
 
     const navigate = useNavigate();
 
     const [inputs, setInputs] = useState({
         email: '',
         password: '',
+        confirmPassword: '',
     })
 
     const [validationErrors, setValidationErrors] = useState({
         email: '',
         password: '',
-        auth: '',
+        confirmPassword: ''
     })
 
     const [loading, setLoading] = useState(false)
@@ -35,12 +36,6 @@ const LogInContainer = () => {
 
     const validateInput = (e) => {
         const { name, value } = e.target;
-
-
-        setValidationErrors(prev => ({
-            ...prev,
-            auth: ''
-        }));
 
         switch (name) {
             case 'email':
@@ -69,28 +64,41 @@ const LogInContainer = () => {
                     }));
                 };
                 break;
+            case 'confirmPassword':
+                if (value !== inputs.password) {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        confirmPassword: 'Password does not match.'
+                    }));
+                } else {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        confirmPassword: ''
+                    }));
+                };
+                break;
             default:
                 break;
         }
     }
 
-    const logIn = async () => {
-        setLoading(true);
+    const signUp = async () => {
+        if (!validationErrors.email && !validationErrors.password && !validationErrors.confirmPassword) {
+            setLoading(true)
 
-        if (await login(inputs.email, inputs.password)) {
-            const docPath = await getStudentPathByEmail(inputs.email);
+            const result = await signup(inputs.email, inputs.password)
+            if (result) {
+                const userDocPath = await addNewStudent(inputs.email);
 
-            document.cookie = `auth=1; max-age=${3 * 60 * 60}; samesite=strict`;
-            document.cookie = `userDocPath=${docPath}; max-age=${3 * 60 * 60}; samesite=strict`;
+                document.cookie = `userDocPath=${userDocPath}; max-age=${3 * 60 * 60}; samesite=strict`;
 
-            navigate("/profile")
+                navigate("/info");
+            } else {
+                // TODO: Popup error   
+                setLoading(false)
+            }
         } else {
-            setLoading(false)
-
-            setValidationErrors(prev => ({
-                ...prev,
-                auth: 'Please check your credential info.'
-            }));
+            // TODO: Popup error
         }
     }
 
@@ -100,13 +108,12 @@ const LogInContainer = () => {
                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                         <form>
-                            <h1 className="text-3xl text-center">Log In</h1>
+                            <h1 className="text-3xl text-center">Sign Up</h1>
                             <input
                                 className="block border border-grey-light w-full p-3 rounded mt-8"
                                 type="text"
                                 name="email"
                                 placeholder="Email"
-                                autoComplete="username"
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
@@ -120,7 +127,6 @@ const LogInContainer = () => {
                                 type="password"
                                 name="password"
                                 placeholder="Password"
-                                autoComplete="current-password"
                                 onChange={onInput}
                                 onBlur={validateInput} />
                             {
@@ -129,26 +135,36 @@ const LogInContainer = () => {
                                 )
                             }
 
+
+                            <input
+                                className="block border border-grey-light w-full p-3 rounded mt-4"
+                                type="password"
+                                name="confirmPassword"
+                                placeholder="Confirm Password"
+                                onChange={onInput}
+                                onBlur={validateInput} />
                             {
-                                validationErrors.auth && (
-                                    <div className="mt-4">
-                                        <FormValidationError message={validationErrors.auth} />
-                                    </div>
+                                validationErrors.confirmPassword && (
+                                    <FormValidationError message={validationErrors.confirmPassword} />
                                 )
                             }
 
                             <button
                                 className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 my-1 mt-4"
                                 type="reset"
-                                onClick={logIn}
-                            >Log In</button>
+                                onClick={signUp}
+                            >Continue</button>
                         </form>
                     </div>
 
                     <div className="text-grey-dark mt-6">
-                        <a className="no-underline border-b border-blue" href="/">
-                            Create a new account
-                        </a>.
+                        Already have an account?{' '}
+                        <a
+                            className="no-underline border-b border-blue"
+                            href="/login">
+                            Log in
+                        </a>
+                        .
                     </div>
                 </div>
             </div>
@@ -160,4 +176,4 @@ const LogInContainer = () => {
     )
 }
 
-export default LogInContainer;
+export default SignUpContainer;

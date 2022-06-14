@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateStudentInfo } from "../../services/firestoreService";
-import AuthWarning from "../common/AuthWarning";
-import FormValidationError from "../common/FormValidationError";
-import Loading from "../common/Loading"
+import { updateStudentInfo } from "../../../services/firestoreService";
+import AuthWarning from "../../common/AuthWarning";
+import FormValidationError from "../../common/FormValidationError";
+import Loading from "../../common/Loading"
 
 const StudentInfoContainer = () => {
     const navigate = useNavigate();

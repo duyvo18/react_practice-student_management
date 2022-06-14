@@ -1,5 +1,5 @@
-export { default as SignUpContainer } from "./signup/SignUpContainer"
-export { default as StudentInfoContainer } from "./signup/StudentInfoContainer"
-export { default as LogInContainer } from "./login/LogInContainer"
+export { default as SignUpContainer } from "./auth/signup/SignUpContainer"
+export { default as StudentInfoContainer } from "./auth/signup/StudentInfoContainer"
+export { default as LogInContainer } from "./auth/login/LogInContainer"
 export { default as ListingContainer } from "./listing/ListingContainer"
 export { default as Profile } from "./profile/Profile"
