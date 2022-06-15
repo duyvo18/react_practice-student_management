@@ -12,7 +12,7 @@ const StudentCard = (props) => {
 
     return (
         <div
-            className="grid grid-cols-3 grid-rows-4 grid-flow-row-dense gap-2 w-72 h-40 p-3 border-2 rounded-xl transition duration-300 ease-in-out hover:scale-105 focus:scale-105"
+            className="grid grid-cols-3 grid-rows-4 grid-flow-row-dense gap-2 w-72 h-40 p-3 border-2 rounded-xl cursor-pointer transition duration-300 ease-in-out hover:scale-105 focus:scale-105"
             tabIndex={0}
             onClick={onClick}
         >
