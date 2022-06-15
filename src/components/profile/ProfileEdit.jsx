@@ -86,7 +86,7 @@ const ProfileEdit = (props) => {
                                 <img
                                     src={localData.avatar}
                                     alt="avatar"
-                                    className="max-w-[30%] mx-auto"
+                                    className="max-w-[30%] rounded-lg mx-auto"
                                 />
 
                                 <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-12 lg:px-12">
@@ -181,9 +181,9 @@ const ProfileEdit = (props) => {
                                     )
                                 }
 
-                                <div className="px-6 mt-12">
+                                <div className="px-4 mt-12">
                                     <textarea
-                                        className="rounded-lg border-black border-2 w-full h-[300px] p-3"
+                                        className="text-left rounded-lg border-black border-2 w-full h-[20rem] resize-none p-4"
                                         name="details"
                                         value={localData.details}
                                         placeholder="Profile details"
@@ -193,14 +193,14 @@ const ProfileEdit = (props) => {
 
                                     <div className="grid grid-cols-2 gap-6 lg:gap-12 mt-12 lg:mx-24">
                                         <button
-                                            className="button"
+                                            className="button py-1"
                                             type="button"
                                             onClick={onCancel}
                                         >
                                             Cancel
                                         </button>
                                         <button
-                                            className="button"
+                                            className="button py-1"
                                             type="button"
                                             onClick={onUpdate}
                                         >
