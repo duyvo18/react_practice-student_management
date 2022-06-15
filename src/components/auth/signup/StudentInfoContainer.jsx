@@ -75,13 +75,15 @@ const StudentInfoContainer = () => {
     }
 
     const signUp = async () => {
-        setLoading(true)
+        if (!errors.firstname && !errors.lastname && !errors.id && !errors.startingYear) {
+            setLoading(true)
 
-        await updateStudentInfo(userDocPath, { ...inputs, _new: "0" });
+            await updateStudentInfo(userDocPath, { ...inputs, _new: "0" });
 
-        document.cookie = `auth=1; max-age=${3 * 60 * 60}, samesite=strict`;
+            document.cookie = `auth=1; max-age=${3 * 60 * 60}, samesite=strict`;
 
-        navigate("/profile");
+            navigate("/profile");
+        }
     }
 
     return (
