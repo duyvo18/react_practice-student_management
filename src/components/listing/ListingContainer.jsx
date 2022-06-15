@@ -87,10 +87,12 @@ const ListingContainer = () => {
 
     const closeDetails = () => setDetails(undefined);
 
+    useEffect(()=>{}, [details])
+
     return (
         (
             auth && (
-                <div className="min-h-screen min-w-screen">
+                <div className={`h-screen w-screen ${details ? 'overflow-hidden' : 'overflow-auto'}`}>
                     <Header from="listing" />
 
                     <div className="flex flex-col min-w-screen min-h-screen bg-secondary">

@@ -125,7 +125,6 @@ const DeleteConfirmPopup = (props) => {
                                     placeholder="Email"
                                     autoComplete="username"
                                     onChange={onInput}
-                                    tabIndex={102}
                                 />
                                 {
                                     errors.email && (
@@ -139,7 +138,6 @@ const DeleteConfirmPopup = (props) => {
                                     name="password"
                                     placeholder="Password"
                                     onChange={onInput}
-                                    tabIndex={103}
                                 />
                                 {
                                     errors.password && (
@@ -159,7 +157,6 @@ const DeleteConfirmPopup = (props) => {
                                     <button
                                         className="buttonWarning font-semibold"
                                         type="button"
-                                        tabIndex={104}
                                         onClick={onDelete}
                                     >
                                         Delete
@@ -167,7 +164,6 @@ const DeleteConfirmPopup = (props) => {
                                     <button
                                         className="button font-semibold py-1 px-3"
                                         type="button"
-                                        tabIndex={100}
                                         onClick={onCancel}
                                     >
                                         Cancel

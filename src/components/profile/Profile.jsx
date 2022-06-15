@@ -49,7 +49,7 @@ const Profile = () => {
     return (
         (
             auth && (
-                <div className="min-w-screen min-h-screen">
+                <div className={`w-screen h-screen ${deletePopup ? 'overflow-hidden' : 'overflow-auto'}`}>
                     <Header from="profile" />
                     {
                         (
@@ -62,7 +62,7 @@ const Profile = () => {
                                                     <img
                                                         src={data.avatar}
                                                         alt="avatar"
-                                                        className="max-w-[30%] mx-auto"
+                                                        className="max-w-[30%] rounded-lg mx-auto"
                                                     />
 
                                                     <h1 className="text-2xl lg:text-3xl text-center mt-6">
@@ -74,7 +74,11 @@ const Profile = () => {
 
                                                     <div className="w-full px-3 lg:px-12 mt-6">
                                                         <div className="text-justify italic">
-                                                            {data.details}
+                                                            {
+                                                                data.details.split('\n').map((para) => (
+                                                                    <p>{para}<br /></p>
+                                                                ))
+                                                            }
                                                         </div>
 
                                                         <div className="pl-3 lg:pl-6 mt-12">
