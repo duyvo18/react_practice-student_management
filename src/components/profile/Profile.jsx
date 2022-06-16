@@ -75,9 +75,9 @@ const Profile = () => {
                                                     <div className="w-full px-3 lg:px-12 mt-6">
                                                         <div className="text-justify italic">
                                                             {
-                                                                data.details.split('\n').map((para, idx) => (
+                                                                data.details ? data.details.split('\n').map((para, idx) => (
                                                                     <p key={idx}>{para}<br /></p>
-                                                                ))
+                                                                )) : ''
                                                             }
                                                         </div>
 

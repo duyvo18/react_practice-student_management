@@ -35,9 +35,9 @@ const StudentDetails = (props) => {
 
                     <div className="w-full text-justify mt-8 px-4">
                         {
-                            data.details.split('\n').map((para, idx) => (
+                            data.details ? data.details.split('\n').map((para, idx) => (
                                 <p key={idx}>{para}<br /></p>
-                            ))
+                            )) : ''
                         }
                     </div>
                 </div>
