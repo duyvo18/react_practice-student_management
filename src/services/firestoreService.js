@@ -1,7 +1,7 @@
 import { addDoc, collection, doc, query, where, orderBy, getDocsFromServer, updateDoc, getDoc } from 'firebase/firestore';
 import { firestore } from '../config/firebase.config';
 import { getImageFromSource, getDefaultAvatar } from './storageService';
-import { login } from './authService';
+import { loginWithEmail } from './authService';
 // import { deleteUser, reauthenticateWithCredential } from 'firebase/auth';
 
 export const addNewStudent = async (email) => {
@@ -80,7 +80,7 @@ export const getStudentDataFromPath = async (docPath) => {
 }
 
 export const deleteStudentAccount = async (email, password) => {
-    const user = await login(email, password);
+    const user = await loginWithEmail(email, password);
 
     if (user) {
         try {
