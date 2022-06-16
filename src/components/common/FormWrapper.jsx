@@ -7,9 +7,13 @@ const FormWrapper = (props) => {
                 <form className="rounded shadow-md w-full text-black bg-white px-6 py-8">
                     {props.formContent}
                 </form>
-                <div className="mt-6">
-                    {props.formFooter}
-                </div>
+                {
+                    props.formFooter && (
+                        <div className="mt-6">
+                            {props.formFooter}
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

@@ -78,7 +78,7 @@ const SignUpContainer = () => {
         }
     }
 
-    const onSignup = async () => {
+    const onContinue = async () => {
         if (!errors.email && !errors.password && !errors.confirmPassword) {
             setLoading(true)
 
@@ -161,7 +161,7 @@ const SignUpContainer = () => {
                                 <button
                                     className="buttonBlueFilled w-full py-2 mt-8"
                                     type="reset"
-                                    onClick={onSignup}
+                                    onClick={onContinue}
                                 >Continue</button>
                             </>
                         )}
