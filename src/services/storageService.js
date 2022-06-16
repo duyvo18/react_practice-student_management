@@ -10,8 +10,8 @@ export const getDefaultAvatar = async () => {
         const storageRef = ref(storage, storagePath)
         return await getDownloadURL(storageRef);
     } catch (e) {
-        // TODO: resolve
-        console.log(e)
+        console.error(e);
+        throw e;
     }
 }
 
@@ -20,7 +20,7 @@ export const getImageFromSource = async (pathRef) => {
         const storageRef = ref(storage, pathRef);
         return await getDownloadURL(storageRef);
     } catch (e) {
-        // TODO: resolve
-        console.log(e)
+        console.error(e);
+        throw e;
     }
 }

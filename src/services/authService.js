@@ -5,14 +5,14 @@ export const loginWithEmail = async (email, password) => {
     try {
         return await signInWithEmailAndPassword(auth, email, password);
     } catch (e) {
-        console.log(e);
+        throw(e);
     }
 }
 
 export const signupWithEmail = async (email, password) => {
     try {
-        return await createUserWithEmailAndPassword(auth, email, password)
+        return await createUserWithEmailAndPassword(auth, email, password);
     } catch (e) {
-        console.log(e)
+        throw(e);
     }
 }
