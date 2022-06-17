@@ -7,7 +7,7 @@ const AuthWarning = () => {
             Please{' '}
             <a
                 className="no-underline border-b border-black"
-                href="/login"
+                href="/"
             >login</a>
             {' '}or{' '}
             <a

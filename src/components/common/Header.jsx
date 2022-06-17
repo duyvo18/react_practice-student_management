@@ -7,11 +7,11 @@ const Header = (props) => {
 
     const from = props.from;
 
-    const logOut = () => {
+    const onLogout = () => {
         document.cookie = 'auth=; max-age=0'
         document.cookie = 'userDocPath=; max-age=0'
 
-        navigate("/login")
+        navigate("/")
     }
 
     return (
@@ -62,7 +62,7 @@ const Header = (props) => {
                 <div className="text-base text-black">
                     <button
                         className="inline-block text-gray-400 hover:text-black hover:font-semibold focus:text-black hover:font-semibold mr-4"
-                        onClick={logOut}
+                        onClick={onLogout}
                     >
                         Log Out
                     </button>

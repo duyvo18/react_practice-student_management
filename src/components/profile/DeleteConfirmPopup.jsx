@@ -42,8 +42,12 @@ const DeleteConfirmPopup = (props) => {
             const email = inputs.email;
             const password = inputs.password;
 
+            // TODO: resolve errors
             if (await deleteStudentAccount(email, password)) {
-                navigate("/login");
+                document.cookie = 'auth=; max-age=0'
+                document.cookie = 'userDocPath=; max-age=0'
+
+                navigate("/signup");
             } else {
                 setErrors(prev => ({
                     ...prev,

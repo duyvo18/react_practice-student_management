@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { updateStudentInfo } from "../../services/firestoreService";
 import FormValidationError from "../common/FormValidationError";
-import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../common/inputValidation";
+import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../common/utils/inputValidation";
 import Loading from "../common/Loading";
 
 const ProfileEdit = (props) => {
