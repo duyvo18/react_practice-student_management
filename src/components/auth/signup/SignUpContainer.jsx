@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { signupWithEmail } from "../../../services/authService";
 import { addNewStudent } from "../../../services/firestoreService";
-import FormValidationError from "../../common/FormValidationError"
-import Loading from "../../common/Loading"
+import FormValidationError from "../../common/FormValidationError";
 import { confirmPasswordValidError, emailValidError, passwordValidError } from "../../common/utils/inputValidation";
-import FormWrapper from "../../common/FormWrapper";
-import FadableClickable from "../../common/FadableClickable";
+import FormWrapper from "../FormWrapper";
+import FormFooterLink from "../FormFooterLink";
+import FormInput from "../FormInput";
+import SubmitButton from "../SubmitButton";
 
 const SignUpContainer = () => {
 
@@ -122,83 +123,56 @@ const SignUpContainer = () => {
                 <>
                     <h1 className="text-3xl text-center">Sign Up</h1>
 
-                    <input
-                        className="border border-gray-300 w-full p-3 rounded-lg mt-8"
+                    <FormInput
                         type="text"
                         name="email"
                         placeholder="Email"
                         readOnly={isLoading}
                         onChange={onInput}
-                        onBlur={validateInput} />
-                    {
-                        errors.email && (
-                            <FormValidationError>
-                                {errors.email}
-                            </FormValidationError>
-                        )
-                    }
+                        onBlur={validateInput}
+                        error={errors.email}
+                    />
 
-                    <input
-                        className="border border-gray-300 w-full p-3 rounded-lg mt-4"
+                    <FormInput
                         type="password"
                         name="password"
                         placeholder="Password"
                         readOnly={isLoading}
                         onChange={onInput}
-                        onBlur={validateInput} />
-                    {
-                        errors.password && (
-                            <FormValidationError>
-                                {errors.password}
-                            </FormValidationError>
-                        )
-                    }
+                        onBlur={validateInput}
+                        error={errors.password}
+                    />
 
-
-                    <input
-                        className="border border-gray-300 w-full p-3 rounded-lg mt-4"
+                    <FormInput
                         type="password"
                         name="confirmPassword"
                         placeholder="Confirm Password"
                         readOnly={isLoading}
                         onChange={onInput}
-                        onBlur={validateInput} />
+                        onBlur={validateInput}
+                        error={errors.confirmPassword}
+                    />
+
                     {
-                        errors.confirmPassword && (
-                            <FormValidationError>
-                                {errors.confirmPassword}
+                        errors.auth && (
+                            <FormValidationError className="mt-4">
+                                {errors.auth}
                             </FormValidationError>
                         )
                     }
 
-                    {
-                        errors.auth && (
-                            <div className="mt-4">
-                                <FormValidationError>
-                                    {errors.auth}
-                                </FormValidationError>
-                            </div>
-                        )
-                    }
-
-                    <button
-                        className="buttonBlueFilled font-semibold w-full p-3 mt-8"
-                        type="reset"
-                        disabled={isLoading}
+                    <SubmitButton
                         onClick={onContinue}
+                        isLoading={isLoading}
                     >
-                        {
-                            isLoading ? (
-                                <div className="rounded animate-spin duration-300 w-5 h-5 border-2 border-white mx-auto" />
-                            ) : 'Continue'
-                        }
-                    </button>
+                        Continue
+                    </SubmitButton>
                 </>
             )}
             formFooter={(
-                <FadableClickable href="/">
+                <FormFooterLink href="/">
                     Login to an existing account.
-                </FadableClickable>
+                </FormFooterLink>
             )}
         />
     )

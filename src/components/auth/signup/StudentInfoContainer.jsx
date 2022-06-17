@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateStudentInfo } from "../../../services/firestoreService";
-import FormValidationError from "../../common/FormValidationError";
 import Loading from "../../common/Loading"
 import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../../common/utils/inputValidation";
-import FormWrapper from "../../common/FormWrapper";
+import FormValidationError from "../../common/FormValidationError";
+import FormInput from "../FormInput";
+import FormWrapper from "../FormWrapper";
+import SubmitButton from "../SubmitButton";
 
 const StudentInfoContainer = () => {
 
@@ -97,11 +99,22 @@ const StudentInfoContainer = () => {
         if (!errors.firstname && !errors.lastname && !errors.id && !errors.startingYear) {
             setLoading(true)
 
-            await updateStudentInfo(userDocPath, { ...inputs, _new: "0" });
+            try {
+                await updateStudentInfo(userDocPath, { ...inputs, _new: "0" });
 
-            document.cookie = `auth=1; max-age=${3 * 60 * 60}, samesite=strict`;
+                document.cookie = `auth=1; max-age=${3 * 60 * 60}, samesite=strict`;
 
-            navigate("/profile");
+                navigate("/profile");
+            } catch (e) {
+                console.error(e);
+
+                setErrors(prev => ({
+                    ...prev,
+                    auth: e.message
+                }));
+
+                setLoading(false)
+            }
         }
     }
 
@@ -112,75 +125,62 @@ const StudentInfoContainer = () => {
             <FormWrapper
                 formContent={(
                     <>
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mt-8"
+                        <h1 className="text-3xl text-center">Student Info</h1>
+
+                        <FormInput
                             type="text"
                             name="firstname"
                             value={inputs.firstname}
                             placeholder="First Name"
                             onChange={onInput}
-                            onBlur={validateInput} />
-                        {
-                            errors.firstname && (
-                                <FormValidationError>
-                                    {errors.firstname}
-                                </FormValidationError>
-                            )
-                        }
+                            onBlur={validateInput}
+                            error={errors.firstname}
+                        />
 
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mt-4"
+                        <FormInput
                             type="text"
                             name="lastname"
                             value={inputs.lastname}
                             placeholder="Last Name"
                             onChange={onInput}
-                            onBlur={validateInput} />
-                        {
-                            errors.lastname && (
-                                <FormValidationError>
-                                    {errors.lastname}
-                                </FormValidationError>
-                            )
-                        }
+                            onBlur={validateInput}
+                            error={errors.lastname}
+                        />
 
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mt-4"
+                        <FormInput
                             type="text"
                             name="id"
                             value={inputs.id}
                             placeholder="Student ID"
                             onChange={onInput}
-                            onBlur={validateInput} />
-                        {
-                            errors.id && (
-                                <FormValidationError>
-                                    {errors.id}
-                                </FormValidationError>
-                            )
-                        }
+                            onBlur={validateInput}
+                            error={errors.id}
+                        />
 
-                        <input
-                            className="block border border-grey-light w-full p-3 rounded mt-4"
+                        <FormInput
                             type="text"
                             name="startingYear"
                             value={inputs.startingYear}
                             placeholder="Starting Year"
                             onChange={onInput}
-                            onBlur={validateInput} />
+                            onBlur={validateInput}
+                            error={errors.startingYear}
+                        />
+
                         {
-                            errors.startingYear && (
-                                <FormValidationError>
-                                    {errors.startingYear}
+                            errors.auth && (
+                                <FormValidationError className="mt-4">
+                                    {errors.auth}
                                 </FormValidationError>
                             )
                         }
 
-                        <button
-                            className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 mt-5"
-                            type="reset"
+                        <SubmitButton
                             onClick={onSignup}
-                        >Create Account</button>
+                            isLoading={isLoading}
+                        >
+                            Create Account
+                        </SubmitButton>
                     </>
                 )}
             />

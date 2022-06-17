@@ -4,8 +4,10 @@ import { loginWithEmail } from "../../../services/authService";
 import { getStudentPathByEmail } from "../../../services/firestoreService";
 import FormValidationError from "../../common/FormValidationError"
 import { emailValidError, passwordValidError } from "../../common/utils/inputValidation";
-import FormWrapper from "../../common/FormWrapper";
-import FadableClickable from "../../common/FadableClickable";
+import FormWrapper from "../FormWrapper";
+import FormFooterLink from "../FormFooterLink";
+import FormInput from "../FormInput";
+import SubmitButton from "../SubmitButton";
 
 const LogInContainer = () => {
 
@@ -85,19 +87,6 @@ const LogInContainer = () => {
     };
 
     const onLogin = async () => {
-        // if (inputs.email) {
-        //     setErrors(prev => ({
-        //         ...prev,
-        //         email: emailValidError(inputs.email)
-        //     }));
-        // }
-        // if (inputs.password) {
-        //     setErrors(prev => ({
-        //         ...prev,
-        //         password: passwordValidError(inputs.email)
-        //     }));
-        // }
-
         if (!errors.email && !errors.password) {
             setLoading(true);
 
@@ -127,69 +116,49 @@ const LogInContainer = () => {
             formContent={(
                 <>
                     <h1 className="text-3xl text-center">Log In</h1>
-                    <input
-                        className="border border-gray-300 w-full p-3 rounded-lg mt-8"
+
+                    <FormInput
                         type="text"
                         name="email"
                         placeholder="Email"
                         autoComplete="username"
                         readOnly={isLoading}
                         onChange={onInput}
-                        onBlur={validateInput} />
-                    {
-                        errors.email && (
-                            <FormValidationError>
-                                {errors.email}
-                            </FormValidationError>
-                        )
-                    }
+                        onBlur={validateInput}
+                        error={errors.email}
+                    />
 
-                    <input
-                        className="border border-gray-300 w-full p-3 rounded-lg mt-4"
+                    <FormInput
                         type="password"
                         name="password"
                         placeholder="Password"
                         autoComplete="current-password"
                         readOnly={isLoading}
                         onChange={onInput}
-                        onBlur={validateInput} />
-                    {
-                        errors.password && (
-                            <FormValidationError>
-                                {errors.password}
-                            </FormValidationError>
-                        )
-                    }
+                        onBlur={validateInput}
+                        error={errors.password}
+                    />
 
                     {
                         errors.auth && (
-                            <FormValidationError
-                                className="mt-4"
-                            >
+                            <FormValidationError className="mt-4">
                                 {errors.auth}
                             </FormValidationError>
                         )
                     }
 
-                    {/* TODO: SubmitButton component */}
-                    <button
-                        className={`${isLoading ? 'buttonBlueFilledStatic' : 'buttonBlueFilled'} font-semibold w-full p-3 mt-8`}
-                        type="button"
-                        disabled={isLoading}
+                    <SubmitButton
                         onClick={onLogin}
+                        isLoading={isLoading}
                     >
-                        {
-                            isLoading ? (
-                                <div className="rounded animate-spin duration-300 w-5 h-5 border-2 border-white mx-auto" />
-                            ) : 'Login'
-                        }
-                    </button>
+                        Login
+                    </SubmitButton>
                 </>
             )}
             formFooter={(
-                <FadableClickable href="/signup">
+                <FormFooterLink href="/signup">
                     Create a new account.
-                </FadableClickable>
+                </FormFooterLink>
             )}
         />
     )
