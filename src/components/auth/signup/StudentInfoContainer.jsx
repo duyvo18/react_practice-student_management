@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateStudentInfo } from "../../../services/firestoreService";
-import AuthWarning from "../../common/AuthWarning";
 import FormValidationError from "../../common/FormValidationError";
 import Loading from "../../common/Loading"
-import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../../common/inputValidation";
+import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../../common/utils/inputValidation";
 import FormWrapper from "../../common/FormWrapper";
 
 const StudentInfoContainer = () => {
@@ -38,8 +37,16 @@ const StudentInfoContainer = () => {
     const [isLoading, setLoading] = useState(false)
 
     useEffect(
-        () => isAuth ? navigate("/profile") : null,
-        [isAuth]
+        () => {
+            if (!isAuth) {
+                if (!userDocPath) {
+                    navigate("/signup");
+                }
+            } else {
+                navigate("/profile")
+            }
+        },
+        []
     );
 
     const onInput = (e) => {
@@ -98,88 +105,87 @@ const StudentInfoContainer = () => {
         }
     }
 
-    return (
-        <>{
-            userDocPath ? (
-                <>{
-                    isLoading ? (
-                        <Loading />
-                    ) : (
-                        <FormWrapper
-                            formContent={(
-                                <>
-                                    <h1 className="text-3xl text-center">Sign Up</h1>
-                                    <input
-                                        className="block border border-grey-light w-full p-3 rounded mt-8"
-                                        type="text"
-                                        name="firstname"
-                                        value={inputs.firstname}
-                                        placeholder="First Name"
-                                        onChange={onInput}
-                                        onBlur={validateInput} />
-                                    {
-                                        errors.firstname && (
-                                            <FormValidationError message={errors.firstname} />
-                                        )
-                                    }
+    return (<>{
+        isLoading ? (
+            <Loading />
+        ) : (
+            <FormWrapper
+                formContent={(
+                    <>
+                        <input
+                            className="block border border-grey-light w-full p-3 rounded mt-8"
+                            type="text"
+                            name="firstname"
+                            value={inputs.firstname}
+                            placeholder="First Name"
+                            onChange={onInput}
+                            onBlur={validateInput} />
+                        {
+                            errors.firstname && (
+                                <FormValidationError>
+                                    {errors.firstname}
+                                </FormValidationError>
+                            )
+                        }
 
-                                    <input
-                                        className="block border border-grey-light w-full p-3 rounded mt-4"
-                                        type="text"
-                                        name="lastname"
-                                        value={inputs.lastname}
-                                        placeholder="Last Name"
-                                        onChange={onInput}
-                                        onBlur={validateInput} />
-                                    {
-                                        errors.lastname && (
-                                            <FormValidationError message={errors.lastname} />
-                                        )
-                                    }
+                        <input
+                            className="block border border-grey-light w-full p-3 rounded mt-4"
+                            type="text"
+                            name="lastname"
+                            value={inputs.lastname}
+                            placeholder="Last Name"
+                            onChange={onInput}
+                            onBlur={validateInput} />
+                        {
+                            errors.lastname && (
+                                <FormValidationError>
+                                    {errors.lastname}
+                                </FormValidationError>
+                            )
+                        }
 
-                                    <input
-                                        className="block border border-grey-light w-full p-3 rounded mt-4"
-                                        type="text"
-                                        name="id"
-                                        value={inputs.id}
-                                        placeholder="Student ID"
-                                        onChange={onInput}
-                                        onBlur={validateInput} />
-                                    {
-                                        errors.id && (
-                                            <FormValidationError message={errors.id} />
-                                        )
-                                    }
+                        <input
+                            className="block border border-grey-light w-full p-3 rounded mt-4"
+                            type="text"
+                            name="id"
+                            value={inputs.id}
+                            placeholder="Student ID"
+                            onChange={onInput}
+                            onBlur={validateInput} />
+                        {
+                            errors.id && (
+                                <FormValidationError>
+                                    {errors.id}
+                                </FormValidationError>
+                            )
+                        }
 
-                                    <input
-                                        className="block border border-grey-light w-full p-3 rounded mt-4"
-                                        type="text"
-                                        name="startingYear"
-                                        value={inputs.startingYear}
-                                        placeholder="Starting Year"
-                                        onChange={onInput}
-                                        onBlur={validateInput} />
-                                    {
-                                        errors.startingYear && (
-                                            <FormValidationError message={errors.startingYear} />
-                                        )
-                                    }
+                        <input
+                            className="block border border-grey-light w-full p-3 rounded mt-4"
+                            type="text"
+                            name="startingYear"
+                            value={inputs.startingYear}
+                            placeholder="Starting Year"
+                            onChange={onInput}
+                            onBlur={validateInput} />
+                        {
+                            errors.startingYear && (
+                                <FormValidationError>
+                                    {errors.startingYear}
+                                </FormValidationError>
+                            )
+                        }
 
-                                    <button
-                                        className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 mt-5"
-                                        type="reset"
-                                        onClick={onSignup}
-                                    >Create Account</button>
-                                </>
-                            )}
-                        />
-                    )
-                }</>
-            ) : (
-                <AuthWarning />
-            )
-        }</>
-    )
+                        <button
+                            className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600 mt-5"
+                            type="reset"
+                            onClick={onSignup}
+                        >Create Account</button>
+                    </>
+                )}
+            />
+        )
+    }</>)
 }
 
 export default StudentInfoContainer;

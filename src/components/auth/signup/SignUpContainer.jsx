@@ -4,8 +4,9 @@ import { signupWithEmail } from "../../../services/authService";
 import { addNewStudent } from "../../../services/firestoreService";
 import FormValidationError from "../../common/FormValidationError"
 import Loading from "../../common/Loading"
-import { confirmPasswordValidError, emailValidError, passwordValidError } from "../../common/inputValidation";
+import { confirmPasswordValidError, emailValidError, passwordValidError } from "../../common/utils/inputValidation";
 import FormWrapper from "../../common/FormWrapper";
+import FadableClickable from "../../common/FadableClickable";
 
 const SignUpContainer = () => {
 
@@ -15,6 +16,11 @@ const SignUpContainer = () => {
         .split(';')
         .find(row => row.trim().startsWith('auth='))
         ?.split('=')[1] === '1';
+
+    const userDocPath = document.cookie
+        .split(';')
+        .find(row => row.trim().startsWith('userDocPath='))
+        ?.split('=')[1];
 
     const [inputs, setInputs] = useState({
         email: '',
@@ -31,8 +37,16 @@ const SignUpContainer = () => {
     const [isLoading, setLoading] = useState(false)
 
     useEffect(
-        () => isAuth ? navigate("/profile") : null,
-        [isAuth]
+        () => {
+            if (isAuth) {
+                navigate("profile")
+            } else {
+                if (userDocPath) {
+                    navigate("/signup/info")
+                }
+            }
+        },
+        []
     );
 
     const onInput = (e) => {
@@ -82,16 +96,19 @@ const SignUpContainer = () => {
         if (!errors.email && !errors.password && !errors.confirmPassword) {
             setLoading(true)
 
-            if (await signupWithEmail(inputs.email, inputs.password)) {
-                const userDocPath = await addNewStudent(inputs.email);
+            try {
+                await signupWithEmail(inputs.email, inputs.password);
 
+                const userDocPath = await addNewStudent(inputs.email);
                 document.cookie = `userDocPath=${userDocPath}; max-age=${3 * 60 * 60}; samesite=strict`;
 
-                navigate("/info");
-            } else {
+                navigate("/signup/info");
+            } catch (e) {
+                console.error(e);
+
                 setErrors(prev => ({
                     ...prev,
-                    auth: 'Authentication failed.'
+                    auth: e.message
                 }));
 
                 setLoading(false)
@@ -100,87 +117,90 @@ const SignUpContainer = () => {
     }
 
     return (
-        <>
-            {
-                isLoading ? (
-                    <Loading />
-                ) : (
-                    <FormWrapper
-                        formContent={(
-                            <>
-                                <h1 className="text-3xl text-center">Sign Up</h1>
+        <FormWrapper
+            formContent={(
+                <>
+                    <h1 className="text-3xl text-center">Sign Up</h1>
 
-                                <input
-                                    className="block border border-gray-200 w-full p-3 rounded-lg mt-8"
-                                    type="text"
-                                    name="email"
-                                    placeholder="Email"
-                                    onChange={onInput}
-                                    onBlur={validateInput} />
-                                {
-                                    errors.email && (
-                                        <FormValidationError message={errors.email} />
-                                    )
-                                }
+                    <input
+                        className="border border-gray-300 w-full p-3 rounded-lg mt-8"
+                        type="text"
+                        name="email"
+                        placeholder="Email"
+                        readOnly={isLoading}
+                        onChange={onInput}
+                        onBlur={validateInput} />
+                    {
+                        errors.email && (
+                            <FormValidationError>
+                                {errors.email}
+                            </FormValidationError>
+                        )
+                    }
 
-                                <input
-                                    className="block border border-grey-light w-full p-3 rounded-lg mt-4"
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    onChange={onInput}
-                                    onBlur={validateInput} />
-                                {
-                                    errors.password && (
-                                        <FormValidationError message={errors.password} />
-                                    )
-                                }
+                    <input
+                        className="border border-gray-300 w-full p-3 rounded-lg mt-4"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        readOnly={isLoading}
+                        onChange={onInput}
+                        onBlur={validateInput} />
+                    {
+                        errors.password && (
+                            <FormValidationError>
+                                {errors.password}
+                            </FormValidationError>
+                        )
+                    }
 
 
-                                <input
-                                    className="block border border-grey-light w-full p-3 rounded mt-4"
-                                    type="password"
-                                    name="confirmPassword"
-                                    placeholder="Confirm Password"
-                                    onChange={onInput}
-                                    onBlur={validateInput} />
-                                {
-                                    errors.confirmPassword && (
-                                        <FormValidationError message={errors.confirmPassword} />
-                                    )
-                                }
+                    <input
+                        className="border border-gray-300 w-full p-3 rounded-lg mt-4"
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        readOnly={isLoading}
+                        onChange={onInput}
+                        onBlur={validateInput} />
+                    {
+                        errors.confirmPassword && (
+                            <FormValidationError>
+                                {errors.confirmPassword}
+                            </FormValidationError>
+                        )
+                    }
 
-                                {
-                                    errors.auth && (
-                                        <div className="mt-4">
-                                            <FormValidationError message={errors.auth} />
-                                        </div>
-                                    )
-                                }
+                    {
+                        errors.auth && (
+                            <div className="mt-4">
+                                <FormValidationError>
+                                    {errors.auth}
+                                </FormValidationError>
+                            </div>
+                        )
+                    }
 
-                                <button
-                                    className="buttonBlueFilled w-full py-2 mt-8"
-                                    type="reset"
-                                    onClick={onContinue}
-                                >Continue</button>
-                            </>
-                        )}
-                        formFooter={(
-                            <>
-                                <p>
-                                    Already have an account?{' '}
-                                    <a
-                                        className="text-gray-400 hover:text-gray-900 focus:text-gray-900 no-underline outline-none border-b border-gray-200 hover:border-gray-600 focus:border-gray-600"
-                                        href="/login">
-                                        Log in
-                                    </a>.
-                                </p>
-                            </>
-                        )}
-                    />
-                )
-            }
-        </>
+                    <button
+                        className="buttonBlueFilled font-semibold w-full p-3 mt-8"
+                        type="reset"
+                        disabled={isLoading}
+                        onClick={onContinue}
+                    >
+                        {
+                            isLoading ? (
+                                <div className="rounded animate-spin duration-300 w-5 h-5 border-2 border-white mx-auto" />
+                            ) : 'Continue'
+                        }
+                    </button>
+                </>
+            )}
+            formFooter={(
+                <FadableClickable href="/">
+                    Login to an existing account.
+                </FadableClickable>
+            )}
+        />
     )
 }
 

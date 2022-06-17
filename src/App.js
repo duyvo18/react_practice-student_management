@@ -7,9 +7,9 @@ function App() {
       <main>
         {
           <Routes>
-            <Route path="/" element={<SignUpContainer />} />
-            <Route path="/info" element={<StudentInfoContainer />} />
-            <Route path="/login" element={<LogInContainer />} />
+            <Route path="/" element={<LogInContainer />} />
+            <Route path="/signup" element={<SignUpContainer />} />
+            <Route path="/signup/info" element={<StudentInfoContainer />} />
             <Route path="/listing" element={<ListingContainer />} />
             <Route path="/profile" element={<Profile />} />
             <Route
