@@ -3,3 +3,4 @@ export { default as StudentInfoContainer } from "./auth/signup/StudentInfoContai
 export { default as LogInContainer } from "./auth/login/LogInContainer"
 export { default as ListingContainer } from "./listing/ListingContainer"
 export { default as Profile } from "./profile/Profile"
+export { default as NotFound } from "./404/NotFound"
