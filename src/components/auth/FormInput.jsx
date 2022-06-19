@@ -25,7 +25,7 @@ const FormInput = (props) => {
                 onBlur={onBlur} />
             {
                 error && (
-                    <FormValidationError>
+                    <FormValidationError className="mt-2">
                         {error}
                     </FormValidationError>
                 )
