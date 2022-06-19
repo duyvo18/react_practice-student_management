@@ -91,6 +91,7 @@ const LogInContainer = () => {
             setLoading(true);
 
             try {
+                // TODO: resolve exception
                 await loginWithEmail(inputs.email, inputs.password);
                 const docPath = await getStudentPathByEmail(inputs.email);
 

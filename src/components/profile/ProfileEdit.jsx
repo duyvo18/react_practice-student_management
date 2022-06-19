@@ -35,7 +35,8 @@ const ProfileEdit = (props) => {
 
     const onUpdate = async () => {
         setLoading(true);
-
+        
+        // TODO: resolve exception
         await updateStudentInfo(userDocPath, localData);
 
         setLoading(false);

@@ -17,7 +17,6 @@ export const addNewStudent = async (email) => {
         const docRef = await addDoc(studentRef, serverData)
         return docRef.path;
     } catch (e) {
-        console.error(e);
         throw e;
     }
 }
@@ -33,7 +32,6 @@ export const updateStudentInfo = async (docPath, data) => {
     try {
         await updateDoc(docRef, serverData);
     } catch (e) {
-        console.error(e);
         throw e;
     }
 }
@@ -52,7 +50,6 @@ export const getAllStudents = async () => {
 
         return data;
     } catch (e) {
-        console.error(e);
         throw e;
     }
 };
@@ -65,7 +62,6 @@ export const getStudentPathByEmail = async (email) => {
         const querySnapshot = await getDocsFromServer(studentQuery);
         return studentRef.path + '/' + querySnapshot.docs[0].id;
     } catch (e) {
-        console.error(e);
         throw e;
     }
 }
@@ -79,12 +75,12 @@ export const getStudentDataFromPath = async (docPath) => {
 
         return data;
     } catch (e) {
-        console.error(e);
         throw e;
     }
 }
 
 export const deleteStudentAccount = async (email, password) => {
+    // TODO: resolve exception
     const user = await loginWithEmail(email, password);
 
     if (user) {
@@ -100,7 +96,7 @@ export const deleteStudentAccount = async (email, password) => {
 
             return true;
         } catch (e) {
-            console.error(e);
+
             return false;
         }
     }
@@ -108,9 +104,9 @@ export const deleteStudentAccount = async (email, password) => {
 
 const getAvatar = async (data) => {
     try {
+        // TODO: resolve exception
         return data.avatar ? await getImageFromSource(data.avatar) : await getDefaultAvatar();
     } catch (e) {
-        console.error(e);
         throw e;
     }
 }

@@ -30,6 +30,7 @@ const Profile = () => {
             (async () => {
                 if (isAuth) {
                     setLoading(true)
+                    // TODO: resolve exception
                     const dataFromServer = userDocPath ? await getStudentDataFromPath(userDocPath) : {};
                     setData(dataFromServer);
                     setLoading(false);

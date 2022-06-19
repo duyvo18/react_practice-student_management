@@ -100,6 +100,7 @@ const StudentInfoContainer = () => {
             setLoading(true)
 
             try {
+                // TODO: resolve exception
                 await updateStudentInfo(userDocPath, { ...inputs, _new: "0" });
 
                 document.cookie = `auth=1; max-age=${3 * 60 * 60}, samesite=strict`;

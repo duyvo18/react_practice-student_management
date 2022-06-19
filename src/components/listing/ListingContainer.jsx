@@ -27,6 +27,7 @@ const ListingContainer = () => {
         () => {
             (
                 async () => {
+                    // TODO: resolve exception
                     setStudents(await getAllStudents());
                     setLoading(false);
                 }

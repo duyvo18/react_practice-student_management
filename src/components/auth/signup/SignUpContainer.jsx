@@ -98,8 +98,10 @@ const SignUpContainer = () => {
             setLoading(true)
 
             try {
+                // TODO: resolve exception
                 await signupWithEmail(inputs.email, inputs.password);
 
+                // TODO: resolve exception
                 const userDocPath = await addNewStudent(inputs.email);
                 document.cookie = `userDocPath=${userDocPath}; max-age=${3 * 60 * 60}; samesite=strict`;
 
