@@ -3,6 +3,7 @@ import { deleteStudentAccount } from "../../services/firestoreService";
 import Loading from "../common/Loading";
 import FormValidationError from "../common/FormValidationError";
 import { useNavigate } from "react-router-dom";
+import { loginWithEmail } from "../../services/authService";
 
 const DeleteConfirmPopup = (props) => {
 
@@ -42,19 +43,55 @@ const DeleteConfirmPopup = (props) => {
             const email = inputs.email;
             const password = inputs.password;
 
-            if (await deleteStudentAccount(email, password)) {
-                document.cookie = 'auth=; max-age=0'
-                document.cookie = 'userDocPath=; max-age=0'
+            try {
+                const userAuth = await loginWithEmail(email, password);
 
-                navigate("/signup");
-            } else {
+                try {
+                    await deleteStudentAccount(email, userAuth);
+                    document.cookie = 'auth=; max-age=0'
+                    document.cookie = 'userDocPath=; max-age=0'
+
+                    navigate("/signup");
+                } catch (e) {
+                    console.error(e);
+
+                    navigate(
+                        "/unexpected",
+                        {
+                            state: {
+                                name: e.name,
+                                message: e.message
+                            }
+                        }
+                    )
+                }
+
+            } catch (e) {
+                console.log(e);
+
+                // TODO: ??? auth message
                 setErrors(prev => ({
                     ...prev,
-                    auth: 'Please check your information.'
+                    auth: e.message
                 }));
 
                 setLoading(false);
             }
+
+            // FIXME: delete flow FE
+            // if (await deleteStudentAccount(email, password)) {
+            //     document.cookie = 'auth=; max-age=0'
+            //     document.cookie = 'userDocPath=; max-age=0'
+
+            //     navigate("/signup");
+            // } else {
+            //     setErrors(prev => ({
+            //         ...prev,
+            //         auth: 'Please check your information.'
+            //     }));
+
+            //     setLoading(false);
+            // }
         }
     }
 
@@ -103,6 +140,7 @@ const DeleteConfirmPopup = (props) => {
         }
     }
 
+    // TODO: seperate componentS
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-[rgba(0,0,0,0.5)]">
             <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
@@ -128,7 +166,9 @@ const DeleteConfirmPopup = (props) => {
                     />
                     {
                         errors.email && (
-                            <FormValidationError message={errors.email} />
+                            <FormValidationError>
+                                {errors.email}
+                            </FormValidationError>
                         )
                     }
 
