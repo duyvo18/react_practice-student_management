@@ -22,7 +22,7 @@ const DeleteConfirmPopup = (props) => {
         auth: '',
     })
 
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
     const onInput = (e) => {
         const { name, value } = e.target;
@@ -107,80 +107,70 @@ const DeleteConfirmPopup = (props) => {
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-[rgba(0,0,0,0.5)]">
             <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
-                {
-                    (
-                        !loading && (
-                            <form className="flex flex-col items-center justify-center max-w-3xl rounded-2xl p-6 bg-white">
-                                <div className="text-red-500 font-bold text-xl">
-                                    CAUTION!
-                                </div>
-                                <div className="text-red-500 font-semibold italic text-center mt-2">
-                                    This action will delete your account<br />
-                                    and cannot be undo.
-                                </div>
+                <form className="flex flex-col items-center justify-center max-w-3xl rounded-2xl p-6 bg-white">
+                    <div className="text-red-500 font-bold text-xl">
+                        CAUTION!
+                    </div>
+                    <div className="text-red-500 font-semibold italic text-center mt-2">
+                        This action will delete your account<br />
+                        and cannot be undo.
+                    </div>
 
-                                <div className="text-black font-semibold text-center mt-4">
-                                    To continue, please confirm your information.
-                                </div>
-                                <input
-                                    className="rounded-lg border border-gray-400 py-1 px-3 mt-4"
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    autoComplete="username"
-                                    onChange={onInput}
-                                />
-                                {
-                                    errors.email && (
-                                        <FormValidationError message={errors.email} />
-                                    )
-                                }
-
-                                <input
-                                    className="rounded-lg border border-gray-400 py-1 px-3 mt-4"
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    onChange={onInput}
-                                />
-                                {
-                                    errors.password && (
-                                        <FormValidationError message={errors.password} />
-                                    )
-                                }
-
-                                {
-                                    errors.auth && (
-                                        <div className="mt-4">
-                                            <FormValidationError message={errors.auth} />
-                                        </div>
-                                    )
-                                }
-
-                                <div className="grid grid-cols-2 gap-24 mt-6">
-                                    <button
-                                        className="buttonWarning font-semibold"
-                                        type="button"
-                                        onClick={onDelete}
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        className="button font-semibold py-1 px-3"
-                                        type="button"
-                                        onClick={onCancel}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
+                    <div className="text-black font-semibold text-center mt-4">
+                        To continue, please confirm your information.
+                    </div>
+                    <input
+                        className="rounded-lg border border-gray-400 py-1 px-3 mt-4"
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        autoComplete="username"
+                        onChange={onInput}
+                    />
+                    {
+                        errors.email && (
+                            <FormValidationError message={errors.email} />
                         )
-                    ) || (
-                        loading && (
-                            <Loading />
+                    }
+
+                    <input
+                        className="rounded-lg border border-gray-400 py-1 px-3 mt-4"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        onChange={onInput}
+                    />
+                    {
+                        errors.password && (
+                            <FormValidationError message={errors.password} />
                         )
-                    )
-                }
+                    }
+
+                    {
+                        errors.auth && (
+                            <div className="mt-4">
+                                <FormValidationError message={errors.auth} />
+                            </div>
+                        )
+                    }
+
+                    <div className="grid grid-cols-2 gap-24 mt-6">
+                        <button
+                            className="buttonWarning font-semibold"
+                            type="button"
+                            onClick={onDelete}
+                        >
+                            {isLoading ? (<Loading />) : 'Delete'}
+                        </button>
+                        <button
+                            className="button font-semibold py-1 px-3"
+                            type="button"
+                            onClick={onCancel}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     );

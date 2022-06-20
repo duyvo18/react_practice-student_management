@@ -3,9 +3,7 @@ import React from "react";
 const Loading = () => {
 
     return (
-        <div className="min-h-full min-w-full bg-secondary p-20 text-center text-xl sm:text-3xl font-bold">
-            Loading, please wait...
-        </div>
+        <div className="rounded animate-spin duration-300 w-5 h-5 border-2 border-white mx-auto" />
     )
 }
 

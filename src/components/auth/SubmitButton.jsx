@@ -1,4 +1,5 @@
 import React from "react";
+import Loading from "../common/Loading";
 
 const SubmitButton = (props) => {
 
@@ -12,11 +13,7 @@ const SubmitButton = (props) => {
             disabled={isLoading}
             onClick={onClick}
         >
-            {
-                isLoading ? (
-                    <div className="rounded animate-spin duration-300 w-5 h-5 border-2 border-white mx-auto" />
-                ) : props.children
-            }
+            {isLoading ? (<Loading />) : props.children}
         </button>
     );
 };

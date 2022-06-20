@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import { getAllStudents } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
-import Loading from "../common/Loading";
 import QueryElem from "./QueryElem";
 import StudentCard from "./StudentCard";
 import StudentDetails from "./StudentDetails";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const ListingContainer = () => {
 
-    const auth = document.cookie
+    const isAuth = document.cookie
         .split(';')
         .find(row => row.trim().startsWith('auth='))
         ?.split('=')[1] === '1';
 
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState(true);
     const [students, setStudents] = useState([]);
     const [query, setQuery] = useState({
         id: '',
@@ -28,9 +29,15 @@ const ListingContainer = () => {
         () => {
             (
                 async () => {
-                    // TODO: resolve exception
-                    setStudents(await getAllStudents());
-                    setLoading(false);
+                    if (isAuth) {
+                        try {
+                            setStudents(await getAllStudents());
+                            setLoading(false);
+                        } catch (e) {
+                            console.error(e);
+                            // TODO: navigate to unexpected exception
+                        }
+                    }
                 }
             )();
         }, []
@@ -86,14 +93,13 @@ const ListingContainer = () => {
     }
 
     const viewDetails = (studentData) => setDetails(studentData);
-
     const closeDetails = () => setDetails(undefined);
 
     useEffect(() => { }, [details])
 
     return (
         (
-            auth && (
+            isAuth ? (
                 <div className={`h-screen w-screen ${details ? 'overflow-hidden' : 'overflow-auto'}`}>
                     <Header from="listing" focusable={!Boolean(details)} />
 
@@ -146,23 +152,21 @@ const ListingContainer = () => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center justify-items-center max-w-4xl lg:max-w-6xl bg-primary rounded-xl shadow-md px-6 py-12 mx-auto my-12">
                             {
-                                (
-                                    filteredStudentList().length && filteredStudentList().map((student, idx) => (
-                                        <StudentCard
-                                            key={idx}
-                                            data={student}
-                                            onClick={() => viewDetails(student)}
-                                            tabIndex={details ? -1 : 0}
-                                        />
-                                    ))
-                                ) || (
-                                    !filteredStudentList().length && !loading && (
-                                        <div className="col-span-2 text-lg font-semibold italic">No Entry</div>
+                                isLoading ? (
+                                    <Skeleton count={3} />
+                                ) : (
+                                    filteredStudentList().length ? (
+                                        filteredStudentList().map((student, idx) => (
+                                            <StudentCard
+                                                key={idx}
+                                                data={student}
+                                                onClick={() => viewDetails(student)}
+                                                tabIndex={details ? -1 : 0}
+                                            />
+                                        ))
+                                    ) : (
+                                        <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-lg font-semibold italic">No Entry</div>
                                     )
-                                ) || (
-                                    <div className="col-span-2 xl:col-span-3">
-                                        <Loading />
-                                    </div>
                                 )
                             }
                         </div>
@@ -173,9 +177,7 @@ const ListingContainer = () => {
                         )
                     }
                 </div>
-            )
-        ) || (
-            !auth && (
+            ) : (
                 <AuthWarning />
             )
         )

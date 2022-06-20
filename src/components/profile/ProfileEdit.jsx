@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { updateStudentInfo } from "../../services/firestoreService";
-import FormValidationError from "../common/FormValidationError";
 import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../common/utils/inputValidation";
 import Loading from "../common/Loading";
+import FormElem from "./FormElem";
 
 const ProfileEdit = (props) => {
 
@@ -18,7 +18,7 @@ const ProfileEdit = (props) => {
         id: '',
         startingYear: '',
     })
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
     const onCancel = props.onCancel;
 
@@ -35,7 +35,7 @@ const ProfileEdit = (props) => {
 
     const onUpdate = async () => {
         setLoading(true);
-        
+
         // TODO: resolve exception
         await updateStudentInfo(userDocPath, localData);
 
@@ -80,144 +80,92 @@ const ProfileEdit = (props) => {
     return (
         <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
             <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto">
-                {
-                    (
-                        !loading && (
-                            <form className="bg-primary px-6 lg:px-12 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
-                                <img
-                                    src={localData.avatar}
-                                    alt="avatar"
-                                    className="max-w-[30%] rounded-lg mx-auto"
-                                />
+                {(
+                    <form className="bg-primary px-6 lg:px-12 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
+                        <img
+                            src={localData.avatar}
+                            alt="avatar"
+                            className="max-w-[30%] rounded-lg mx-auto"
+                        />
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-12 lg:px-12">
-                                    <label
-                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
-                                        htmlFor="firstname"
-                                    >
-                                        Firstname:
-                                    </label>
-                                    <input
-                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
-                                        type="text"
-                                        name="firstname"
-                                        value={localData.firstname}
-                                        placeholder="Firstname"
-                                        onChange={onInput}
-                                        onBlur={validateInput}
-                                    />
-                                </div>
-                                {
-                                    errors.firstname && (
-                                        <FormValidationError message={errors.firstname} />
-                                    )
-                                }
+                        <FormElem
+                            type="text"
+                            name="firstname"
+                            value={localData.firstname}
+                            placeholder="Firstname"
+                            onChange={onInput}
+                            onBlur={validateInput}
+                            error={errors.firstname}
+                        >
+                            Firstname:
+                        </FormElem>
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 lg:px-12">
-                                    <label
-                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
-                                        htmlFor="lastname"
-                                    >
-                                        Lastname:
-                                    </label>
-                                    <input
-                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
-                                        type="text"
-                                        name="lastname"
-                                        value={localData.lastname}
-                                        placeholder="Lastname"
-                                        onChange={onInput}
-                                        onBlur={validateInput}
-                                    />
-                                </div>
-                                {
-                                    errors.lastname && (
-                                        <FormValidationError message={errors.lastname} />
-                                    )
-                                }
+                        <FormElem
+                            type="text"
+                            name="lastname"
+                            value={localData.lastname}
+                            placeholder="Lastname"
+                            onChange={onInput}
+                            onBlur={validateInput}
+                            error={errors.lastname}
+                        >
+                            Lastname:
+                        </FormElem>
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 lg:px-12">
-                                    <label
-                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
-                                        htmlFor="id"
-                                    >
-                                        SID:
-                                    </label>
-                                    <input
-                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
-                                        type="text"
-                                        name="id"
-                                        value={localData.id}
-                                        placeholder="SID"
-                                        onChange={onInput}
-                                        onBlur={validateInput}
-                                    />
-                                </div>
-                                {
-                                    errors.id && (
-                                        <FormValidationError message={errors.id} />
-                                    )
-                                }
 
-                                <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 lg:px-12">
-                                    <label
-                                        className="basis-1/3 lg:basis-1/4 lg:text-lg"
-                                        htmlFor="startingYear"
-                                    >
-                                        Starting Year:
-                                    </label>
-                                    <input
-                                        className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
-                                        type="number"
-                                        name="startingYear"
-                                        value={localData.startingYear}
-                                        placeholder="Starting Year"
-                                        onChange={onInput}
-                                        onBlur={validateInput}
-                                    />
-                                </div>
-                                {
-                                    errors.startingYear && (
-                                        <FormValidationError message={errors.startingYear} />
-                                    )
-                                }
+                        <FormElem
+                            type="text"
+                            name="id"
+                            value={localData.id}
+                            placeholder="SID"
+                            onChange={onInput}
+                            onBlur={validateInput}
+                            error={errors.id}
+                        >
+                            SID:
+                        </FormElem>
 
-                                <div className="px-4 mt-12">
-                                    <textarea
-                                        className="text-left rounded-lg border-black border-2 w-full h-[20rem] resize-none p-4"
-                                        name="details"
-                                        value={localData.details}
-                                        placeholder="Profile details"
-                                        onChange={onInput}
-                                        onBlur={validateInput}
-                                    />
+                        <FormElem
+                            type="number"
+                            name="startingYear"
+                            value={localData.startingYear}
+                            placeholder="Starting Year"
+                            onChange={onInput}
+                            onBlur={validateInput}
+                            error={errors.startingYear}
+                        >
+                            Starting Year:
+                        </FormElem>
 
-                                    <div className="grid grid-cols-2 gap-6 lg:gap-12 mt-12 lg:mx-24">
-                                        <button
-                                            className="button py-1"
-                                            type="button"
-                                            onClick={onCancel}
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            className="button py-1"
-                                            type="button"
-                                            onClick={onUpdate}
-                                        >
-                                            Update Info
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        )
-                    ) || (
-                        loading && (
-                            <Loading />
-                        )
-                    )
+                        <div className="px-4 mt-12">
+                            <textarea
+                                className="text-left rounded-lg border-black border-2 w-full h-[20rem] resize-none p-4"
+                                name="details"
+                                value={localData.details}
+                                placeholder="Profile details"
+                                onChange={onInput}
+                                onBlur={validateInput}
+                            />
 
-                }
+                            <div className="grid grid-cols-2 gap-6 lg:gap-12 mt-12 lg:mx-24">
+                                <button
+                                    className="button py-1"
+                                    type="button"
+                                    onClick={onCancel}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className="button py-1"
+                                    type="button"
+                                    onClick={onUpdate}
+                                >
+                                    {isLoading ? (<Loading />) : "Update Info"}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                )}
             </div>
         </div>
     )
