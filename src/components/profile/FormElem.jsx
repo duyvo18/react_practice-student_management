@@ -32,7 +32,7 @@ const FormElem = (props) => {
             </div>
             {
                 error && (
-                    <FormValidationError className="text-base mt-4 mx-12">
+                    <FormValidationError className="text-base mt-4 lg:mx-12">
                         {error}
                     </FormValidationError>
                 )
