@@ -69,7 +69,7 @@ const Profile = () => {
                                 !isEdit && (
                                     <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
                                         <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto">
-                                            <form className="bg-primary px-6 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
+                                            <div className="bg-primary px-6 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
                                                 <img
                                                     src={data.avatar}
                                                     alt="avatar"
@@ -118,7 +118,7 @@ const Profile = () => {
                                                         Delete Account
                                                     </button>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                         {
                                             popupDelete && (
