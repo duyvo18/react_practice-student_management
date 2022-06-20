@@ -80,6 +80,11 @@ export const getStudentDataFromPath = async (docPath) => {
 }
 
 export const deleteStudentAccount = async (email, password) => {
+    /* FIXME:
+     * Seperate auth and delete account in FE to try catch and diff errors
+     *   auth -> FE error
+     *   delete -> unexpected
+     */
     const user = await loginWithEmail(email, password);
 
     if (user) {
