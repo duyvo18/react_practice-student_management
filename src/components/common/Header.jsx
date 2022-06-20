@@ -28,7 +28,7 @@ const Header = (props) => {
                         (
                             from !== "profile" && (
                                 <Link
-                                    className="inline-block text-inactive hover:text-active focus:text-active mr-5"
+                                    className="inline-block outline-none text-inactive hover:text-active focus:text-active mr-5"
                                     to={'/profile'}
                                     tabIndex={tabIndex}
                                 >
@@ -49,7 +49,7 @@ const Header = (props) => {
                         (
                             from !== "listing" && (
                                 <Link
-                                    className="inline-block text-inactive hover:text-active focus:text-active mr-5"
+                                    className="inline-block outline-none text-inactive hover:text-active focus:text-active mr-5"
                                     to={'/listing'}
                                     tabIndex={tabIndex}
                                 >
@@ -69,7 +69,7 @@ const Header = (props) => {
                 </div>
                 <div className="text-base text-black">
                     <button
-                        className="inline-block text-gray-400 hover:text-black hover:font-semibold focus:text-black hover:font-semibold mr-4"
+                        className="inline-block text-gray-400 hover:font-semibold hover:text-black focus:text-black mr-4"
                         onClick={onLogout}
                         tabIndex={tabIndex}
                     >

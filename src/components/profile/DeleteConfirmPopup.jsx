@@ -120,7 +120,7 @@ const DeleteConfirmPopup = (props) => {
                         To continue, please confirm your information.
                     </div>
                     <input
-                        className="rounded-lg border border-gray-400 py-1 px-3 mt-4"
+                        className="rounded-lg outline-none border-2 border-black focus:border-accent py-1 px-3 mt-4"
                         type="email"
                         name="email"
                         placeholder="Email"
@@ -134,7 +134,7 @@ const DeleteConfirmPopup = (props) => {
                     }
 
                     <input
-                        className="rounded-lg border border-gray-400 py-1 px-3 mt-4"
+                        className="rounded-lg outline-none border-2 border-black focus:border-accent py-1 px-3 mt-4"
                         type="password"
                         name="password"
                         placeholder="Password"

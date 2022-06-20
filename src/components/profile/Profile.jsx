@@ -58,7 +58,7 @@ const Profile = () => {
     return (<>{
         isAuth ? (
             <div className={`w-screen h-screen ${popupDelete ? 'overflow-hidden' : 'overflow-auto'}`} >
-                <Header from="profile" />
+                <Header from="profile" focusable={!popupDelete} />
 
                 {
                     isEdit ? (
@@ -69,7 +69,7 @@ const Profile = () => {
                     ) : (
                         <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
                             <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto">
-                                <div className="bg-primary px-6 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
+                                <div className="bg-primary px-6 py-12 rounded-lg shadow-lg text-black w-full lg:my-12">
                                     {
                                         isLoading ? (
                                             <Skeleton className="min-h-[70vh]" />
@@ -113,6 +113,7 @@ const Profile = () => {
                                                         className="button py-1 px-2 lg:py-3"
                                                         type="button"
                                                         onClick={toggleEdit}
+                                                        tabIndex={popupDelete ? -1 : 0}
                                                     >
                                                         Edit Info
                                                     </button>
@@ -120,6 +121,7 @@ const Profile = () => {
                                                         className="buttonWarning py-1 px-2 lg:py-3"
                                                         type="button"
                                                         onClick={togglePopup}
+                                                        tabIndex={popupDelete ? -1 : 0}
                                                     >
                                                         Delete Account
                                                     </button>

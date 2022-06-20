@@ -9,7 +9,7 @@ const QueryElem = (props) => {
     const tabIndex = props.tabIndex;
 
     return (
-        <div className="flex flex-row flex-nowrap mt-2 lg:mt-0 lg:ml-2">
+        <div className="flex flex-row flex-nowrap w-full mt-2 lg:mt-0 lg:ml-2">
             <p className="flex-auto basis-1/3 lg:basis-2/5 mr-2">
                 {props.children}
             </p>

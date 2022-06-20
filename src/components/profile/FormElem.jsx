@@ -21,7 +21,7 @@ const FormElem = (props) => {
                     {props.children}
                 </label>
                 <input
-                    className="basis-2/3 lg:basis-3/4 border-b-2 border-black p-3 py-1 px-2"
+                    className="basis-2/3 lg:basis-3/4 focus:rounded outline-none border-b-2 border-black focus:border-accent py-1 px-2"
                     type={type}
                     name={name}
                     value={value}

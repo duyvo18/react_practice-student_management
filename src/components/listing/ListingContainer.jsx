@@ -104,7 +104,7 @@ const ListingContainer = () => {
                     <Header from="listing" focusable={!Boolean(details)} />
 
                     <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
-                        <div className="flex flex-col lg:flex-row flex-nowrap items-center justify-center gap-3 bg-primary text-sm xl:text-base font-semibold px-32 lg:px-24 py-4 border-b-2">
+                        <div className="flex flex-col lg:flex-row flex-nowrap items-center justify-center gap-3 bg-primary text-sm xl:text-base font-semibold px-6 lg:px-12 py-4 border-b-2">
                             <QueryElem
                                 type="text"
                                 name="id"
@@ -150,7 +150,7 @@ const ListingContainer = () => {
                             </QueryElem>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center justify-items-center max-w-4xl lg:max-w-6xl bg-primary rounded-xl shadow-md px-6 py-12 mx-auto my-12">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center justify-items-center max-w-4xl lg:max-w-6xl bg-primary rounded-xl shadow-md px-3 py-12 mx-auto my-12">
                             {
                                 isLoading ? (
                                     <Skeleton count={3} />
