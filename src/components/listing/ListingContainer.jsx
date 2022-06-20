@@ -3,6 +3,7 @@ import { getAllStudents } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
 import Loading from "../common/Loading";
+import QueryElem from "./QueryElem";
 import StudentCard from "./StudentCard";
 import StudentDetails from "./StudentDetails";
 
@@ -88,60 +89,59 @@ const ListingContainer = () => {
 
     const closeDetails = () => setDetails(undefined);
 
-    useEffect(()=>{}, [details])
+    useEffect(() => { }, [details])
 
     return (
         (
             auth && (
                 <div className={`h-screen w-screen ${details ? 'overflow-hidden' : 'overflow-auto'}`}>
-                    <Header from="listing" />
+                    <Header from="listing" focusable={!Boolean(details)} />
 
                     <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
-                        <div className="flex flex-col lg:flex-row flex-nowrap bg-primary text-sm xl:text-base font-semibold px-12 sm:px-36 lg:px-6 py-4 border-b-2">
-                            <div className="flex-auto flex flex-row flex-nowrap">
-                                <p className="basis-1/3 lg:basis-2/5 mr-2">SID:</p>
-                                <input
-                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
-                                    type="text"
-                                    name="id"
-                                    value={query.id}
-                                    placeholder="all"
-                                    onInput={onInput}
-                                />
-                            </div>
-                            <div className="flex-auto flex flex-row flex-nowrap mt-2 lg:mt-0 lg:ml-2">
-                                <p className="basis-1/3 lg:basis-2/5 mr-2">Firstname:</p>
-                                <input
-                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
-                                    type="text"
-                                    name="firstname"
-                                    value={query.firstname}
-                                    placeholder="all"
-                                    onInput={onInput}
-                                />
-                            </div>
-                            <div className="flex-auto flex flex-row flex-nowrap mt-2 lg:mt-0 lg:ml-2">
-                                <p className="basis-1/3 lg:basis-2/5 mr-2">Lastname:</p>
-                                <input
-                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
-                                    type="text"
-                                    name="lastname"
-                                    value={query.lastname}
-                                    placeholder="all"
-                                    onInput={onInput}
-                                />
-                            </div>
-                            <div className="flex-auto flex flex-row flex-nowrap mt-2 lg:mt-0 lg:ml-2">
-                                <p className="basis-1/3 lg:basis-2/5 mr-2">Starting Year:</p>
-                                <input
-                                    className="basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
-                                    type="text"
-                                    name="startingYear"
-                                    value={query.startingYear}
-                                    placeholder="all"
-                                    onInput={onInput}
-                                />
-                            </div>
+                        <div className="flex flex-col lg:flex-row flex-nowrap items-center justify-center gap-3 bg-primary text-sm xl:text-base font-semibold px-32 lg:px-24 py-4 border-b-2">
+                            <QueryElem
+                                type="text"
+                                name="id"
+                                value={query.id}
+                                placeholder="all"
+                                onInput={onInput}
+                                tabIndex={details ? -1 : 0}
+                            >
+                                SID:
+                            </QueryElem>
+
+                            <QueryElem
+                                type="text"
+                                name="firstname"
+                                value={query.firstname}
+                                placeholder="all"
+                                onInput={onInput}
+                                tabIndex={details ? -1 : 0}
+                            >
+                                Firstname:
+                            </QueryElem>
+
+                            <QueryElem
+                                type="text"
+                                name="lastname"
+                                value={query.lastname}
+                                placeholder="all"
+                                onInput={onInput}
+                                tabIndex={details ? -1 : 0}
+                            >
+                                Lastname:
+                            </QueryElem>
+
+                            <QueryElem
+                                type="number"
+                                name="startingYear"
+                                value={query.startingYear}
+                                placeholder="all"
+                                onInput={onInput}
+                                tabIndex={details ? -1 : 0}
+                            >
+                                Starting Year:
+                            </QueryElem>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center justify-items-center max-w-4xl lg:max-w-6xl bg-primary rounded-xl shadow-md px-6 py-12 mx-auto my-12">
@@ -152,6 +152,7 @@ const ListingContainer = () => {
                                             key={idx}
                                             data={student}
                                             onClick={() => viewDetails(student)}
+                                            tabIndex={details ? -1 : 0}
                                         />
                                     ))
                                 ) || (

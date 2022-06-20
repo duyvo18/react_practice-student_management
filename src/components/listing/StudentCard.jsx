@@ -9,12 +9,14 @@ const StudentCard = (props) => {
     const startingYear = props.data.startingYear;
     const details = props.data.details;
     const onClick = props.onClick;
+    const tabIndex = props.tabIndex;
 
     return (
         <div
             className="grid grid-cols-3 grid-rows-4 grid-flow-row-dense gap-2 w-72 h-40 p-3 border-2 rounded-xl cursor-pointer transition duration-300 ease-in-out hover:scale-105 focus:scale-105"
-            tabIndex={0}
             onClick={onClick}
+            onKeyDown={e => e.key === "Enter" ? onClick() : undefined}
+            tabIndex={tabIndex}
         >
             <div className="col-span-1 row-span-2">
                 <img src={avatar} alt="avatar" className="rounded-lg max-h-full max-w-full m-auto" />

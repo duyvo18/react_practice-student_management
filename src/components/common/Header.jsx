@@ -6,6 +6,7 @@ const Header = (props) => {
     const navigate = useNavigate();
 
     const from = props.from;
+    const tabIndex = props.focusable ? 0 : -1;
 
     const onLogout = () => {
         document.cookie = 'auth=; max-age=0'
@@ -24,6 +25,7 @@ const Header = (props) => {
                                 <Link
                                     className="inline-block text-inactive hover:text-active focus:text-active mr-5"
                                     to={'/profile'}
+                                    tabIndex={tabIndex}
                                 >
                                     My Profile
                                 </Link>
@@ -44,6 +46,7 @@ const Header = (props) => {
                                 <Link
                                     className="inline-block text-inactive hover:text-active focus:text-active mr-5"
                                     to={'/listing'}
+                                    tabIndex={tabIndex}
                                 >
                                     Listing
                                 </Link>
@@ -63,6 +66,7 @@ const Header = (props) => {
                     <button
                         className="inline-block text-gray-400 hover:text-black hover:font-semibold focus:text-black hover:font-semibold mr-4"
                         onClick={onLogout}
+                        tabIndex={tabIndex}
                     >
                         Log Out
                     </button>
