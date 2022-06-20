@@ -4,11 +4,14 @@ const NotFound = () => {
     return (
         <div className="min-w-screen min-h-screen bg-secondary flex flex-col justify-center items-center">
             <div className="flex flex-col flex-auto justify-center items-center">
-                <div className="text-5xl font-bold">
-                    404: Not Found
+                <div className="text-6xl font-bold text-accent">
+                    404
                 </div>
-                <div className="text-2xl mt-12">
-                    Got lost? Return to our <a className="underline" href="/">main page</a>.
+                <div className="text-4xl font-semibold mt-4">
+                    Page Not Found
+                </div>
+                <div className="text-2xl mt-10">
+                    Got lost? Return to our <a className="underline hover:text-gray-500" href="/">main page</a>.
                 </div>
             </div>
         </div>
