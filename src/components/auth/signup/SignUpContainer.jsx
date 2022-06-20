@@ -98,14 +98,26 @@ const SignUpContainer = () => {
             setLoading(true)
 
             try {
-                // TODO: resolve exception
                 await signupWithEmail(inputs.email, inputs.password);
 
-                // TODO: resolve exception
-                const userDocPath = await addNewStudent(inputs.email);
-                document.cookie = `userDocPath=${userDocPath}; max-age=${3 * 60 * 60}; samesite=strict`;
+                try {
+                    const userDocPath = await addNewStudent(inputs.email);
+                    document.cookie = `userDocPath=${userDocPath}; max-age=${3 * 60 * 60}; samesite=strict`;
 
-                navigate("/signup/info");
+                    navigate("/signup/info");
+                } catch (e) {
+                    console.error(e);
+                    
+                    navigate(
+                        "/unexpected",
+                        {
+                            state: {
+                                name: e.name,
+                                message: e.message
+                            }
+                        }
+                    )
+                }
             } catch (e) {
                 console.error(e);
 

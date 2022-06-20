@@ -6,8 +6,11 @@ import ProfileEdit from "./ProfileEdit";
 import AuthWarning from "../common/AuthWarning";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+
+    const navigate = useNavigate();
 
     const isAuth = document.cookie
         .split(';')
@@ -28,16 +31,7 @@ const Profile = () => {
         () => {
             (async () => {
                 if (isAuth) {
-                    try {
-                        setLoading(true);
-
-                        setData(await getStudentDataFromPath(userDocPath));
-
-                        setLoading(false);
-                    } catch (e) {
-                        console.error(e);
-                        // TODO: Navigate to unexpected error page
-                    }
+                    updateData();
                 }
             })();
         }, []
@@ -49,16 +43,7 @@ const Profile = () => {
                 if (isEdit) {
                     setData(data);
                 } else {
-                    try {
-                        setLoading(true);
-
-                        setData(await getStudentDataFromPath(userDocPath));
-
-                        setLoading(false);
-                    } catch (e) {
-                        console.error(e);
-                        // TODO: Navigate to unexpected error page
-                    }
+                    updateData();
                 }
             })();
         }, [isEdit]
@@ -66,6 +51,27 @@ const Profile = () => {
 
     const toggleEdit = () => setEdit(!isEdit);
     const togglePopup = () => setPopupDelete(!popupDelete);
+    const updateData = async () => {
+        try {
+            setLoading(true);
+
+            setData(await getStudentDataFromPath(userDocPath));
+
+            setLoading(false);
+        } catch (e) {
+            console.error(e);
+
+            navigate(
+                "/unexpected",
+                {
+                    state: {
+                        name: e.name,
+                        message: e.message
+                    }
+                }
+            )
+        }
+    }
 
     return (<>{
         isAuth ? (

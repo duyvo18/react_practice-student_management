@@ -91,14 +91,28 @@ const LogInContainer = () => {
             setLoading(true);
 
             try {
-                // TODO: resolve exception
                 await loginWithEmail(inputs.email, inputs.password);
-                const docPath = await getStudentPathByEmail(inputs.email);
 
-                document.cookie = `auth=1; max-age=${3 * 60 * 60}; samesite=strict`;
-                document.cookie = `userDocPath=${docPath}; max-age=${3 * 60 * 60}; samesite=strict`;
+                try {
+                    const docPath = await getStudentPathByEmail(inputs.email);
 
-                navigate("/profile");
+                    document.cookie = `auth=1; max-age=${3 * 60 * 60}; samesite=strict`;
+                    document.cookie = `userDocPath=${docPath}; max-age=${3 * 60 * 60}; samesite=strict`;
+
+                    navigate("/profile");
+                } catch (e) {
+                    console.error(e);
+
+                    navigate(
+                        "/unexpected",
+                        {
+                            state: {
+                                name: e.name,
+                                message: e.message
+                            }
+                        }
+                    )
+                }
             } catch (e) {
                 console.error(e);
 

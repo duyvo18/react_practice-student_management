@@ -3,8 +3,11 @@ import { updateStudentInfo } from "../../services/firestoreService";
 import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../common/utils/inputValidation";
 import Loading from "../common/Loading";
 import FormElem from "./FormElem";
+import { useNavigate } from "react-router-dom";
 
 const ProfileEdit = (props) => {
+
+    const navigate = useNavigate();
 
     const userDocPath = document.cookie
         .split(';')
@@ -36,8 +39,21 @@ const ProfileEdit = (props) => {
     const onUpdate = async () => {
         setLoading(true);
 
-        // TODO: resolve exception
-        await updateStudentInfo(userDocPath, localData);
+        try {
+            await updateStudentInfo(userDocPath, localData);
+        } catch (e) {
+            console.error(e);
+
+            navigate(
+                "/unexpected",
+                {
+                    state: {
+                        name: e.name,
+                        message: e.message
+                    }
+                }
+            )
+        }
 
         setLoading(false);
 

@@ -80,7 +80,6 @@ export const getStudentDataFromPath = async (docPath) => {
 }
 
 export const deleteStudentAccount = async (email, password) => {
-    // TODO: resolve exception
     const user = await loginWithEmail(email, password);
 
     if (user) {
@@ -104,7 +103,6 @@ export const deleteStudentAccount = async (email, password) => {
 
 const getAvatar = async (data) => {
     try {
-        // TODO: resolve exception
         return data.avatar ? await getImageFromSource(data.avatar) : await getDefaultAvatar();
     } catch (e) {
         throw e;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getAllStudents } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
 import Header from "../common/Header";
@@ -7,6 +8,8 @@ import StudentCard from "./StudentCard";
 import StudentDetails from "./StudentDetails";
 
 const ListingContainer = () => {
+
+    const navigate = useNavigate();
 
     const isAuth = document.cookie
         .split(';')
@@ -33,7 +36,16 @@ const ListingContainer = () => {
                             setLoading(false);
                         } catch (e) {
                             console.error(e);
-                            // TODO: navigate to unexpected exception
+
+                            navigate(
+                                "/unexpected",
+                                {
+                                    state: {
+                                        name: e.name,
+                                        message: e.message
+                                    }
+                                }
+                            )
                         }
                     }
                 }
