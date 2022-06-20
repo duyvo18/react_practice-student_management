@@ -30,8 +30,9 @@ const Profile = () => {
                 if (isAuth) {
                     try {
                         setLoading(true);
-                        const dataFromServer = await getStudentDataFromPath(userDocPath);
-                        setData(dataFromServer);
+
+                        setData(await getStudentDataFromPath(userDocPath));
+
                         setLoading(false);
                     } catch (e) {
                         console.error(e);
@@ -47,6 +48,17 @@ const Profile = () => {
             (async () => {
                 if (isEdit) {
                     setData(data);
+                } else {
+                    try {
+                        setLoading(true);
+
+                        setData(await getStudentDataFromPath(userDocPath));
+
+                        setLoading(false);
+                    } catch (e) {
+                        console.error(e);
+                        // TODO: Navigate to unexpected error page
+                    }
                 }
             })();
         }, [isEdit]

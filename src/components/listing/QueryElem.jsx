@@ -14,7 +14,7 @@ const QueryElem = (props) => {
                 {props.children}
             </p>
             <input
-                className="flex-auto basis-2/3 lg:basis-3/5 bg-inherit border-inactive border-b-2"
+                className="flex-auto basis-2/3 lg:basis-3/5 outline-none bg-inherit border-inactive border-b-2 focus:border-black focus:rounded"
                 type={type}
                 name={name}
                 value={value}

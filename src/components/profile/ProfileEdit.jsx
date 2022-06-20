@@ -138,7 +138,7 @@ const ProfileEdit = (props) => {
 
                     <div className="px-4 mt-12">
                         <textarea
-                            className="text-left outline-none rounded-lg border-2 border-black focus:border-accent w-full h-[20rem] resize-none p-4"
+                            className="text-left outline-none rounded-lg border-2 border-black w-full h-[20rem] resize-none p-4"
                             name="details"
                             value={localData.details}
                             placeholder="Profile details"
