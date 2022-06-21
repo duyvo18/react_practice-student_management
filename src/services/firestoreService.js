@@ -79,33 +79,6 @@ export const getStudentDataFromPath = async (docPath) => {
     }
 }
 
-export const deleteStudentAccount_Deprecated = async (email, password) => {
-    /* FIXME:
-     * Seperate auth and delete account in FE to try catch and diff errors
-     *   auth -> FE error
-     *   delete -> unexpected
-     */
-    const user = await loginWithEmail(email, password);
-
-    if (user) {
-        try {
-            const docPath = await getStudentPathByEmail(email);
-            const docRef = doc(firestore, docPath);
-
-            await updateDoc(docRef, { _delete: '1' });
-
-            // FIXME: Auth function errors
-            // await reauthenticateWithCredential(user.user, auth);
-            // await deleteUser(user);
-
-            return true;
-        } catch (e) {
-
-            return false;
-        }
-    }
-}
-
 export const deleteStudentAccount = async (email, user) => {
     try {
         const docPath = await getStudentPathByEmail(email);

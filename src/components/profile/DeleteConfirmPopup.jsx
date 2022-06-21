@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { deleteStudentAccount } from "../../services/firestoreService";
 import Loading from "../common/Loading";
-import FormValidationError from "../common/FormValidationError";
 import { useNavigate } from "react-router-dom";
 import { loginWithEmail } from "../../services/authService";
+import PopupInput from "./PopupInput";
+import { passwordValidError } from "../common/utils/inputValidation";
 
 const DeleteConfirmPopup = (props) => {
 
@@ -24,17 +25,6 @@ const DeleteConfirmPopup = (props) => {
     })
 
     const [isLoading, setLoading] = useState(false);
-
-    const onInput = (e) => {
-        const { name, value } = e.target;
-
-        setInputs(prev => ({
-            ...prev,
-            [name]: value
-        }));
-
-        validateInput(e);
-    }
 
     const onDelete = async () => {
         if (!errors.auth && !errors.email && !errors.password) {
@@ -69,7 +59,6 @@ const DeleteConfirmPopup = (props) => {
             } catch (e) {
                 console.log(e);
 
-                // TODO: ??? auth message
                 setErrors(prev => ({
                     ...prev,
                     auth: e.message
@@ -77,22 +66,18 @@ const DeleteConfirmPopup = (props) => {
 
                 setLoading(false);
             }
-
-            // FIXME: delete flow FE
-            // if (await deleteStudentAccount(email, password)) {
-            //     document.cookie = 'auth=; max-age=0'
-            //     document.cookie = 'userDocPath=; max-age=0'
-
-            //     navigate("/signup");
-            // } else {
-            //     setErrors(prev => ({
-            //         ...prev,
-            //         auth: 'Please check your information.'
-            //     }));
-
-            //     setLoading(false);
-            // }
         }
+    }
+
+    const onInput = (e) => {
+        const { name, value } = e.target;
+
+        setInputs(prev => ({
+            ...prev,
+            [name]: value
+        }));
+
+        validateInput(e);
     }
 
     const validateInput = (e) => {
@@ -123,24 +108,16 @@ const DeleteConfirmPopup = (props) => {
                 }
                 break;
             case "password":
-                if (!value) {
-                    setErrors(prev => ({
-                        ...prev,
-                        password: 'Password cannot be empty.'
-                    }));
-                } else {
-                    setErrors(prev => ({
-                        ...prev,
-                        password: ''
-                    }));
-                }
+                setErrors(prev => ({
+                    ...prev,
+                    password: passwordValidError(value)
+                }));
                 break;
             default:
                 break;
         }
     }
 
-    // TODO: seperate componentS
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-[rgba(0,0,0,0.5)]">
             <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
@@ -156,42 +133,25 @@ const DeleteConfirmPopup = (props) => {
                     <div className="text-black font-semibold text-center mt-4">
                         To continue, please confirm your information.
                     </div>
-                    <input
-                        className="rounded-lg outline-none border-2 border-gray-500 focus:border-black py-1 px-3 mt-4"
+
+                    <PopupInput
                         type="email"
                         name="email"
                         placeholder="Email"
                         autoComplete="username"
                         onChange={onInput}
+                        onBlur={validateInput}
+                        error={errors.email}
                     />
-                    {
-                        errors.email && (
-                            <FormValidationError>
-                                {errors.email}
-                            </FormValidationError>
-                        )
-                    }
 
-                    <input
-                        className="rounded-lg outline-none border-2 border-gray-500 focus:border-black py-1 px-3 mt-4"
+                    <PopupInput
                         type="password"
                         name="password"
                         placeholder="Password"
                         onChange={onInput}
+                        onBlur={validateInput}
+                        error={errors.password}
                     />
-                    {
-                        errors.password && (
-                            <FormValidationError message={errors.password} />
-                        )
-                    }
-
-                    {
-                        errors.auth && (
-                            <div className="mt-4">
-                                <FormValidationError message={errors.auth} />
-                            </div>
-                        )
-                    }
 
                     <div className="grid grid-cols-2 gap-24 mt-6">
                         <button
