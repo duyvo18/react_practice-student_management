@@ -85,7 +85,6 @@ export const deleteStudentAccount = async (email, user) => {
 
         await updateDoc(docRef, { _delete: '1' });
 
-        // FIXME: Auth function errors
         const auth = getAuth();
         await deleteUser(auth.currentUser);
 

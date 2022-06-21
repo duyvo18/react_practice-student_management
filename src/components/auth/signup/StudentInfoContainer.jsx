@@ -121,74 +121,70 @@ const StudentInfoContainer = () => {
         }
     }
 
-    return (<>{
-        isLoading ? (
-            <Loading />
-        ) : (
-            <FormWrapper
-                formContent={(
-                    <>
-                        <h1 className="text-3xl text-center mb-12">Student Info</h1>
+    return (
+        <FormWrapper
+            formContent={(
+                <>
+                    <h1 className="text-3xl text-center mb-12">Student Info</h1>
 
-                        <FormInput
-                            type="text"
-                            name="firstname"
-                            value={inputs.firstname}
-                            placeholder="First Name"
-                            onChange={onInput}
-                            onBlur={validateInput}
-                            error={errors.firstname}
-                        />
+                    <FormInput
+                        type="text"
+                        name="firstname"
+                        value={inputs.firstname}
+                        placeholder="First Name"
+                        onChange={onInput}
+                        onBlur={validateInput}
+                        error={errors.firstname}
+                    />
 
-                        <FormInput
-                            type="text"
-                            name="lastname"
-                            value={inputs.lastname}
-                            placeholder="Last Name"
-                            onChange={onInput}
-                            onBlur={validateInput}
-                            error={errors.lastname}
-                        />
+                    <FormInput
+                        type="text"
+                        name="lastname"
+                        value={inputs.lastname}
+                        placeholder="Last Name"
+                        onChange={onInput}
+                        onBlur={validateInput}
+                        error={errors.lastname}
+                    />
 
-                        <FormInput
-                            type="text"
-                            name="id"
-                            value={inputs.id}
-                            placeholder="Student ID"
-                            onChange={onInput}
-                            onBlur={validateInput}
-                            error={errors.id}
-                        />
+                    <FormInput
+                        type="text"
+                        name="id"
+                        value={inputs.id}
+                        placeholder="Student ID"
+                        onChange={onInput}
+                        onBlur={validateInput}
+                        error={errors.id}
+                    />
 
-                        <FormInput
-                            type="text"
-                            name="startingYear"
-                            value={inputs.startingYear}
-                            placeholder="Starting Year"
-                            onChange={onInput}
-                            onBlur={validateInput}
-                            error={errors.startingYear}
-                        />
+                    <FormInput
+                        type="number"
+                        name="startingYear"
+                        value={inputs.startingYear}
+                        placeholder="Starting Year"
+                        onChange={onInput}
+                        onBlur={validateInput}
+                        error={errors.startingYear}
+                    />
 
-                        {
-                            errors.auth && (
-                                <FormValidationError className="mt-4">
-                                    {errors.auth}
-                                </FormValidationError>
-                            )
-                        }
+                    {
+                        errors.auth && (
+                            <FormValidationError className="mt-4">
+                                {errors.auth}
+                            </FormValidationError>
+                        )
+                    }
 
-                        <SubmitButton
-                            onClick={onSignup}
-                            isLoading={isLoading}
-                        >
-                            Create Account
-                        </SubmitButton>
-                    </>
-                )}
-            />
-        )
-    }</>)
+                    <SubmitButton
+                        onClick={onSignup}
+                        isLoading={isLoading}
+                    >
+                        Create Account
+                    </SubmitButton>
+                </>
+            )}
+        />
+    )
 }
 
 export default StudentInfoContainer;

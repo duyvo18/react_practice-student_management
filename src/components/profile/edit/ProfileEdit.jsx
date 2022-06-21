@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { updateStudentInfo } from "../../services/firestoreService";
-import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../common/utils/inputValidation";
-import Loading from "../common/Loading";
+import { updateStudentInfo } from "../../../services/firestoreService";
+import { firstnameValidError, idValidError, lastnameValidError, startingYearValidError } from "../../common/utils/inputValidation";
+import Loading from "../../common/Loading";
 import FormElem from "./FormElem";
 import { useNavigate } from "react-router-dom";
 

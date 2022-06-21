@@ -1,5 +1,5 @@
 import React from "react";
-import FormValidationError from "../common/FormValidationError";
+import FormValidationError from "../../common/FormValidationError";
 
 const PopupInput = (props) => {
 

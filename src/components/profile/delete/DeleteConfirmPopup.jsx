@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { deleteStudentAccount } from "../../services/firestoreService";
-import Loading from "../common/Loading";
+import { deleteStudentAccount } from "../../../services/firestoreService";
+import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
-import { loginWithEmail } from "../../services/authService";
+import { loginWithEmail } from "../../../services/authService";
 import PopupInput from "./PopupInput";
-import { passwordValidError } from "../common/utils/inputValidation";
+import { passwordValidError } from "../../common/utils/inputValidation";
 
 const DeleteConfirmPopup = (props) => {
 
@@ -27,7 +27,7 @@ const DeleteConfirmPopup = (props) => {
     const [isLoading, setLoading] = useState(false);
 
     const onDelete = async () => {
-        if (!errors.auth && !errors.email && !errors.password) {
+        if (!errors.email && !errors.password) {
             setLoading(true);
 
             const email = inputs.email;
@@ -131,7 +131,7 @@ const DeleteConfirmPopup = (props) => {
                     </div>
 
                     <div className="text-black font-semibold text-center mt-4">
-                        To continue, please confirm your information.
+                        To continue, please confirm your authentication.
                     </div>
 
                     <PopupInput

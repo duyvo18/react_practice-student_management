@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getStudentDataFromPath } from "../../services/firestoreService";
 import Header from "../header/Header";
-import DeleteConfirmPopup from "./DeleteConfirmPopup";
-import ProfileEdit from "./ProfileEdit";
+import DeleteConfirmPopup from "./delete/DeleteConfirmPopup";
+import ProfileEdit from "./edit/ProfileEdit";
 import AuthWarning from "../common/AuthWarning";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'

@@ -7,12 +7,14 @@ const Header = (props) => {
     const navigate = useNavigate();
 
     const from = props.from;
-    const tabIndex = ((focusable) => {
-        if (focusable === undefined)
-            return 0;
-        else
-            return focusable ? 0 : -1;
-    })(props.focusable)
+    const tabIndex = (
+        (focusable) => {
+            if (focusable === undefined)
+                return 0;
+            else
+                return focusable ? 0 : -1;
+        }
+    )(props.focusable)
 
     const onLogout = () => {
         document.cookie = 'auth=; max-age=0'
