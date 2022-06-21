@@ -40,10 +40,12 @@ const Profile = () => {
     useEffect(
         () => {
             (async () => {
-                if (isEdit) {
-                    setData(data);
-                } else {
-                    updateData();
+                if (isAuth) {
+                    if (isEdit) {
+                        setData(data);
+                    } else {
+                        updateData();
+                    }
                 }
             })();
         }, [isEdit]
