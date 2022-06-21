@@ -11,7 +11,7 @@ const ServerError = () => {
     const message = state?.message;
 
     useEffect(
-        () => { (state ? undefined : navigate("/"))() },
+        () => { (() => state ? undefined : navigate("/"))() },
         []
     );
 
@@ -25,10 +25,10 @@ const ServerError = () => {
                     Unexpected error from server
                 </div>
                 <div className="text-xl mt-6">
-                    Name: "{name}"
+                    Name: <span className="italic">"{name}"</span>
                 </div>
                 <div className="text-xl mt-1">
-                    Message: "{message}"
+                    Message: <span className="italic">"{message}"</span>
                 </div>
                 <div className="text-2xl mt-10">
                     Unfortunately, we don't know how the deal with this problem yet.<br />
