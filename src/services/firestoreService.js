@@ -55,7 +55,7 @@ export const getAllStudents = async () => {
 
 export const getStudentPathByEmail = async (email) => {
     const studentRef = collection(firestore, 'students');
-    const studentQuery = query(studentRef, where('email', '==', email));
+    const studentQuery = query(studentRef, where('email', '==', email), where('_new', '==', '0'), where('_delete', '==', '0'));
 
     try {
         const querySnapshot = await getDocsFromServer(studentQuery);
