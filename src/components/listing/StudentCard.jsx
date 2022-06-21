@@ -20,13 +20,13 @@ const StudentCard = (props) => {
             onKeyDown={e => e.key === "Enter" ? onClick() : undefined}
             tabIndex={tabIndex}
         >
-            {
-                avatar ? (
-                    <div className="col-span-1 row-span-2">
+            <div className="col-span-1 row-span-2">
+                {
+                    avatar ? (
                         <img src={avatar} alt="avatar" className="rounded-lg max-h-full max-w-full m-auto" />
-                    </div>
-                ) : <></>
-            }
+                    ) : (<Skeleton className="h-full w-full" />)
+                }
+            </div>
             <div className="col-span-2 row-span-1 my-auto text-lg">
                 {firstname || <Skeleton />} <strong>{lastname || <Skeleton />}</strong>
             </div>
