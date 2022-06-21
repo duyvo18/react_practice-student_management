@@ -6,11 +6,15 @@ const StudentDetails = (props) => {
     const onClose = props.onClose;
 
     return (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[rgba(0,0,0,0.5)]">
-            <div className="container flex flex-col items-center justify-center w-[60%] h-[70%]">
-                <div
-                    className="relative flex flex-col items-center overflow-y-auto rounded-2xl p-6 bg-white"
-                >
+        <div
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[rgba(0,0,0,0.5)]"
+            onClick={onClose}
+        >
+            <div
+                className="container flex flex-col items-center justify-center w-[80%] h-[70%] sm:w-[60%] sm:h-[70%]"
+                onClick={e => e.stopPropagation()}
+            >
+                <div className="relative flex flex-col items-center overflow-y-auto rounded-2xl p-6 bg-white">
                     <strong
                         className="absolute top-3 right-3 text-xl align-center cursor-pointer"
                         onClick={onClose}
