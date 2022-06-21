@@ -35,7 +35,7 @@ export const idValidError = (sid) => {
 export const startingYearValidError = (year) => {
     if (!year) return 'Starting year must not be empty.'
 
-    if ((/^[0-9]+/).test(year)) {
+    if ((/^[0-9]+$/).test(year)) {
         return (year > 1995 && year <= (new Date()).getFullYear()) ?
             '' :
             'Starting year must be between 1995 and current year.';
