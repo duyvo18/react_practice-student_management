@@ -28,7 +28,7 @@ export const lastnameValidError = (lastname) => {
 export const idValidError = (sid) => {
     if (!sid) return 'Student ID must not be empty.'
 
-    const sidRegex = /^[0-9]{7,10}/;
+    const sidRegex = /^[0-9]{7,10}$/;
     return sidRegex.test(sid) ? '' : 'Student ID must be between 7 and 10 digits.';
 }
 
