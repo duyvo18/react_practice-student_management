@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getStudentDataFromPath } from "../../services/firestoreService";
-import Header from "../common/Header";
+import Header from "../header/Header";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
 import ProfileEdit from "./ProfileEdit";
 import AuthWarning from "../common/AuthWarning";
@@ -23,7 +23,7 @@ const Profile = () => {
         ?.split('=')[1];
 
     const [data, setData] = useState({});
-    const [isEdit, setEdit] = useState(false); // TODO: Edit as separated page?
+    const [isEdit, setEdit] = useState(false);
     const [popupDelete, setPopupDelete] = useState(false);
     const [isLoading, setLoading] = useState(false);
 
@@ -87,7 +87,7 @@ const Profile = () => {
                     ) : (
                         <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
                             <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto">
-                                <div className="bg-primary px-6 py-12 rounded-lg shadow-lg text-black w-full lg:my-12">
+                                <div className="bg-primary px-6 py-12 rounded-lg shadow-lg text-black w-full sm:my-12">
                                     {
                                         isLoading ? (
                                             <Skeleton className="min-h-[70vh]" />
@@ -99,7 +99,7 @@ const Profile = () => {
                                                     className="max-w-[30%] rounded-lg mx-auto"
                                                 />
 
-                                                <h1 className="text-2xl lg:text-3xl text-center mt-6">
+                                                <h1 className="text-2xl lg:text-3xl text-center mt-8">
                                                     {data.firstname} <strong>{data.lastname}</strong>
                                                 </h1>
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllStudents } from "../../services/firestoreService";
 import AuthWarning from "../common/AuthWarning";
-import Header from "../common/Header";
+import Header from "../header/Header";
 import QueryElem from "./QueryElem";
 import StudentCard from "./StudentCard";
 import StudentDetails from "./StudentDetails";
@@ -114,7 +114,7 @@ const ListingContainer = () => {
                     <Header from="listing" focusable={!Boolean(details)} />
 
                     <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
-                        <div className="flex flex-col lg:flex-row flex-nowrap items-center justify-center gap-3 bg-primary text-sm font-semibold px-6 lg:px-12 py-4 border-b-2">
+                        <div className="flex flex-col lg:flex-row flex-nowrap items-center justify-center gap-3 lg:gap-4 bg-primary text-sm font-semibold px-6 lg:px-12 py-4 border-gray-200 border-b-2">
                             <QueryElem
                                 type="text"
                                 name="id"

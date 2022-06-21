@@ -15,7 +15,7 @@ const StudentCard = (props) => {
 
     return (
         <div
-            className="grid grid-cols-3 grid-rows-4 grid-flow-row-dense gap-2 w-72 h-40 p-3 border-2 rounded-xl cursor-pointer transition duration-300 ease-in-out hover:scale-105 focus:scale-105"
+            className="grid grid-cols-3 grid-rows-4 gap-2 w-72 h-40 p-3 outline-none border-2 hover:border-accent focus:border-accent rounded-xl cursor-pointer transition duration-300 ease-in-out hover:scale-105 focus:scale-105"
             onClick={onClick}
             onKeyDown={e => e.key === "Enter" ? onClick() : undefined}
             tabIndex={tabIndex}

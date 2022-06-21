@@ -8,7 +8,7 @@ const SubmitButton = (props) => {
 
     return (
         <button
-            className={`${isLoading ? 'buttonBlueFilledStatic' : 'buttonBlueFilled'} font-semibold w-full p-3 mt-8`}
+            className={`${isLoading ? 'buttonBlueFilledStatic' : 'buttonBlueFilled'} font-semibold w-full p-3 mt-12`}
             type="button"
             disabled={isLoading}
             onClick={onClick}

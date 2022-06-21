@@ -128,7 +128,7 @@ const StudentInfoContainer = () => {
             <FormWrapper
                 formContent={(
                     <>
-                        <h1 className="text-3xl text-center">Student Info</h1>
+                        <h1 className="text-3xl text-center mb-12">Student Info</h1>
 
                         <FormInput
                             type="text"

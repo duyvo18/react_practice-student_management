@@ -135,7 +135,7 @@ const SignUpContainer = () => {
         <FormWrapper
             formContent={(
                 <>
-                    <h1 className="text-3xl text-center">Sign Up</h1>
+                    <h1 className="text-3xl text-center mb-12">Sign Up</h1>
 
                     <FormInput
                         type="text"

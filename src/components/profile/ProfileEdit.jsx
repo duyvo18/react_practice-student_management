@@ -96,11 +96,11 @@ const ProfileEdit = (props) => {
     return (
         <div className="flex flex-col min-w-screen min-h-screen bg-secondary">
             <div className="container flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto">
-                <form className="bg-primary px-6 lg:px-12 py-12 rounded-lg shadow-md text-black w-full lg:my-12">
+                <form className="bg-primary px-6 lg:px-12 py-12 rounded-lg shadow-md text-black w-full sm:my-12">
                     <img
                         src={localData.avatar}
                         alt="avatar"
-                        className="max-w-[30%] rounded-lg mx-auto"
+                        className="max-w-[30%] rounded-lg mx-auto mb-12"
                     />
 
                     <FormElem
@@ -154,7 +154,7 @@ const ProfileEdit = (props) => {
 
                     <div className="px-4 mt-12">
                         <textarea
-                            className="text-left outline-none rounded-lg border-2 border-black w-full h-[20rem] resize-none p-4"
+                            className="text-left outline-none rounded-lg border-2 border-black focus:border-accent w-full h-[20rem] resize-none p-4"
                             name="details"
                             value={localData.details}
                             placeholder="Profile details"

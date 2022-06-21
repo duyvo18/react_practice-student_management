@@ -9,12 +9,12 @@ const QueryElem = (props) => {
     const tabIndex = props.tabIndex;
 
     return (
-        <div className="flex flex-row flex-nowrap w-full mt-2 lg:mt-0 lg:ml-2">
-            <p className="flex-auto basis-1/3 lg:basis-2/5 mr-2">
+        <div className="flex flex-nowrap space-x-4 w-72 lg:w-fit">
+            <p className="basis-1/3 lg:basis-2/5">
                 {props.children}
             </p>
             <input
-                className="flex-auto basis-2/3 lg:basis-3/5 outline-none bg-inherit border-inactive border-b-2 focus:border-black focus:rounded"
+                className="basis-2/3 lg:basis-3/5 rounded outline-none border-black border-b-2 focus:border-accent"
                 type={type}
                 name={name}
                 value={value}

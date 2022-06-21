@@ -130,7 +130,7 @@ const LogInContainer = () => {
         <FormWrapper
             formContent={(
                 <>
-                    <h1 className="text-3xl text-center">Log In</h1>
+                    <h1 className="text-3xl text-center mb-12">Log In</h1>
 
                     <FormInput
                         type="text"

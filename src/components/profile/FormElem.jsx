@@ -13,7 +13,7 @@ const FormElem = (props) => {
 
     return (
         <>
-            <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-12 lg:px-12">
+            <div className="flex flex-auto flex-row flex-nowrap items-center justify-center w-full mt-6 lg:px-12">
                 <label
                     className="basis-1/3 lg:basis-1/4 lg:text-lg"
                     htmlFor={name}
@@ -21,7 +21,7 @@ const FormElem = (props) => {
                     {props.children}
                 </label>
                 <input
-                    className="basis-2/3 lg:basis-3/4 focus:rounded outline-none border-b-2 border-black py-1 px-2"
+                    className="basis-2/3 lg:basis-3/4 rounded outline-none border-b-2 border-black focus:border-accent py-1 px-2"
                     type={type}
                     name={name}
                     value={value}

@@ -4,7 +4,7 @@ const FormWrapper = (props) => {
     return (
         <div className="flex flex-col min-h-screen min-w-screen bg-secondary">
             <div className="container flex flex-1 flex-col items-center justify-center max-w-sm mx-auto px-2">
-                <form className="rounded-lg shadow-lg w-full text-black bg-white px-8 py-12">
+                <form className="rounded-lg shadow-lg w-full text-black bg-white p-8">
                     {props.formContent}
                 </form>
                 {
