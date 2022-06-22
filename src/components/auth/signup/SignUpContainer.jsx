@@ -40,7 +40,7 @@ const SignUpContainer = () => {
     useEffect(
         () => {
             if (isAuth) {
-                navigate("profile")
+                navigate("/profile")
             } else {
                 if (userDocPath) {
                     navigate("/signup/info")
