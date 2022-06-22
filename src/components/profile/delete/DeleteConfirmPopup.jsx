@@ -123,11 +123,11 @@ const DeleteConfirmPopup = (props) => {
             className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-[rgba(0,0,0,0.5)]"
             onClick={onCancel}
         >
-            <div
-                className="flex flex-col items-center justify-center min-h-screen min-w-screen"
-                onClick={e => e.stopPropagation()}
-            >
-                <form className="flex flex-col items-center justify-center max-w-3xl rounded-2xl p-6 bg-white">
+            <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
+                <form
+                    className="flex flex-col items-center justify-center max-w-3xl rounded-2xl p-6 bg-white"
+                    onClick={e => e.stopPropagation()}
+                >
                     <div className="text-red-500 font-bold text-xl">
                         CAUTION!
                     </div>
