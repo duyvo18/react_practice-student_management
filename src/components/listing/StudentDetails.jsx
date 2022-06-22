@@ -16,7 +16,7 @@ const StudentDetails = (props) => {
             >
                 <div className="relative flex flex-col items-center overflow-y-auto rounded-2xl p-6 bg-white">
                     <strong
-                        className="absolute top-3 right-3 text-xl align-center cursor-pointer"
+                        className="fixed -mt-4 -mr-3 place-self-end text-xl align-center cursor-pointer"
                         onClick={onClose}
                         onKeyDown={e => e.key === "Enter" ? onClose() : undefined}
                         tabIndex={0}
