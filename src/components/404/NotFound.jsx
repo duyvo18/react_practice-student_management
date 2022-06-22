@@ -10,7 +10,7 @@ const NotFound = () => {
                 <div className="text-2xl sm:text-4xl font-semibold mt-4">
                     Page Not Found
                 </div>
-                <div className="text-xl sm:text-2xl mt-10">
+                <div className="text-lg sm:text-2xl mt-6 sm:mt-10">
                     Got lost? Return to our <a className="underline hover:text-gray-500" href="/">main page</a>.
                 </div>
             </div>

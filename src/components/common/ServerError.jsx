@@ -17,7 +17,7 @@ const ServerError = () => {
 
     return (
         <div className="min-w-screen min-h-screen bg-secondary flex flex-col justify-center items-center">
-            <div className="flex flex-col flex-auto justify-center items-center text-center px-3">
+            <div className="flex flex-col flex-auto justify-center items-center text-center max-w-3xl px-6">
                 <div className="text-3xl sm:text-6xl font-bold text-accent">
                     OOPS...
                 </div>
